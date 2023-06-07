@@ -31,8 +31,9 @@ class Coplay:
         """
 
         if not time_start:
-            time_start = (datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') - timedelta(days=7)
-                          ).strftime('%Y-%m-%dT%H:%M:%SZ')
+            now = datetime.utcnow()
+            time_start = now - timedelta(days=1)
+            time_start = time_start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not time_end:
             time_end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         params = {

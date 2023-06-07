@@ -31,12 +31,9 @@ class Datapoint:
         # current_time = datetime.utcnow()
         # current_time_str = current_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not start_date:
-            # seven_days_ago = current_time - timedelta(days=1)
-            # seven_days_ago_str = seven_days_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
-            # start_date = seven_days_ago_str
-
-            start_date = (datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') - timedelta(days=1)
-                          ).strftime('%Y-%m-%dT%H:%M:%SZ')
+            now = datetime.utcnow()
+            start_date = now - timedelta(days=1)
+            start_date = start_date.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_date:
             end_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         params = {

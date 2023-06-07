@@ -33,7 +33,7 @@ class CommandsActivity:
 
         if not time_start:
             now = datetime.utcnow()
-            time_start = now - timedelta(days=7)
+            time_start = now - timedelta(days=1)
             time_start = time_start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not time_end:
             time_end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')

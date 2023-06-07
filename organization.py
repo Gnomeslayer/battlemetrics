@@ -29,7 +29,7 @@ class Organization:
         url = f"{self.base_url}/organizations/{organization_id}/stats/players"
         if not start_date:
             now = datetime.utcnow()
-            start_date = now - timedelta(days=90)
+            start_date = now - timedelta(days=1)
             start_date = start_date.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_date:
             end_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')

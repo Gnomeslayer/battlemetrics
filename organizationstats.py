@@ -28,9 +28,9 @@ class Organizationstats:
             dict: Player stats for the organization.
         """
         if not start:
-
-            start = (datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') - timedelta(days=7)
-                     ).strftime('%Y-%m-%dT%H:%M:%SZ')
+            now = datetime.utcnow()
+            start = now - timedelta(days=1)
+            start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end:
             end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 

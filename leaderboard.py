@@ -28,12 +28,9 @@ class Leaderboard:
             dict: Returns the leaderboard information for the player.
         """
         if not start:
-            # seven_days_ago = current_time - timedelta(days=1)
-            # seven_days_ago_str = seven_days_ago.strftime('%Y-%m-%dT%H:%M:%SZ')
-            # start_date = seven_days_ago_str
-
-            start = (datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ') - timedelta(days=1)
-                     ).strftime('%Y-%m-%dT%H:%M:%SZ')
+            now = datetime.utcnow()
+            start = now - timedelta(days=1)
+            start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end:
             end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
