@@ -54,4 +54,4 @@ If you find any issues or have suggestions for improvement, please feel free to 
 
 ## Contact
 You can contact me on Discord, simply add me: gnomeslayer
-or, you can join the official [Battlemetrics discord](https://discord.gg/xWa3UNG4yh)
+or, you can join the official [Battlemetrics discord](https://discord.gg/xWa3UNG4yh) and @gnomeslayer there.
