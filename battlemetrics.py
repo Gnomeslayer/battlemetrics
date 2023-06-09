@@ -6,11 +6,17 @@ import time
 from time import strftime, localtime
 from datetime import datetime, timedelta
 
-
 class Battlemetrics:
     def __init__(self, api_key):
         self.base_url = "https://api.battlemetrics.com"
         self.headers = {"Authorization": f"Bearer {api_key}"}
+        
+    async def next(self, url: str):
+        return await self._get_request(url=url, headers=self.headers)
+
+    async def previous(self, url: str):
+        return await self._get_request(url=url, headers=self.headers)
+
 
     async def _post_request(url, post: dict = None, headers: dict = None) -> dict:
         async with aiohttp.ClientSession(headers=headers) as session:
