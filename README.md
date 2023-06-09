@@ -18,6 +18,7 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
    ```bash
    pip install aiohttp
    ```
+   or you can do:
    ```bash
    pip install -r requirements.txt
    ```
