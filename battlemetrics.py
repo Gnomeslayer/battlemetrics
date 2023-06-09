@@ -6,37 +6,52 @@ import time
 from time import strftime, localtime
 from datetime import datetime, timedelta
 
+
 class Battlemetrics:
     def __init__(self, api_key):
         self.base_url = "https://api.battlemetrics.com"
         self.headers = {"Authorization": f"Bearer {api_key}"}
-        
-    async def next(self, url: str):
-        return await self._get_request(url=url, headers=self.headers)
+        self.data = None
 
-    async def previous(self, url: str):
-        return await self._get_request(url=url, headers=self.headers)
+    async def next(self):
+        if not self.data['links'].get('next'):
+            return
+        url = self.data['links']['next']
+        if self.data['pages']:
+            if self.data['pages'][-1]['links'].get('next'):
+                url = self.data['pages'][-1]['links']['next']
+        data = await self._get_request(url=url, headers=self.headers)
+        self.data['pages'].append(data)
+        return self.data
 
-
-    async def _post_request(url, post: dict = None, headers: dict = None) -> dict:
+    async def _post_request(self, url, post: dict = None, headers: dict = None) -> dict:
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.post(url=url, json=post) as r:
                 response = await r.json()
+        if not self.data:
+            self.data = response
+            self.data['pages'] = []
         return response
 
-    async def _patch_request(url, post: dict = None, headers: dict = None):
+    async def _patch_request(self, url, post: dict = None, headers: dict = None):
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.patch(url=url, json=post) as r:
                 response = await r.json()
+        if not self.data:
+            self.data = response
+            self.data['pages'] = []
         return response
 
-    async def _delete_request(url: str, headers: dict = None):
+    async def _delete_request(self, url: str, headers: dict = None):
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.delete(url=url) as r:
                 response = await r.json()
+        if not self.data:
+            self.data = response
+            self.data['pages'] = []
         return response
 
-    async def _get_request(url, headers: dict = None, params=None) -> dict:
+    async def _get_request(self, url, headers: dict = None, params=None) -> dict:
         async with aiohttp.ClientSession(headers=headers) as session:
             async with session.get(url=url, params=params) as r:
                 content_type = r.headers.get('content-type', '')
@@ -81,6 +96,9 @@ class Battlemetrics:
                     # If content type is not recognized, raise an exception
                     raise Exception(
                         f"Unsupported content type: {content_type}")
+        if not self.data:
+            self.data = response
+            self.data['pages'] = []
         return response
 
     async def session_info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
@@ -1340,7 +1358,7 @@ class Battlemetrics:
         """
 
         params = {
-            "page[size]": "100"
+            "page[size]": "1"
         }
         if game:
             params['fields[game]'] = game
@@ -1360,12 +1378,13 @@ class Battlemetrics:
             dict: Game information.
         """
         params = {
-            "page[size]": "100"
+            "page[size]": "1"
         }
         if game:
             params['fields[game]'] = game
 
         url = f"{self.base_url}/games/{game_id}"
+
         return await self._get_request(url=url, headers=self.headers, params=params)
 
     async def flag_create(self, player_id: int, flag_id: str = None) -> dict:
