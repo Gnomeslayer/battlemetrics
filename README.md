@@ -1,6 +1,11 @@
 # Battlemetrics API Wrapper
 
-This repository provides a Python wrapper for the Battlemetrics API, allowing users to easily access and interact with Battlemetrics data. 
+This repository provides a Python wrapper for the Battlemetrics API, allowing users to easily access and interact with Battlemetrics data.
+
+# Disclaimer
+Please note that I am an individual member of the community and not affiliated with Battlemetrics. The resources provided here are developed to facilitate the usage of the Battlemetrics API but come with no official endorsement or sponsorship from Battlemetrics.
+
+It's important to understand that any actions you take using these resources are solely your responsibility. I am not liable for any damage or consequences that may occur to your server or account. Please exercise caution and ensure that you follow best practices when using the API.
 
 ## Getting Started
 
@@ -46,3 +51,7 @@ For more details on the Battlemetrics API and its capabilities, refer to the off
 
 ## Contributing
 If you find any issues or have suggestions for improvement, please feel free to submit a pull request or open an issue in the issue tracker. I welcome contributions from the community!
+
+## Contact
+You can contact me on Discord, simply add me: gnomeslayer
+or, you can join the official Battlemetrics discord: https://discord.gg/xWa3UNG4yh
