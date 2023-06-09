@@ -1358,7 +1358,7 @@ class Battlemetrics:
         """
 
         params = {
-            "page[size]": "1"
+            "page[size]": "100"
         }
         if game:
             params['fields[game]'] = game
@@ -1378,7 +1378,7 @@ class Battlemetrics:
             dict: Game information.
         """
         params = {
-            "page[size]": "1"
+            "page[size]": "100"
         }
         if game:
             params['fields[game]'] = game
