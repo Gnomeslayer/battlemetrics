@@ -2191,12 +2191,3 @@ class Battlemetrics:
             if banlist['id'] == banlist_id:
                 return banlist
         return None
-
-
-battlemetrics_token = "Your token here"
-
-api = Battlemetrics(battlemetrics_token)
-
-player = api.player_info(12345)
-
-print(json.dumps(player, indent=4))
