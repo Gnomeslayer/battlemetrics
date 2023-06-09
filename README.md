@@ -49,11 +49,10 @@ Make sure to replace `"Your API token here"` with your actual API token obtained
 ## Additional usage
 Some endpoints have a pagination system, to get the "next" or "previous" page, pass through the link.
 ```bash
-token = "Your API token here" #Your API token
-api = Battlemetrics(token) #Create an instance of the battlemetrics class
-mylist = api.game_list(game="rust") #Just a generic list of stuff.
-next_link = mylist['links']['next'] #Your linking URL
-nextpage = api.next(url=next_link) #Your next page. Returns in the same format as "my list".
+api = Battlemetrics(battlemetrics_token) #Your instance of the Battlemetrics class
+test_data = asyncio.run(api.game_list()) #Some test list.
+test_data = asyncio.run(api.next()) #Next page
+print(test_data['pages'][0]) #Loading the page data.
 ```
 
 ## Resources
