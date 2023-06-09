@@ -47,11 +47,11 @@ print(player)
 Make sure to replace `"Your API token here"` with your actual API token obtained from the Battlemetrics developers page.
 
 ## Resources
-For more details on the Battlemetrics API and its capabilities, refer to the official Battlemetrics API (https://www.battlemetrics.com/developers/documentation)
+For more details on the Battlemetrics API and its capabilities, refer to the official [Battlemetrics API](https://www.battlemetrics.com/developers/documentation).
 
 ## Contributing
-If you find any issues or have suggestions for improvement, please feel free to submit a pull request or open an issue in the issue tracker. I welcome contributions from the community!
+If you find any issues or have suggestions for improvement, please feel free to submit a pull request or open an issue in the [issue tracker](https://github.com/Gnomeslayer/battlemetrics/issues). I welcome contributions from the community!
 
 ## Contact
 You can contact me on Discord, simply add me: gnomeslayer
-or, you can join the official Battlemetrics discord: https://discord.gg/xWa3UNG4yh
+or, you can join the official [Battlemetrics discord](https://discord.gg/xWa3UNG4yh)
