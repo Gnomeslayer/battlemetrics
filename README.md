@@ -12,3 +12,36 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
 
    ```bash
    git clone https://github.com/your-username/your-repo.git
+   ```
+2. Install the required dependencies
+   Although at this time, the only dependency is aiohttp, so you can simply do:
+   ```bash
+   pip install aiohttp
+   ```
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Import the `Battlemetrics` class into your project.
+   ```bash
+   from Battlemetrics import Battlemetrics
+   ```
+## Usage
+Here's an example of how to use the Battlemetrics API wrapper:
+```bash
+# Instantiate the API wrapper with your token
+token = "Your API token here"
+api = Battlemetrics(token)
+
+# Retrieve player information
+player = api.player_info(12345)
+
+# Print the player information
+print(player)
+```
+Make sure to replace `"Your API token here"` with your actual API token obtained from the Battlemetrics developers page.
+
+## Resources
+For more details on the Battlemetrics API and its capabilities, refer to the official Battlemetrics API (https://www.battlemetrics.com/developers/documentation)
+
+## Contributing
+If you find any issues or have suggestions for improvement, please feel free to submit a pull request or open an issue in the issue tracker. I welcome contributions from the community!
