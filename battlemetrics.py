@@ -498,7 +498,7 @@ class Battlemetrics:
 
         data = {
             "start": start_time,
-            "end": end_time,
+            "stop": end_time,
             "include": "player"
         }
         return await self._make_request(method="GET", url=url, data=data)
