@@ -503,7 +503,7 @@ class Battlemetrics:
         }
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def force_update(self, server_id: int) -> dict:
+    async def server_force_update(self, server_id: int) -> dict:
         """Force Update will cause us to immediately queue the server to be queried and updated. This is limited to subscribers and users who belong to the organization that owns the server if it is claimed.
 
             This endpoint has a rate limit of once every 30 seconds per server, and 10 every five minutes per user.
@@ -519,7 +519,7 @@ class Battlemetrics:
         url = f"{self.base_url}/servers/{server_id}/force-update"
         return await self._make_request(method="POST", url=url)
 
-    async def outage_history(self, server_id: int, uptime: str = "90", start_time: str = None, end_time: str = None) -> dict:
+    async def server_outage_history(self, server_id: int, uptime: str = "90", start_time: str = None, end_time: str = None) -> dict:
         """Outage History. Outages are periods of time that the server did not respond to queries. Outage history stored and available for 90 days.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/outages
@@ -549,7 +549,7 @@ class Battlemetrics:
         }
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def downtime_history(self, server_id: int, resolution: str = "60", start_time: str = None, end_time: str = None) -> dict:
+    async def server_downtime_history(self, server_id: int, resolution: str = "60", start_time: str = None, end_time: str = None) -> dict:
         """Downtime History. Value is number of seconds the server was offline during that period. The default resolution provides daily values (1440 minutes).
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/downtime
@@ -1037,7 +1037,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def friend_list(self, organization_id: str, filter_accepted: bool = True, filter_origin: bool = True, filter_name: str = None, filter_reciprocated: bool = True) -> dict:
+    async def organization_friend_list(self, organization_id: str, filter_accepted: bool = True, filter_origin: bool = True, filter_name: str = None, filter_reciprocated: bool = True) -> dict:
         """Gets all the organization friends.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#resource-organizationFriend
@@ -1085,7 +1085,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def friend_update(self, organization_id: int, friend_organization_id: int, identifiers: list, playerflag: str, shared_notes: bool = True, accepted: bool = True) -> dict:
+    async def organization_friend_update(self, organization_id: int, friend_organization_id: int, identifiers: list, playerflag: str, shared_notes: bool = True, accepted: bool = True) -> dict:
         """Updates your organizations friendship.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-PATCH-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
@@ -1116,7 +1116,7 @@ class Battlemetrics:
 
         return await self._make_request(method="PATCH", url=url, data=data)
 
-    async def friend_create(self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True) -> dict:
+    async def organization_friend_create(self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True) -> dict:
         """Creates a new friend invite to the targeted organization ID
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends
@@ -1159,7 +1159,7 @@ class Battlemetrics:
 
         return await self._make_request(method="POST", url=url, data=data)
 
-    async def friend_delete(self, organization_id: int, friends_id: int) -> dict:
+    async def organization_friend_delete(self, organization_id: int, friends_id: int) -> dict:
         """Deletes a friendship
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
@@ -1174,7 +1174,7 @@ class Battlemetrics:
         url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friends_id}"
         return await self._make_request(method="DELETE", url=url)
 
-    async def player_stats(self, organization_id: int, start_date: str = None, end_date: str = None) -> dict:
+    async def organization_player_stats(self, organization_id: int, start_date: str = None, end_date: str = None) -> dict:
         """Returns the statistics of all the players who have joined your server and where they're from.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-organization-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/stats/players
@@ -1278,7 +1278,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def gamefeatures(self, game: str = None) -> dict:
+    async def game_features(self, game: str = None) -> dict:
         """Lists the game features for the specified game
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-gameFeature-/game-features
@@ -1362,7 +1362,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def flag_create(self, player_id: int, flag_id: str = None) -> dict:
+    async def player_flag_add(self, player_id: int, flag_id: str = None) -> dict:
         """Creates or adds a flag to the targeted players profile.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-flagPlayer-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/flags
@@ -1387,7 +1387,7 @@ class Battlemetrics:
 
         return await self._make_request(method="POST", url=url, data=data)
 
-    async def flag_info(self, player_id: int) -> dict:
+    async def player_flag_info(self, player_id: int) -> dict:
         """Returns all the flags on a players profile
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-flagPlayer-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/flags
@@ -1407,7 +1407,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def flag_delete(self, player_id: int, flag_id: str) -> dict:
+    async def player_flag_delete(self, player_id: int, flag_id: str) -> dict:
         """Deletes a targeted flag from a targeted player ID
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-flagPlayer-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/flags/{(%23%2Fdefinitions%2FplayerFlag%2Fdefinitions%2Fidentity)}
@@ -1454,7 +1454,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def coplay_info(self, player_id: int, time_start: str = None, time_end: str = None, player_names: str = None, organization_names: str = None, server_names: str = None) -> dict:
+    async def player_coplay_info(self, player_id: int, time_start: str = None, time_end: str = None, player_names: str = None, organization_names: str = None, server_names: str = None) -> dict:
         """Gets the coplay data related to the targeted player
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-coplayRelation-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/coplay
@@ -1494,7 +1494,7 @@ class Battlemetrics:
 
         return await self._make_request(method="GET", url=url, data=data)
 
-    async def commands_activity(self, organization_id: int, summary: bool = False, users: str = None, commands: str = None, time_start: str = None, time_end: str = None, servers: int = None) -> dict:
+    async def organization_commands_activity(self, organization_id: int, summary: bool = False, users: str = None, commands: str = None, time_start: str = None, time_end: str = None, servers: int = None) -> dict:
         """Grabs all the command activity related to the targeted organization
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-commandStats-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/command-stats
