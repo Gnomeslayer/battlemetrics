@@ -1,6 +1,4 @@
-import asyncio
 import aiohttp
-import json
 import uuid
 import time
 from time import strftime, localtime
@@ -13,6 +11,48 @@ class Battlemetrics:
         self.headers = {"Authorization": f"Bearer {api_key}"}
         self.data = None
 
+    async def _parse_octet_stream(self, response):
+        cfg_str = response.decode('utf-8')
+        ban_dict = {}
+        for line in cfg_str.split("\n"):
+            if line.startswith("banid"):
+                line_parts = line.split(" ")
+                steam_id = line_parts[1]
+                player_name = line_parts[2].strip('"')
+                reason_parts = line_parts[3:-1]
+                duration = line_parts[-1]
+                if duration == "-1":
+                    duration = "Permanent"
+                if duration.isdigit():
+                    duration = int(duration)
+                    try:
+                        duration = strftime(
+                            '%Y-%m-%d %H:%M:%S', localtime(duration))
+                    except:
+                        duration = "FOREVER!"
+                reason = " ".join(reason_parts).strip('"')
+                ban_dict[steam_id] = {
+                    "playername": player_name, "reason": reason, "expires": duration}
+        return response
+
+    async def _make_request(self, method: str, url: str, data: dict = None):
+        async with aiohttp.ClientSession(headers=self.headers) as session:
+            async with session.request(method=method, url=url, json=data, params=data) as r:
+                content_type = r.headers.get('content-type', '')
+                if 'json' in content_type:
+                    response = await r.json()
+                elif 'octet-stream' in content_type:
+                    response = await self._parse_octet_stream(await r.content.read())
+                else:
+                    raise Exception(
+                        f"Unsupported content type: {content_type}")
+
+        if self.data:
+            if not self.data.get('pages'):
+                self.data = response
+                self.data['pages'] = []
+        return response
+
     async def next(self):
         if not self.data['links'].get('next'):
             return
@@ -20,86 +60,9 @@ class Battlemetrics:
         if self.data['pages']:
             if self.data['pages'][-1]['links'].get('next'):
                 url = self.data['pages'][-1]['links']['next']
-        data = await self._get_request(url=url, headers=self.headers)
+        data = await self._make_request(method="GET", url=url)
         self.data['pages'].append(data)
         return self.data
-
-    async def _post_request(self, url, post: dict = None, headers: dict = None) -> dict:
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.post(url=url, json=post) as r:
-                response = await r.json()
-        if not self.data:
-            self.data = response
-            self.data['pages'] = []
-        return response
-
-    async def _patch_request(self, url, post: dict = None, headers: dict = None):
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.patch(url=url, json=post) as r:
-                response = await r.json()
-        if not self.data:
-            self.data = response
-            self.data['pages'] = []
-        return response
-
-    async def _delete_request(self, url: str, headers: dict = None):
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.delete(url=url) as r:
-                response = await r.json()
-        if not self.data:
-            self.data = response
-            self.data['pages'] = []
-        return response
-
-    async def _get_request(self, url, headers: dict = None, params=None) -> dict:
-        async with aiohttp.ClientSession(headers=headers) as session:
-            async with session.get(url=url, params=params) as r:
-                content_type = r.headers.get('content-type', '')
-                if 'json' in content_type:
-                    response = await r.json()
-                elif 'octet-stream' in content_type:
-                    response = await r.content.read()
-                    cfg_str = response.decode('utf-8')
-                    ban_dict = {}
-                    for line in cfg_str.split("\n"):
-                        if line.startswith("banid"):
-                            line_parts = line.split(" ")
-                            steam_id = line_parts[1]
-                            player_name = line_parts[2].strip('"')
-                            reason_parts = line_parts[3:-1]
-                            duration = line_parts[-1]
-                            if duration == "-1":
-                                duration = "Permanent"
-                            if duration.isdigit():
-                                duration = int(duration)
-                                try:
-                                    duration = strftime(
-                                        '%Y-%m-%d %H:%M:%S', localtime(duration))
-                                except:
-                                    duration = "FOREVER!"
-                            reason = " ".join(reason_parts).strip('"')
-                            ban_dict[steam_id] = {
-                                "playername": player_name, "reason": reason, "expires": duration}
-                    response = ban_dict
-                    with open('test.json', 'w') as f:
-                        f.write(json.dumps(ban_dict, indent=4))
-                    # If content type is octet-stream, write response to file
-                    # filename = 'response.bin'
-                    # with open(filename, 'wb') as f:
-                    #    while True:
-                    #        chunk = await r.content.read(1024)
-                    #        if not chunk:
-                    #            break
-                    #        f.write(chunk)
-                    # response = {'Saved the file as: ': filename}
-                else:
-                    # If content type is not recognized, raise an exception
-                    raise Exception(
-                        f"Unsupported content type: {content_type}")
-        if not self.data:
-            self.data = response
-            self.data['pages'] = []
-        return response
 
     async def session_info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
         """Returns the session information for the targeted server, game or organization.
@@ -119,23 +82,23 @@ class Battlemetrics:
 
         url = f"{self.base_url}/sessions"
 
-        params = {
+        data = {
             "include": "identifier,server,player",
             "page[size]": "100"
         }
 
         if filter_server:
-            params["filter[servers]"] = filter_server
+            data["filter[servers]"] = filter_server
         if filter_game:
-            params["filter[game]"] = filter_game
+            data["filter[game]"] = filter_game
         if filter_organizations:
-            params["filter[organizations]"] = filter_organizations
+            data["filter[organizations]"] = filter_organizations
         if filter_player:
-            params["filter[players]"] = filter_player
+            data["filter[players]"] = filter_player
         if filter_identifiers:
-            params["filter[identifiers]"] = filter_identifiers
+            data["filter[identifiers]"] = filter_identifiers
 
-        return await self._get_request(url=url, haders=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def session_coplay(self, sessionid: str) -> dict:
         """Returns a list of sessions that were active during the same time as the provided session id.
@@ -151,12 +114,12 @@ class Battlemetrics:
 
         url = f"{self.base_url}/sessions/{sessionid}/relationships/coplay"
 
-        params = {
+        data = {
             "include": "identifier,server,player",
             "page[size]": "100"
         }
 
-        return await self._get_request(url=url, haders=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_list(self, search: str = None, countries: list = None, favorited: bool = False, game: str = None,
                           blacklist: str = None, whitelist: str = None, organization: str = None, rcon: bool = False) -> dict:
@@ -178,7 +141,7 @@ class Battlemetrics:
             dict: Dictionary response from battlemetrics.
         """
         url = f"{self.base_url}/servers"
-        params = {
+        data = {
             "page[size]": "100",
             "include": "serverGroup",
             "filter[favorites]": str(favorited).lower(),
@@ -186,19 +149,19 @@ class Battlemetrics:
         }
 
         if search:
-            params["filter[search]"] = search
+            data["filter[search]"] = search
         if countries:
-            params["filter[countries]"] = countries
+            data["filter[countries]"] = countries
         if game:
-            params["filter[game]"] = game
+            data["filter[game]"] = game
         if blacklist:
-            params["filter[ids][blacklist]"] = blacklist
+            data["filter[ids][blacklist]"] = blacklist
         if whitelist:
-            params["filter[ids][whitelist]"] = whitelist
+            data["filter[ids][whitelist]"] = whitelist
         if organization:
-            params["filter[organizations]"] = organization
+            data["filter[organizations]"] = organization
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:
         """Add a server to the system.
@@ -223,7 +186,7 @@ class Battlemetrics:
         """
 
         url = f"{self.base_url}/servers"
-        params = {
+        data = {
             "data": {
                 "type": "server",
                 "attributes": {
@@ -242,11 +205,11 @@ class Battlemetrics:
             }
         }
 
-        return await self._post_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def server_update(self, server_id: int) -> dict:
         pass
-     #  params = {
+     #  data = {
      #      "data": {
      #          "type": "server",
      #          "id": "42",
@@ -273,6 +236,7 @@ class Battlemetrics:
      #  }
 
     async def server_enable_rcon(self, server_id: int) -> dict:
+        # This endpoint is not completed by the creator of this wrapper.
         pass
 
     async def server_delete_rcon(self, server_id: int) -> dict:
@@ -287,7 +251,8 @@ class Battlemetrics:
             dict: Response from the server.
         """
         url = f"{self.base_url}/servers/{server_id}/rcon"
-        return await self._delete_request(url=url, headers=self.headers)
+
+        return await self._make_request(method="DELETE", url=url)
 
     async def server_disconnect_rcon(self, server_id: int) -> dict:
         """Names on the tin, disconnects RCON from your server.
@@ -302,7 +267,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/servers/{server_id}/rcon/disconnect"
 
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def server_connect_rcon(self, server_id: int) -> dict:
         """Names on the tin, connects RCON to your server.
@@ -317,7 +282,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/servers/{server_id}/rcon/connect"
 
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def server_info(self, server_id: int) -> dict:
         """Server info.
@@ -332,11 +297,11 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/servers/{server_id}"
 
-        params = {
+        data = {
             "include": "player,identifier"
         }
 
-        return await self._get_request(url=url, params=params, headers=self.headers)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def player_count_history(self, server_id: int, start_time: str = None, end_time: str = None, resolution: str = "raw") -> dict:
         """Player Count History
@@ -362,12 +327,12 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/player-count-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time,
             "resolution": resolution
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_rank_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Server Rank History
@@ -391,11 +356,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/rank-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_group_rank_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Group Rank History. The server must belong to a group.
@@ -419,11 +384,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/group-rank-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_time_played_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Time Played History
@@ -447,11 +412,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/time-played-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_first_time_played_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """First Time Player History
@@ -475,11 +440,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/first-time-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_unique_players_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Unique Player History
@@ -503,11 +468,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/unique-player-history"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def server_session_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Session history
@@ -531,12 +496,12 @@ class Battlemetrics:
 
         url = f"{self.base_url}/servers/{server_id}/relationships/sessions"
 
-        params = {
+        data = {
             "start": start_time,
             "end": end_time,
             "include": "player"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def force_update(self, server_id: int) -> dict:
         """Force Update will cause us to immediately queue the server to be queried and updated. This is limited to subscribers and users who belong to the organization that owns the server if it is claimed.
@@ -552,7 +517,7 @@ class Battlemetrics:
             dict: Response from the server.
         """
         url = f"{self.base_url}/servers/{server_id}/force-update"
-        return await self._post_request(url=url, headers=self.headers)
+        return await self._make_request(method="POST", url=url)
 
     async def outage_history(self, server_id: int, uptime: str = "90", start_time: str = None, end_time: str = None) -> dict:
         """Outage History. Outages are periods of time that the server did not respond to queries. Outage history stored and available for 90 days.
@@ -577,12 +542,12 @@ class Battlemetrics:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
         url = f"{self.base_url}/servers/{server_id}/relationships/outages"
-        params = {
+        data = {
             "page[size]": "100",
             "filter[range]": f"{start_time}:{end_time}",
             "include": f"uptime:{uptime}"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def downtime_history(self, server_id: int, resolution: str = "60", start_time: str = None, end_time: str = None) -> dict:
         """Downtime History. Value is number of seconds the server was offline during that period. The default resolution provides daily values (1440 minutes).
@@ -607,13 +572,13 @@ class Battlemetrics:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
         url = f"{self.base_url}/servers/{server_id}/relationships/downtime"
-        params = {
+        data = {
             "page[size]": "100",
             "start": f"{start_time}",
             "stop": f"{end_time}",
             "resolution": f"{resolution}"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def player_identifiers(self, player_id: int) -> dict:
         """Get player identifiers and related players and identifiers.
@@ -628,12 +593,12 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players/{player_id}/relationships/related-identifiers"
 
-        params = {
+        data = {
             "include": "player,identifier",
             "page[size]": "100"
         }
 
-        return await self._get_request(url=url, params=params, headers=self.headers)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def note_create(self, note: str, shared: bool, organization_id: int, player_id: int) -> dict:
         """Create a new note
@@ -651,7 +616,7 @@ class Battlemetrics:
         """
 
         url = f"{self.base_url}/players/{player_id}/relationships/notes"
-        params = {
+        data = {
             "data": {
                 "type": "playerNote",
                 "attributes": {
@@ -669,7 +634,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._post_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def note_delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
@@ -685,7 +650,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
 
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def note_list(self, player_id: int, filter_personal: bool = False) -> dict:
         """List existing note.
@@ -699,15 +664,15 @@ class Battlemetrics:
             dict: List of notes on users profile.
         """
         url = f"{self.base_url}/players/{player_id}/relationships/notes"
-        params = {
+        data = {
             "include": "user,organization",
             "page[size]": "100"
         }
 
         if filter_personal:
-            params["filter[personal]"] = str(filter_personal).lower()
+            data["filter[personal]"] = str(filter_personal).lower()
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def note_update(self, player_id: int, note_id: str, note: str, shared: bool, append: bool = False) -> dict:
         """Update an existing note.
@@ -731,7 +696,7 @@ class Battlemetrics:
             if existingnote:
                 existingnote = existingnote['data']['attributes']['note']
             note = f"{existingnote}\n{note}"
-        params = {
+        data = {
             "data": {
                 "type": "playerNote",
                 "id": "example",
@@ -742,7 +707,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._patch_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="PATCH", url=url, data=data)
 
     async def note_info(self, player_id: int, note_id: str) -> dict:
         """Info for existing note.
@@ -758,7 +723,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
 
-        return await self._get_request(url=url, headers=self.headers)
+        return await self._make_request(method="GET", url=url)
 
     async def flag_create(self, color: str, description: str, icon_name: str, flag_name: str, organization_id: int, user_id: int) -> dict:
         """Create a new flag
@@ -777,7 +742,7 @@ class Battlemetrics:
             dict: Response from server.
         """
         url = f"{self.base_url}/player-flags"
-        params = {
+        data = {
             "data": {
                 "type": "playerFlag",
                 "attributes": {
@@ -803,7 +768,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._post_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def flag_delete(self, flag_id: str) -> dict:
         """Delete an existing flag.
@@ -817,7 +782,8 @@ class Battlemetrics:
             dict: Response from the server.
         """
         url = f"{self.base_url}/player-flags/{flag_id}"
-        return await self._delete_request(url=url, headers=self.headers)
+
+        return await self._make_request(method="DELETE", url=url)
 
     async def flag_info(self, flag_id: str) -> dict:
         """Info for existing flag.
@@ -832,7 +798,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/player-flags/{flag_id}"
 
-        return await self._get_request(url=url, headers=self.headers)
+        return await self._make_request(method="GET", url=url)
 
     async def flag_list(self, filter_personal: bool = False) -> dict:
         """List existing player flags.
@@ -848,15 +814,15 @@ class Battlemetrics:
 
         url = f"{self.base_url}/player-flags"
 
-        params = {
+        data = {
             "page[size]": "100",
             "include": "organization"
         }
 
         if filter_personal:
-            params["filter[personal]"] = str(filter_personal).lower()
+            data["filter[personal]"] = str(filter_personal).lower()
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def flag_update(self, flag_id: str, color: str, description: str, icon_name: str, flag_name: str) -> dict:
         """Create a new flag
@@ -873,7 +839,7 @@ class Battlemetrics:
             dict: Response from server.
         """
         url = f"{self.base_url}/player-flags/{flag_id}"
-        params = {
+        data = {
             "data": {
                 "type": "playerFlag",
                 "id": f"{flag_id}",
@@ -886,7 +852,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._patch_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="PATCH", url=url, data=data)
 
     async def player_list(self, search: str = None, filter_online: bool = True, filter_servers: int = None, filter_organization: int = None, filter_public: bool = False) -> dict:
         """Grabs a list of players based on the filters provided. For accurate information, filter by server or organization.
@@ -905,7 +871,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players"
 
-        params = {
+        data = {
             "page[size]": "100",
             "filter[servers]": filter_servers,
             "filter[online]": str(filter_online).lower(),
@@ -914,8 +880,9 @@ class Battlemetrics:
             "include": "identifiers"
         }
         if search:
-            params["filter[search]"] = search
-        return await self._get_request(url=url, headers=self.headers, params=params)
+            data["filter[search]"] = search
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def player_info(self, identifier: int) -> dict:
         """Retrieves the battlemetrics player information.
@@ -930,10 +897,11 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players/{identifier}"
 
-        params = {
+        data = {
             "include": "identifier,server,playerCounter,playerFlag,flagPlayer"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def player_play_history(self, player_id: int, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Returns the data we use for rendering time played history charts. Start and stop are truncated to the date.
@@ -958,11 +926,12 @@ class Battlemetrics:
 
         url = f"{self.base_url}/players/{player_id}/time-played-history/{server_id}"
 
-        params = {
+        data = {
             "start": start_time,
             "stop": end_time
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def player_server_info(self, player_id: int, server_id: int) -> dict:
         """Returns server specifics for the given player and server.
@@ -979,7 +948,7 @@ class Battlemetrics:
 
         url = f"{self.base_url}/players/{player_id}/servers/{server_id}"
 
-        return await self._get_request(url=url, headers=self.headers)
+        return await self._make_request(method="GET", url=url)
 
     async def player_match_identifiers(self, identifier: str, type: str = None) -> dict:
         """Searches for one or more identifiers.
@@ -996,7 +965,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/players/match"
 
-        params = {
+        data = {
             "data": [
                 {
                     "type": "identifier",
@@ -1008,7 +977,7 @@ class Battlemetrics:
             ]
         }
 
-        return await self._post_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def player_session_history(self, player_id: int, filter_server: str = None, filter_organization: str = None) -> dict:
         """Returns player's session history.
@@ -1025,17 +994,17 @@ class Battlemetrics:
         """
 
         url = f"{self.base_url}/players/{player_id}/relationships/sessions"
-        params = {
+        data = {
             "include": "identifier,server",
             "page[size]": "100"
         }
 
         if filter_server:
-            params["filter[servers]"] = filter_server
+            data["filter[servers]"] = filter_server
         if filter_organization:
-            params["filter[organization]"] = filter_organization
+            data["filter[organization]"] = filter_organization
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def organization_stats(self, organization_id: int, start: str, end: str, game: str = None) -> dict:
         """Gets the player stats for the organization
@@ -1060,13 +1029,13 @@ class Battlemetrics:
 
         url = f"{self.base_url}/organizations/{organization_id}/stats/players"
 
-        params = {
+        data = {
             "filter[range]": f"{start}:{end}"
         }
         if game:
-            params["filter[game]"] = game
+            data["filter[game]"] = game
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def friend_list(self, organization_id: str, filter_accepted: bool = True, filter_origin: bool = True, filter_name: str = None, filter_reciprocated: bool = True) -> dict:
         """Gets all the organization friends.
@@ -1084,16 +1053,16 @@ class Battlemetrics:
             dict: Returns all the friendship information based on the paramaters set.
         """
         url = f"{self.base_url}/organizations/{organization_id}/relationships/friends"
-        params = {
+        data = {
             "include": "organization",
             "filter[accepted]": str(filter_accepted).lower(),
             "filter[origin]": str(filter_origin).lower(),
             "filter[reciprocated]": str(filter_reciprocated).lower()
         }
         if filter_name:
-            params['filter[name]'] = filter_name
+            data['filter[name]'] = filter_name
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def organization_friend(self, organization_id: int, friend_organization_id: int) -> dict:
         """Gets the friend information for your organization.
@@ -1110,11 +1079,11 @@ class Battlemetrics:
 
         url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friend_organization_id}"
 
-        params = {
+        data = {
             "include": "organization,playerFlag,organizationStats"
         }
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def friend_update(self, organization_id: int, friend_organization_id: int, identifiers: list, playerflag: str, shared_notes: bool = True, accepted: bool = True) -> dict:
         """Updates your organizations friendship.
@@ -1133,7 +1102,7 @@ class Battlemetrics:
         """
 
         url = f"https://api.battlemetrics.com/organizations/{organization_id}/relationships/friends/{friend_organization_id}"
-        json = {
+        data = {
             "data": {
                 "id": friend_organization_id,
                 "type": "organizationFriend",
@@ -1145,7 +1114,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._patch_request(url=url, post=json, headers=self.headers)
+        return await self._make_request(method="PATCH", url=url, data=data)
 
     async def friend_create(self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True) -> dict:
         """Creates a new friend invite to the targeted organization ID
@@ -1162,7 +1131,7 @@ class Battlemetrics:
             dict: Returns the dictionary response from the server
         """
         url = f"https://api.battlemetrics.com/organizations/{organization_id}/relationships/friends"
-        json = {
+        data = {
             "data": {
                 "type": "organizationFriend",
                 "attributes": {
@@ -1188,7 +1157,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._post_request(url=url, post=json, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def friend_delete(self, organization_id: int, friends_id: int) -> dict:
         """Deletes a friendship
@@ -1203,7 +1172,7 @@ class Battlemetrics:
             dict: Response from the server.
         """
         url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friends_id}"
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def player_stats(self, organization_id: int, start_date: str = None, end_date: str = None) -> dict:
         """Returns the statistics of all the players who have joined your server and where they're from.
@@ -1226,12 +1195,12 @@ class Battlemetrics:
         if not end_date:
             end_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-        params = {
+        data = {
             "filter[game]": "rust",
             "filter[range]": f"{start_date}:{end_date}"
         }
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def native_ban_info(self, server: int = None, ban: str = None) -> dict:
         """Returns all the native bans
@@ -1246,7 +1215,7 @@ class Battlemetrics:
             dict: All native bans.
         """
 
-        params = {
+        data = {
             "page[size]": "100",
             "include": "server,ban",
             "sort": "-createdAt",
@@ -1256,11 +1225,12 @@ class Battlemetrics:
         }
 
         if ban:
-            params["filter[ban]"] = ban
+            data["filter[ban]"] = ban
         if server:
-            params["filter[server]"] = server
+            data["filter[server]"] = server
         url = f"{self.base_url}/bans-native"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def native_force_update(self, native_id: str) -> dict:
         """Forces an update on a native ban
@@ -1274,7 +1244,8 @@ class Battlemetrics:
             dict: Response from the server.
         """
         url = f"{self.base_url}/bans-native/{native_id}/force-update"
-        return await self._post_request(url=url, post=None, headers=self.headers)
+
+        return await self._make_request(method="POST", url=url)
 
     async def leaderboard_info(self, server_id: int, player: int, start: str, end: str) -> dict:
         """Displays the leaderboard for a specific player.
@@ -1297,14 +1268,15 @@ class Battlemetrics:
         if not end:
             end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
-        params = {
+        data = {
             "page[size]": "100",
             "filter[period]": f"{start}:{end}",
             "filter[player]": player,
             "fields[leaderboardPlayer]": "name,value"
         }
         url = f"{self.base_url}/servers/{server_id}/relationships/leaderboards/time"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def gamefeatures(self, game: str = None) -> dict:
         """Lists the game features for the specified game
@@ -1317,13 +1289,14 @@ class Battlemetrics:
         Returns:
             dict: Returns a dictionary of the game features.
         """
-        params = {
+        data = {
             "page[size]": "100"
         }
         if game:
-            params['filter[game]'] = game
+            data['filter[game]'] = game
         url = f"{self.base_url}/game-features"
-        await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def game_feature_options(self, feature_id: str, sort: str = "players") -> dict:
         """Gets the game feature options.
@@ -1337,13 +1310,14 @@ class Battlemetrics:
         Returns:
             dict: Game feature options
         """
-        params = {
+        data = {
             "page[size]": "100",
             "sort": sort
         }
 
         url = f"{self.base_url}/game-features/{feature_id}/relationships/options"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def game_list(self, game: str = None) -> dict:
         """Lists all the games Battlemetrics can view.
@@ -1357,13 +1331,14 @@ class Battlemetrics:
             dict: Games information!
         """
 
-        params = {
+        data = {
             "page[size]": "100"
         }
         if game:
-            params['fields[game]'] = game
+            data['fields[game]'] = game
         url = f"{self.base_url}/games"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def game_info(self, game_id: str, game: str = None) -> dict:
         """Gets information on a specific game.
@@ -1377,15 +1352,15 @@ class Battlemetrics:
         Returns:
             dict: Game information.
         """
-        params = {
+        data = {
             "page[size]": "100"
         }
         if game:
-            params['fields[game]'] = game
+            data['fields[game]'] = game
 
         url = f"{self.base_url}/games/{game_id}"
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def flag_create(self, player_id: int, flag_id: str = None) -> dict:
         """Creates or adds a flag to the targeted players profile.
@@ -1400,7 +1375,7 @@ class Battlemetrics:
             dict: Player profile relating to the new flag.
         """
         url = f"{self.base_url}/players/{player_id}/relationships/flags"
-        json_post = {
+        data = {
             "data": [
                 {
                     "type": "payerFlag"
@@ -1408,9 +1383,9 @@ class Battlemetrics:
             ]
         }
         if flag_id:
-            json_post['data'][0]['id'] = flag_id
+            data['data'][0]['id'] = flag_id
 
-        return await self._post_request(url=url, post=json_post, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def flag_info(self, player_id: int) -> dict:
         """Returns all the flags on a players profile
@@ -1424,12 +1399,13 @@ class Battlemetrics:
             dict: The profile with all the flags.
         """
 
-        params = {
+        data = {
             "page[size]": "100",
             "include": "playerFlag"
         }
         url = f"{self.base_url}/players/{player_id}/relationships/flags"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def flag_delete(self, player_id: int, flag_id: str) -> dict:
         """Deletes a targeted flag from a targeted player ID
@@ -1444,7 +1420,8 @@ class Battlemetrics:
             dict: If you were successful or not.
         """
         url = f"{self.base_url}/players/{player_id}/relationships/flags/{flag_id}"
-        return await self._delete_request(url=url, headers=self.headers)
+
+        return await self._make_request(method="DELETE", url=url)
 
     async def metrics(self, name: str = "games.rust.players", start_date: str = None, end_date: str = None, resolution: str = "60") -> dict:
         """A data point as used in time series information.
@@ -1469,13 +1446,13 @@ class Battlemetrics:
             start_date = start_date.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_date:
             end_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        params = {
+        data = {
             "metrics[0][name]": name,
             "metrics[0][range]": f"{start_date}:{end_date}",
             "metrics[0][resolution]": resolution
         }
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def coplay_info(self, player_id: int, time_start: str = None, time_end: str = None, player_names: str = None, organization_names: str = None, server_names: str = None) -> dict:
         """Gets the coplay data related to the targeted player
@@ -1500,21 +1477,22 @@ class Battlemetrics:
             time_start = time_start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not time_end:
             time_end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        params = {
+        data = {
             "filter[period]": f"{time_start}:{time_end}",
             "page[size]": "100",
             "fields[coplayrelation]": "name,duration"
         }
 
         if player_names:
-            params["filter[players]"] = player_names
+            data["filter[players]"] = player_names
         if organization_names:
-            params["filter[organizations]"] = organization_names
+            data["filter[organizations]"] = organization_names
         if server_names:
-            params["filter[servers]"] = server_names
+            data["filter[servers]"] = server_names
 
         url = f"{self.base_url}/players/{player_id}/relationships/coplay"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def commands_activity(self, organization_id: int, summary: bool = False, users: str = None, commands: str = None, time_start: str = None, time_end: str = None, servers: int = None) -> dict:
         """Grabs all the command activity related to the targeted organization
@@ -1540,21 +1518,21 @@ class Battlemetrics:
             time_start = time_start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not time_end:
             time_end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        params = {
+        data = {
             "filter[timestamp]": f"{time_start}:{time_end}"
         }
         if summary:
-            params['filter[summary]'] = str(summary).lower()
+            data['filter[summary]'] = str(summary).lower()
         if users:
-            params['filter[users]'] = users
+            data['filter[users]'] = users
 
         if commands:
-            params['filter[commands]'] = commands
+            data['filter[commands]'] = commands
         if servers:
-            params['filter[servers]'] = servers
+            data['filter[servers]'] = servers
 
         url = f"{self.base_url}/organizations/{organization_id}/relationships/command-stats"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def ban_list(self, search: str = None, player_id: int = None, banlist: str = None, expired: bool = False, exempt: bool = False, server: int = None, organization_id: int = None, page_size: int = 100):
         """List, search and filter existing bans.
@@ -1565,7 +1543,7 @@ class Battlemetrics:
             dict: A dictionary response telling you if it worked or not.
         """
 
-        params = {
+        data = {
             "include": "server,user,player,organization",
             "fields[server]": "name",
             "fields[player]": "name",
@@ -1578,18 +1556,18 @@ class Battlemetrics:
             "page[size]": "100"
         }
         if organization_id:
-            params['filter[organization]'] = organization_id
+            data['filter[organization]'] = organization_id
         if player_id:
-            params['filter[player]'] = player_id
+            data['filter[player]'] = player_id
         if server:
-            params['filter[server]'] = server
+            data['filter[server]'] = server
         if search:
-            params['filter[search]'] = search
+            data['filter[search]'] = search
         if banlist:
-            params['filter[banList]'] = banlist
+            data['filter[banList]'] = banlist
 
         url = f"{self.base_url}/bans"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def ban_create(self, reason: str, note: str, steamid: str, battlemetrics_id: str, org_id: str, banlist: str, server_id: str,
                          expires: str = None,
@@ -1620,7 +1598,7 @@ class Battlemetrics:
                 raise ValueError(
                     "Invalid expiration time format. Please provide time in format 'YYYY-MM-DDTHH:MM:SS.sssZ'.")
 
-        json_post = {
+        data = {
             "data": {
                 "type": "ban",
                 "attributes": {
@@ -1676,7 +1654,7 @@ class Battlemetrics:
             }
         }
         url = f"{self.base_url}/bans"
-        return await self._post_request(url=url, post=json_post, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def banlist_export(self, organization_id: int, server: int = None, game: str = "Rust") -> dict:
         """Grabs you the ban list for a specific organization or server belongin to the organization.
@@ -1706,16 +1684,16 @@ class Battlemetrics:
         if game == "ark":
             format = "ark/banlist.txt"
 
-        params = {
+        data = {
             "filter[organization]": organization_id,
             "format": format
         }
 
         if server:
-            params["filter[organization]"] = server
+            data["filter[organization]"] = server
 
         url = f"{self.base_url}/bans/export"
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def ban_delete(self, banid: str) -> dict:
         """Deletes a ban.
@@ -1729,7 +1707,7 @@ class Battlemetrics:
             dict: The response from the server.
         """
         url = f"{self.base_url}/bans/{banid}"
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def ban_info(self, banid: str) -> dict:
         """The ban profile of a specific banid.
@@ -1743,7 +1721,7 @@ class Battlemetrics:
             dict: The ban information
         """
         url = f"{self.base_url}/bans/{banid}"
-        return await self._get_request(url=url, headers=self.headers)
+        return await self._make_request(method="GET", url=url)
 
     async def ban_update(self, banid: str, reason: str = None, note: str = None, append: bool = False) -> dict:
         """Updates a targeted ban
@@ -1768,7 +1746,8 @@ class Battlemetrics:
                 ban['data']['attributes']['note'] += f"\n{note}"
             else:
                 ban['data']['attributes']['note'] = note
-        return await self._patch_request(url=url, post=ban, headers=self.headers)
+
+        return await self._make_request(method="PATCH", url=url, data=ban)
 
     async def banlist_invite_create(self, organization_id: int, banlist_id: str, permManage: bool, permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
         """Creates an invite to 
@@ -1789,7 +1768,7 @@ class Battlemetrics:
             dict: Returns whether it was successful or not.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites"
-        json_post = {
+        data = {
             "data": {
                 "type": "banListInvite",
                 "attributes": {
@@ -1811,7 +1790,7 @@ class Battlemetrics:
             }
         }
 
-        return await self._post_request(url=url, post=json_post, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def banlist_invite_read(self, invite_id: str) -> dict:
         """Allows you to see the information about a specific banlist invite, such as uses.
@@ -1825,7 +1804,7 @@ class Battlemetrics:
             dict: The banlist invite information
         """
         url = f"{self.base_url}/ban-list-invites/{invite_id}"
-        params = {
+        data = {
             "include": "banList",
             "fields[organization]": "tz,banTemplate",
             "fields[user]": "nickname",
@@ -1833,7 +1812,7 @@ class Battlemetrics:
             "fields[banListInvite]": "uses"
         }
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_invite_list(self, banlist_id: str) -> dict:
         """Returns all the invites for a specific banlist ID
@@ -1844,7 +1823,7 @@ class Battlemetrics:
             banlist_id (str): The ID of a banlist
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites"
-        params = {
+        data = {
             "include": "banList",
             "fields[organization]": "tz,banTemplate",
             "fields[user]": "nickname",
@@ -1853,7 +1832,7 @@ class Battlemetrics:
             "page[size]": "100"
         }
 
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_invite_delete(self, banlist_id: str, banlist_invite_id: str) -> dict:
         """Deletes an invite from a targeted banlist
@@ -1869,7 +1848,7 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites/{banlist_invite_id}"
 
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def banlist_exemption_create(self, banid: str, organization_id: int, reason: str = None) -> dict:
         """Creates an exemption to the banlist.
@@ -1885,7 +1864,7 @@ class Battlemetrics:
             dict: Whether it was successful or not.
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
-        json_post = {
+        data = {
             "data": {
                 "type": "banExemption",
                 "attributes": {
@@ -1901,7 +1880,7 @@ class Battlemetrics:
                 }
             }
         }
-        return await self._post_request(url=url, post=json_post, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def banlist_exemption_delete(self, banid: str) -> dict:
         """Deletes an exemption
@@ -1915,7 +1894,7 @@ class Battlemetrics:
             dict: Whether it was successful or not
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
-        return await self._delete_request(url=url, headers=self.headers)
+        return await self._make_request(method="DELETE", url=url)
 
     async def banlist_exemption_info_single(self, banid: str, exemptionid: str) -> dict:
         """Pulls information from a ban regarding a specific exemption
@@ -1930,7 +1909,7 @@ class Battlemetrics:
             dict: Information about the exemption
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions/{exemptionid}"
-        return await self._get_request(url=url, headers=self.headers)
+        return await self._make_request(method="GET", url=url)
 
     async def banlist_exemption_info_all(self, banid: str) -> dict:
         """Pulls all exemptions related to the targeted ban
@@ -1945,10 +1924,10 @@ class Battlemetrics:
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
 
-        params = {
+        data = {
             "fields[banExemption]": "reason"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_exemption_update(self, banid: str, exemptionid: str, reason: str) -> dict:
         """Updates a ban exemption
@@ -1966,7 +1945,8 @@ class Battlemetrics:
         banexemption = await self.info_single(banid=banid, exemptionid=exemptionid)
         banexemption['data']['attributes']['reason'] = reason
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
-        return await self._patch_request(url=url, post=banexemption, headers=self.headers)
+
+        return await self._make_request(method="PATCH", url=url, data=banexemption)
 
     async def banlist_create(self, organization_id: int, action: str, autoadd: bool, ban_identifiers: list, native_ban: bool, list_default_reasons: list, ban_list_name: str) -> dict:
         """Creates a new banlist for your targeted organization.
@@ -1987,7 +1967,7 @@ class Battlemetrics:
         """
 
         url = f"{self.base_url}/ban-lists"
-        json_post = {
+        data = {
             "data": {
                 "type": "banList",
                 "attributes": {
@@ -2017,7 +1997,7 @@ class Battlemetrics:
                 }
             }
         }
-        return await self._post_request(url=url, post=json_post, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def banlist_accept_invite(self, code: str, action: str, autoadd: bool, ban_identifiers: list, native_ban: bool, list_default_reasons: list, organization_id: str, organization_owner_id: str) -> dict:
         """Accepts an invitation to subscribe to a banlist.
@@ -2038,7 +2018,7 @@ class Battlemetrics:
             dict: Response from server.
         """
         url = f"{self.base_url}/ban-lists/accept-invite"
-        params = {
+        data = {
             "data": {
                 "type": "banList",
                 "attributes": {
@@ -2068,7 +2048,7 @@ class Battlemetrics:
                 }
             }
         }
-        return await self._post_request(url=url, post=params, headers=self.headers)
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def banlist_unsubscribe(self, banlist_id: str, organization_id: str) -> dict:
         """Unscubscribes from a banlist
@@ -2083,7 +2063,8 @@ class Battlemetrics:
             dict: Response from server.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
-        return await self._delete_request(url=url, headers=self.headers)
+
+        return await self._make_request(method="DELETE", url=url)
 
     async def banlist_list(self) -> dict:
         """Lists all your banlists for you.
@@ -2094,11 +2075,11 @@ class Battlemetrics:
             dict: A dictionary response of all the banlists you have access to.
         """
         url = f"{self.base_url}/ban-lists"
-        params = {
+        data = {
             "include": "server,organization,owner",
             "page[size]": "100"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_subbed_orgs(self, banlist_id: str) -> dict:
         """Lists all the organizations that are subscribed to the targeted banlist. You require manage perms to use this list (or be the owner)
@@ -2112,11 +2093,11 @@ class Battlemetrics:
             dict: A dictionary response of all the organizations subbed to the targeted banlist.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations"
-        params = {
+        data = {
             "include": "server,organization,owner",
             "page[size]": "100"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_sub_info(self, banlist_id: str, organization_id: str) -> dict:
         """_summary_
@@ -2131,10 +2112,11 @@ class Battlemetrics:
             dict: A dictionary response of all the information requested.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/{organization_id}"
-        params = {
+        data = {
             "include": "organization, owner, server"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_read(self, banlist_id: str) -> dict:
         """Retrieves the name of a banlist by the banlist id
@@ -2148,10 +2130,10 @@ class Battlemetrics:
             dict: Returns a dictionary response of the requested data.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}"
-        params = {
+        data = {
             "include": "owner"
         }
-        return await self._get_request(url=url, headers=self.headers, params=params)
+        return await self._make_request(method="GET", url=url, data=data)
 
     async def banlist_update(self, banlist_id: str, organization_id: str, action: str = None, autoadd: bool = None, ban_identifiers: list = None, native_ban: bool = None, list_default_reasons: list = None, ban_list_name: str = None) -> dict:
         """Updates the targeted banlist with the altered information you supply
@@ -2174,7 +2156,7 @@ class Battlemetrics:
         Returns:
             dict: Dictionary response of the new banlist.
         """
-        banlist = await self.get_list(banlist_id=banlist_id)
+        banlist = await self.banlist_get_list(banlist_id=banlist_id)
         if not banlist:
             return None
 
@@ -2193,7 +2175,8 @@ class Battlemetrics:
         if ban_list_name:
             banlist['attributes']['name'] = ban_list_name
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
-        return await self._patch_request(url=url, post=banlist, headers=self.headers)
+
+        return await self._make_request(method="PATCH", url=url, data=banlist)
 
     async def banlist_get_list(self, banlist_id: str) -> dict:
         """Returns the banlist information of the targeted banlist
@@ -2207,10 +2190,10 @@ class Battlemetrics:
             dict: The dictionary response of the targeted banlist.
         """
         url = f"https://api.battlemetrics.com/ban-lists"
-        params = {
+        data = {
             "page[size]: 100"
         }
-        banlists = await self._get_request(url=url, params=params, headers=self.headers)
+        banlists = await self._make_request(method="GET", url=url, data=data)
 
         for banlist in banlists:
             if banlist['id'] == banlist_id:
