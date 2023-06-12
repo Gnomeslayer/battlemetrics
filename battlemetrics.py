@@ -1550,8 +1550,8 @@ class Battlemetrics:
             "field[user]": "nickname",
             "fields[banList]": "name",
             "fields[banExemption]": "reason",
-            "filter[expired]": expired,
-            "filter[exempt]": exempt,
+            "filter[expired]": str(expired).lower(),
+            "filter[exempt]": str(exempt).lower(),
             "sort": "-timestamp",
             "page[size]": "100"
         }
