@@ -1545,11 +1545,6 @@ class Battlemetrics:
 
         data = {
             "include": "server,user,player,organization",
-            "fields[server]": "name",
-            "fields[player]": "name",
-            "field[user]": "nickname",
-            "fields[banList]": "name",
-            "fields[banExemption]": "reason",
             "filter[expired]": str(expired).lower(),
             "filter[exempt]": str(exempt).lower(),
             "sort": "-timestamp",
