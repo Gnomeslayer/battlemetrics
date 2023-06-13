@@ -922,7 +922,10 @@ class Battlemetrics:
             start_time = now - timedelta(days=5)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
-            end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            # end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            now = datetime.utcnow()
+            end_time = now + timedelta(days=1)
+            end_time = end_time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
         url = f"{self.base_url}/players/{player_id}/time-played-history/{server_id}"
 
@@ -2194,3 +2197,33 @@ class Battlemetrics:
             if banlist['id'] == banlist_id:
                 return banlist
         return None
+
+    async def activity_logs(self, blacklist: str = None, whitelist: str = None) -> dict:
+        """Retrieves the activity logs.
+
+        Documentation: There is no documentation on this endpoint unfortunately.
+
+        Args:
+            blacklist (str, optional): Example: unknown, playerMessage. Defaults to None.
+            whitelist (str, optional): unknown, playerMessage. Defaults to None.
+
+        Returns:
+            dict: _description_
+        """
+        url = f"{self.base_url}/activity"
+
+        data = {
+            "version": "^0.1.0",
+            "filter[types][blacklist]": blacklist,
+            "filter[types][whitelist]": whitelist,
+            "page[size]": "100",
+            "include": "organization,server,user,player"
+        }
+
+        return await self._make_request(method="GET", url=url, data=data)
+
+    async def testing(self, session_id: str):
+        # url = f"{self.base_url}/sessions/{session_id}"
+        url = f"{self.base_url}/sessions/{session_id}/relationships/coplay"
+
+        return await self._make_request(method="GET", url=url)
