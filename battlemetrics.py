@@ -11,9 +11,17 @@ class Battlemetrics:
         self.headers = {"Authorization": f"Bearer {api_key}"}
         self.data = None
         self.api_key = api_key
-        self.remaining_limit = 100
 
-    async def _parse_octet_stream(self, response):
+    async def _parse_octet_stream(self, response) -> dict:
+        """Takes your banlist file from the API request and processes it into a dictionary
+
+        Args:
+            response (octet-stream): The file response from the API
+
+        Returns:
+            dict: Returns the converted file in dictionary form.
+        """
+
         cfg_str = response.decode('utf-8')
         ban_dict = {}
         for line in cfg_str.split("\n"):
@@ -37,7 +45,20 @@ class Battlemetrics:
                     "playername": player_name, "reason": reason, "expires": duration}
         return response
 
-    async def _make_request(self, method: str, url: str, data: dict = None):
+    async def _make_request(self, method: str, url: str, data: dict = None) -> dict:
+        """Queries the API and spits out the response.
+
+        Args:
+            method (str): One of: GET, POST, PATCH, DELETE
+            url (str): The endpoint/url you wish to query.
+            data (dict, optional): Any params or json data you wish to send to enhance your experience?. Defaults to None.
+
+        Raises:
+            Exception: Doom and gloom.
+
+        Returns:
+            dict: The response from the server.
+        """
         async with aiohttp.ClientSession(headers=self.headers) as session:
             method_list = ["POST", "PATCH"]
             if method in method_list:
@@ -69,14 +90,14 @@ class Battlemetrics:
                 self.data['pages'] = []
         return response
 
-    async def check_scopes(self, api_key: str = None):
+    async def check_api_scopes(self, api_key: str = None) -> dict:
         """Retrieves the tokens scopes from the oauth.
 
         Args:
             api_key (str, optional): Your given API token. Defaults to the one supplied to this battlemetrics class.
 
         Returns:
-            _type_: The tokens data.
+            dict: The tokens data.
         """
         if not api_key:
             api_key = self.api_key
@@ -87,7 +108,7 @@ class Battlemetrics:
         }
         return await self._make_request(method="POST", url=url, data=data)
 
-    async def next(self):
+    async def next(self) -> dict:
         if not self.data['links'].get('next'):
             return
         url = self.data['links']['next']
