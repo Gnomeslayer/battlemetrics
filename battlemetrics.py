@@ -10,6 +10,8 @@ class Battlemetrics:
         self.base_url = "https://api.battlemetrics.com"
         self.headers = {"Authorization": f"Bearer {api_key}"}
         self.data = None
+        self.api_key = api_key
+        self.remaining_limit = 100
 
     async def _parse_octet_stream(self, response):
         cfg_str = response.decode('utf-8')
@@ -37,21 +39,53 @@ class Battlemetrics:
 
     async def _make_request(self, method: str, url: str, data: dict = None):
         async with aiohttp.ClientSession(headers=self.headers) as session:
-            async with session.request(method=method, url=url, json=data, params=data) as r:
-                content_type = r.headers.get('content-type', '')
-                if 'json' in content_type:
+            method_list = ["POST", "PATCH"]
+            if method in method_list:
+                async with session.request(method=method, url=url, json=data) as r:
+                    if r.status == '429':
+                        print(
+                            "You're being rate limited by the API. Please wait a minute before trying again.")
+                        return
                     response = await r.json()
-                elif 'octet-stream' in content_type:
-                    response = await self._parse_octet_stream(await r.content.read())
-                else:
-                    raise Exception(
-                        f"Unsupported content type: {content_type}")
+                    return response
+            else:
+                async with session.request(method=method, url=url, params=data) as r:
+                    content_type = r.headers.get('content-type', '')
+                    if r.status == '429':
+                        print(
+                            "You're being rate limited by the API. Please wait a minute before trying again.")
+                        return
+                    if 'json' in content_type:
+                        response = await r.json()
+                    elif 'octet-stream' in content_type:
+                        response = await self._parse_octet_stream(await r.content.read())
+                    else:
+                        raise Exception(
+                            f"Unsupported content type: {content_type}")
 
         if self.data:
             if not self.data.get('pages'):
                 self.data = response
                 self.data['pages'] = []
         return response
+
+    async def check_scopes(self, api_key: str = None):
+        """Retrieves the tokens scopes from the oauth.
+
+        Args:
+            api_key (str, optional): Your given API token. Defaults to the one supplied to this battlemetrics class.
+
+        Returns:
+            _type_: The tokens data.
+        """
+        if not api_key:
+            api_key = self.api_key
+
+        url = f"https://www.battlemetrics.com/oauth/introspect"
+        data = {
+            "token": api_key
+        }
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def next(self):
         if not self.data['links'].get('next'):
@@ -238,6 +272,36 @@ class Battlemetrics:
     async def server_enable_rcon(self, server_id: int) -> dict:
         # This endpoint is not completed by the creator of this wrapper.
         pass
+
+    async def server_send_console_command(self, server_id: int, command: str) -> dict:
+        """Sends a raw server console command. These commands are usually what you can type in game via the F1 console.
+        An example: mute <steamid> <duration> <reason>
+        another is: kick <steamid>
+
+        Args:
+            server_id (int): The server you want the command to run on.
+            command (str): The command you want to attempt to run!
+
+        Returns:
+            dict: If it was successful or not.
+        """
+        url = f"{self.base_url}/servers/{server_id}/command"
+
+        data = {
+            "data":
+            {
+                "type": "rconCommand",
+                "attributes":
+                {
+                    "command": "raw",
+                    "options":
+                    {
+                        "raw": f"{command}"
+                    }
+                }
+            }
+        }
+        return await self._make_request(method="POST", url=url, data=data)
 
     async def server_delete_rcon(self, server_id: int) -> dict:
         """Names on the tin, deletes the RCON for your server
@@ -1006,6 +1070,25 @@ class Battlemetrics:
             data["filter[servers]"] = filter_server
         if filter_organization:
             data["filter[organization]"] = filter_organization
+
+        return await self._make_request(method="GET", url=url, data=data)
+
+    async def organization_info(self, organization_id: int) -> dict:
+        """Returns an organizations profile.
+
+        Documentation: Not documented in the API.
+
+        Args:
+            organization_id (int): An organizations battlemetrics ID.
+
+        Returns:
+            dict: The information about your organization or a targeted organization
+        """
+
+        url = f"{self.base_url}/organizations/{organization_id}"
+        data = {
+            "include": "organizationUser,banList,role,organizationStats"
+        }
 
         return await self._make_request(method="GET", url=url, data=data)
 
@@ -2221,9 +2304,3 @@ class Battlemetrics:
         }
 
         return await self._make_request(method="GET", url=url, data=data)
-
-    async def testing(self, session_id: str):
-        # url = f"{self.base_url}/sessions/{session_id}"
-        url = f"{self.base_url}/sessions/{session_id}/relationships/coplay"
-
-        return await self._make_request(method="GET", url=url)
