@@ -16,7 +16,7 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone https://github.com/Gnomeslayer/battlemetrics.git
    ```
 2. Install the required dependencies
    Although at this time, the only dependency is aiohttp, so you can simply do:
@@ -29,14 +29,15 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
    ```
 3. Import the `Battlemetrics` class into your project.
    ```bash
-   from Battlemetrics import Battlemetrics
+   import battlemetrics
    ```
 ## Usage
 Here's an example of how to use the Battlemetrics API wrapper:
 ```bash
 # Instantiate the API wrapper with your token
 token = "Your API token here"
-api = Battlemetrics(token)
+api = battlemetrics
+api.setup(token)
 
 # Retrieve player information
 player = api.player_info(12345)
@@ -49,10 +50,14 @@ Make sure to replace `"Your API token here"` with your actual API token obtained
 ## Additional usage
 Some endpoints have a pagination system, to get the "next" or "previous" page, pass through the link.
 ```bash
-api = Battlemetrics(battlemetrics_token) #Your instance of the Battlemetrics class
-test_data = asyncio.run(api.game_list()) #Some test list.
-test_data = asyncio.run(api.next()) #Next page
+token = "Your API token here"
+api = battlemetrics
+api.setup(token)
+game_list = asyncio.run(api.game_list())
+game_list = asyncio.run(api.next())
 print(test_data['pages'][0]) #Loading the page data.
+or alternatively
+print(test_data['pages'])
 ```
 
 ## Resources
