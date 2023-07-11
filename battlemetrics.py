@@ -89,6 +89,11 @@ async def _make_request(method: str, url: str, data: dict = None) -> dict:
                     response = await r.json()
                 elif 'octet-stream' in content_type:
                     response = await _parse_octet_stream(await r.content.read())
+                elif "text/html" in content_type:
+                    response = await r.content.read()
+                    response = str(response)
+                    response = response.replace("'", "")
+                    response = response.replace("b", "")
                 else:
                     raise Exception(
                         f"Unsupported content type: {content_type}")
@@ -973,7 +978,7 @@ async def player_match_identifiers(identifier: str, type: str = None) -> dict:
         dict: Dictionary response of any matches.
     """
 
-    url = f"{BASE_URL}/players/match"
+    url = f"{BASE_URL}/players/match?include=player,server,identifier,playerFlag,flagPlayer"
     data = {
         "data": [
             {
@@ -1498,7 +1503,7 @@ async def organization_commands_activity(organization_id: int, summary: bool = F
     return await _make_request(method="GET", url=url, data=data)
 
 
-async def ban_list(search: str = None, player_id: int = None, banlist: str = None, expired: bool = False, exempt: bool = False, server: int = None, organization_id: int = None, page_size: int = 100):
+async def ban_list(search: str = None, player_id: int = None, banlist: str = None, expired: bool = True, exempt: bool = False, server: int = None, organization_id: int = None):
     """List, search and filter existing bans.
     Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans
     Returns:
