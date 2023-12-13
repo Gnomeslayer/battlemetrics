@@ -29,37 +29,23 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
    ```
 3. Import the `Battlemetrics` class into your project.
    ```bash
-   import battlemetrics
+   from battlemetrics import Battlemetrics
    ```
 ## Usage
 Refer to example file for examples.
 Here's an example of how to use the Battlemetrics API wrapper:
 ```bash
 # Instantiate the API wrapper with your token
-token = "Your API token here"
-api = battlemetrics
-api.setup(token)
+bmapi = battlemetrics("Your token here")
 
 # Retrieve player information
-player = api.player_info(12345)
+player = bmapi.player.search(12345)
 
 # Print the player information
 print(player)
 ```
 Make sure to replace `"Your API token here"` with your actual API token obtained from the Battlemetrics developers page.
 
-## Additional usage
-Some endpoints have a pagination system, to get the "next" or "previous" page, pass through the link.
-```bash
-token = "Your API token here"
-api = battlemetrics
-api.setup(token)
-game_list = asyncio.run(api.game_list())
-game_list = asyncio.run(api.next())
-print(test_data['pages'][0]) #Loading the page data.
-or alternatively
-print(test_data['pages'])
-```
 
 ## Resources
 For more details on the Battlemetrics API and its capabilities, refer to the official [Battlemetrics API](https://www.battlemetrics.com/developers/documentation).
