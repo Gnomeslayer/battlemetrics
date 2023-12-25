@@ -22,7 +22,7 @@ class Session:
         url = f"{self.BASE_URL}/sessions"
         data = {
             "include": "identifier,server,player",
-            "page[size]": "99"
+            "page[size]": "100"
         }
         if filter_server:
             data["filter[servers]"] = filter_server

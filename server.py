@@ -80,18 +80,18 @@ class Server:
         if server_type:
             count = 0
             features = None
-            for type in server_type:
-                if type.lower() == "official":
+            for ServerType in server_type:
+                if ServerType.lower() == "official":
                     if features:
                         features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={official}"
                     else:
                         features = f"filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={official}"
-                elif type.lower() == "community":
+                elif ServerType.lower() == "community":
                     if features:
                         features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={community}"
                     else:
                         features = f"filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={community}"
-                elif type.lower() == "modded":
+                elif ServerType.lower() == "modded":
                     if features:
                         features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={modded}"
                     else:

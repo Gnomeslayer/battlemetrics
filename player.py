@@ -3,7 +3,6 @@ from helpers import Helpers
 from datetime import datetime, timedelta
 from time import strftime, localtime
 
-
 class Player:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
@@ -113,8 +112,10 @@ class Player:
         data = {
             "include": "identifier,server,playerCounter,playerFlag,flagPlayer"
         }
+        
         return await self.helpers._make_request(method="GET", url=url, data=data)
 
+    
     async def play_history(self, player_id: int, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Returns the data we use for rendering time played history charts. Start and stop are truncated to the date.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-player-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/time-played-history/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}
@@ -156,7 +157,7 @@ class Player:
         url = f"{self.BASE_URL}/players/{player_id}/servers/{server_id}"
         return await self.helpers._make_request(method="GET", url=url)
 
-    async def match_identifiers(self, identifier: str, type: str = None) -> dict:
+    async def match_identifiers(self, identifier: str, identifier_type: str = None) -> dict:
         """Searches for one or more identifiers.
         This API method is only available to authenticated users. It is also rate limited to one request a second.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-player-/players/match
@@ -173,7 +174,7 @@ class Player:
                 {
                     "type": "identifier",
                     "attributes": {
-                        "type": f"{type}",
+                        "type": identifier_type,
                         "identifier": f"{identifier}"
                     }
                 }
@@ -288,7 +289,7 @@ class Player:
         url = f"{self.BASE_URL}/players/{player_id}/relationships/coplay"
         return await self.helpers._make_request(method="GET", url=url, data=data)
 
-    async def quick_match(self, identifier: str, type: str) -> dict:
+    async def quick_match(self, identifier: str, identifier_type: str) -> dict:
         """Player Quick Match Identifiers
         Searches for one or more identifiers.
         This API method is only available to authenticated users. It is also rate limited to 10 requests per second. 
@@ -301,7 +302,7 @@ class Player:
 
         Args:
             identifier (str): Any identifier associated with the users profile on battlemetric. Such as steam id or bmid
-            type (str): one of:"steamID" or "BEGUID" or "legacyBEGUID" or "ip" or "name" or "survivorName" or "steamFamilyShareOwner" or "conanCharName" or "egsID" or "eosID" or "funcomID" or "playFabID" or "mcUUID" or "7dtdEOS" or "battlebitHWID"
+            identifier_type (str): one of:"steamID" or "BEGUID" or "legacyBEGUID" or "ip" or "name" or "survivorName" or "steamFamilyShareOwner" or "conanCharName" or "egsID" or "eosID" or "funcomID" or "playFabID" or "mcUUID" or "7dtdEOS" or "battlebitHWID"
 
         Returns:
             dict: Returns a dictionary of the matching player(s)
@@ -313,7 +314,7 @@ class Player:
                 {
                     "type": "identifier",
                     "attributes": {
-                        "type": type,
+                        "type": identifier_type,
                         "identifier": f"{identifier}"
                     }
                 }

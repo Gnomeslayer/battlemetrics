@@ -38,15 +38,15 @@ class Bans:
             expires = await self.helpers.calculate_future_date(expires)
 
         current_datetime = datetime.now()
-        formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+        
+        #Not needed.
+        #formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
         data = {
             "data":
                 {
                     "type": "ban",
                     "attributes": {
-                            "uid": str(uuid.uuid4())[:14],
-                            "timestamp": str(formatted_datetime),
                             "reason": reason,
                             "note": note,
                             "expires": expires,
@@ -133,3 +133,46 @@ class Bans:
             else:
                 ban['data']['attributes']['note'] = note
         return await self.helpers._make_request(method="PATCH", url=url, data=ban)
+
+    async def search(self, search: str = None, player_id: int = None, banlist: str = None, expired: bool = True, exempt: bool = False, server: int = None, organization_id: int = None, userIDs: str = None):
+        """List, search and filter existing bans.
+
+        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans
+
+        Args:
+            search (str, optional): A search string, such as a steam ID. Defaults to None.
+            player_id (int, optional): Battlemetrics ID of a specific user. Defaults to None.
+            banlist (str, optional): Specific banlist to search. Defaults to None.
+            expired (bool, optional): True/False - Do you want expired bans?. Defaults to True.
+            exempt (bool, optional): True/False - Do you want to include exempt?. Defaults to False.
+            server (int, optional): Server ID. Defaults to None.
+            organization_id (int, optional): Organization ID. Defaults to None.
+            userIDs (str, optional): User ID is the ID of the person who made the ban. Defaults to None.
+
+        Returns:
+            dict: A dictionary response of all the bans for the given parameters.
+        """
+
+        data = {
+            "include": "server,user,player,organization",
+            "filter[expired]": str(expired).lower(),
+            "filter[exempt]": str(exempt).lower(),
+            "sort": "-timestamp",
+            "page[size]": "100"
+        }
+
+        if organization_id:
+            data['filter[organization]'] = organization_id
+        if player_id:
+            data['filter[player]'] = player_id
+        if server:
+            data['filter[server]'] = server
+        if search:
+            data['filter[search]'] = search
+        if banlist:
+            data['filter[banList]'] = banlist
+        if userIDs:
+            data['filter[users]'] = userIDs
+        url = f"{self.BASE_URL}/bans"
+
+        return await self.helpers._make_request(method="GET", url=url, data=data)
