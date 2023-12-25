@@ -6,40 +6,6 @@ class Notes:
         self.BASE_URL = BASE_URL
         self.helpers = helpers
 
-
-    async def create(self, note: str, organization_id: int, player_id: int, shared: bool = True) -> dict:
-        """Create a new note
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes
-        Args:
-            note (str): The note it
-            shared (bool): Will this be shared or not? (True or False), default is True
-            organization_id (int): The organization ID this note belongs to.
-            player_id (int): The battlemetrics ID of the player this note is attached to.
-        Returns:
-            dict: Response from server (was it successful?)
-        """
-
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes"
-        data = {
-            "data": {
-                "type": "playerNote",
-                "attributes": {
-                    "note": note,
-                    "shared": shared
-                },
-                "relationships": {
-                    "organization": {
-                        "data": {
-                            "type": "organization",
-                            "id": f"{organization_id}",
-                        }
-                    }
-                }
-            }
-        }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
-
-
     async def delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes/{(%23%2Fdefinitions%2FplayerNote%2Fdefinitions%2Fidentity)}

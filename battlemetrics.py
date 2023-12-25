@@ -1,15 +1,15 @@
 from time import strftime, localtime
 from datetime import datetime, timedelta
-from player import Player
-from server import Server
-from helpers import Helpers
-from notes import Notes
-from flags import Flags
-from session import Session
-from banlist import Ban_List
-from organization import Organization
-from game_info import Game_Info
-from bans import Bans
+from classes.player import Player
+from classes.server import Server
+from classes.helpers import Helpers
+from classes.notes import Notes
+from classes.flags import Flags
+from classes.session import Session
+from classes.banlist import Ban_List
+from classes.organization import Organization
+from classes.game_info import Game_Info
+from battlemetrics_wrapper_v2.classes.bans import Bans
 
 
 class Battlemetrics:
@@ -57,54 +57,8 @@ class Battlemetrics:
         }
         return await self.helpers._make_request(method="POST", url=url, data=data)
 
-    #async def next(self) -> dict:
-#
-    #    if not self.response_data['links'].get('next'):
-    #        return
-    #    url = self.response_data['links']['next']
-    #    if self.response_data['pages']:
-    #        if self.response_data['pages'][-1]['links'].get('next'):
-    #            url = response_data['pages'][-1]['links']['next']
-    #    self.response_data = await self.helpers._make_request(method="GET", url=url)
-    #    self.response_data['pages'].append(self.response_data)
-    #    return self.response_data
-
-    async def native_ban_info(self, server: int = None, ban: str = None) -> dict:
-        """Returns all the native bans
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-banNative-/bans-native
-        Args:
-            server (int, optional): Target server. Defaults to None.
-            ban (int, optional): Target ban. Defaults to None.
-        Returns:
-            dict: All native bans.
-        """
-
-        data = {
-            "page[size]": "100",
-            "include": "server,ban",
-            "sort": "-createdAt",
-            "fields[ban]": "reason",
-            "fields[server]": "name",
-            "fields[banNative]": "createdAt,reason"
-        }
-        if ban:
-            data["filter[ban]"] = ban
-        if server:
-            data["filter[server]"] = server
-        url = f"{self.BASE_URL}/bans-native"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
-
-    async def native_force_update(self, native_id: str) -> dict:
-        """Forces an update on a native ban
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banNative-/bans-native/{(%23%2Fdefinitions%2FbanNative%2Fdefinitions%2Fidentity)}/force-update
-        Args:
-            native_id (str): Targeted native ban
-        Returns:
-            dict: Response from the server.
-        """
-
-        url = f"{self.BASE_URL}/bans-native/{native_id}/force-update"
-        return await self.helpers._make_request(method="POST", url=url)
+    async def pagination(self, page_link:str) -> dict:
+        return await self.helpers._make_request(method="GET", url=page_link)
 
     async def metrics(self, name: str = "games.rust.players", start_date: str = None, end_date: str = None, resolution: str = "60") -> dict:
         """A data point as used in time series information.

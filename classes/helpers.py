@@ -160,8 +160,4 @@ class Helpers:
                     else:
                         raise Exception(
                             f"Unsupported content type: {content_type}")
-        #if response_data:
-        #    if not response_data.get('pages'):
-        #        response_data = response
-        #        response_data['pages'] = []
         return response

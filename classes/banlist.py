@@ -6,8 +6,6 @@ class Ban_List:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
-    
-
     async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
         """Creates an invite to 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banListInvite-/ban-lists/{(%23%2Fdefinitions%2FbanList%2Fdefinitions%2Fidentity)}/relationships/invites

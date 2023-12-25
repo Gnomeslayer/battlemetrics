@@ -322,3 +322,114 @@ class Player:
         }
 
         return await self.helpers._make_request(method="POST", url=url, data=data)
+
+    
+    async def add_ban(self, reason: str, note: str, beguid_id: int, steamid_id: int, battlemetrics_id: str, org_id: str, banlist: str, server_id: str,
+                         expires: str = "permanent",
+                         orgwide: bool = True) -> dict:
+        """Bans a user from your server or organization.
+        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-ban-/bans
+        Documentation is incorrect.
+        Args:
+            reason (str): Reason for the ban (This is what the user/server sees)
+            note (str): Note attached to the ban (Admins/staff can see this)
+            beguid_id (int): The battlemetrics ID for the BEGUID.
+            steamid_id (int): The battlemetrics ID for the STEAMID
+            battlemetrics_id (str): Battlemetrics ID of the banned user
+            org_id (str): Organization ID the ban is associated to.
+            banlist (str): Banlist the ban is associated to.
+            server_id (str): Server ID the ban is associated to.
+            expires (str, optional): Expiration, leave none for permanent. Defaults to None.
+            orgwide (bool, optional): Orgwide or single server?. Defaults to True.
+        Notes:
+            Steamid_id and beguid_id are the ID's that battlemetrics associates with them. Not the ID themselves.
+        Returns:
+            dict: The results, whether it was successful or not.
+        """
+        if expires == "permanent":
+            expires = None
+
+        if expires:
+            expires = await self.helpers.calculate_future_date(expires)
+
+        current_datetime = datetime.now()
+        
+        #Not needed.
+        #formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
+
+        data = {
+            "data":
+                {
+                    "type": "ban",
+                    "attributes": {
+                            "reason": reason,
+                            "note": note,
+                            "expires": expires,
+                            "identifiers": [beguid_id, steamid_id],
+                            "orgWide": orgwide,
+                            "autoAddEnabled": True,
+                            "nativeEnabled": None
+                    },
+                    "relationships": {
+                        "organization": {
+                            "data": {
+                                "type": "organization",
+                                "id": f"{org_id}"
+                            }
+                        },
+                        "server": {
+                            "data": {
+                                "type": "server",
+                                "id": f"{server_id}"
+                            }
+                        },
+                        "player": {
+                            "data": {
+                                "type": "player",
+                                "id": f"{battlemetrics_id}"
+                            }
+                        },
+                        "banList": {
+                            "data": {
+                                "type": "banList",
+                                "id": f"{banlist}"
+                            }
+                        }
+                    }
+                }
+        }
+
+        url = f"{self.BASE_URL}/bans"
+        return await self.helpers._make_request(method="POST", url=url, data=data)
+    
+    async def add_note(self, note: str, organization_id: int, player_id: int, shared: bool = True) -> dict:
+        """Create a new note
+        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes
+        Args:
+            note (str): The note it
+            shared (bool): Will this be shared or not? (True or False), default is True
+            organization_id (int): The organization ID this note belongs to.
+            player_id (int): The battlemetrics ID of the player this note is attached to.
+        Returns:
+            dict: Response from server (was it successful?)
+        """
+
+        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes"
+        data = {
+            "data": {
+                "type": "playerNote",
+                "attributes": {
+                    "note": note,
+                    "shared": shared
+                },
+                "relationships": {
+                    "organization": {
+                        "data": {
+                            "type": "organization",
+                            "id": f"{organization_id}",
+                        }
+                    }
+                }
+            }
+        }
+        return await self.helpers._make_request(method="POST", url=url, data=data)
