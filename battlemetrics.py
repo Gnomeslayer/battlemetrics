@@ -9,7 +9,7 @@ from components.session import Session
 from components.banlist import Ban_List
 from components.organization import Organization
 from components.game_info import Game_Info
-from battlemetrics_wrapper_v2.classes.bans import Bans
+from components.bans import Bans
 
 
 class Battlemetrics:
