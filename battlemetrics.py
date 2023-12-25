@@ -1,14 +1,14 @@
 from time import strftime, localtime
 from datetime import datetime, timedelta
-from classes.player import Player
-from classes.server import Server
-from classes.helpers import Helpers
-from classes.notes import Notes
-from classes.flags import Flags
-from classes.session import Session
-from classes.banlist import Ban_List
-from classes.organization import Organization
-from classes.game_info import Game_Info
+from components.player import Player
+from components.server import Server
+from components.helpers import Helpers
+from components.notes import Notes
+from components.flags import Flags
+from components.session import Session
+from components.banlist import Ban_List
+from components.organization import Organization
+from components.game_info import Game_Info
 from battlemetrics_wrapper_v2.classes.bans import Bans
 
 
