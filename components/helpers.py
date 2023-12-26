@@ -8,6 +8,7 @@ import aiohttp
 
 class Helpers:
     
+    
     def __init__(self, api_key: str) -> None:
         self.headers = {"Authorization": f"Bearer {api_key}"}
 

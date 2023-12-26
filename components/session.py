@@ -6,6 +6,7 @@ class Session:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
+
     async def info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
         """Returns the session information for the targeted server, game or organization.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-session-/sessions

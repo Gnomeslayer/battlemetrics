@@ -6,6 +6,7 @@ class Game_Info:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
+
     async def features(self, game: str = None) -> dict:
         """Lists the game features for the specified game
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-gameFeature-/game-features

@@ -8,7 +8,6 @@ class Server:
         self.BASE_URL = BASE_URL
         self.helpers = helpers
 
-    
     async def leaderboard_info(self, server_id: int,  start: str = None, end: str = None, player: int = None) -> dict:
         """Displays the leaderboard for a specific player.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-leaderboardPlayer-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/leaderboards/time

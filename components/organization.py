@@ -9,6 +9,7 @@ class Organization:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
+
     async def info(self, organization_id: int) -> dict:
         """Returns an organizations profile.
         Documentation: Not documented in the API.

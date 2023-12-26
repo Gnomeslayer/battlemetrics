@@ -8,7 +8,6 @@ class Player:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
-    
     async def count_history(self, server_id: int, start_time: str = None, end_time: str = None, resolution: str = "raw") -> dict:
         """Player Count History
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/player-count-history

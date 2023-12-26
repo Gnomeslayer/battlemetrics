@@ -9,6 +9,7 @@ class Bans:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
 
+
     async def delete(self, banid: str) -> dict:
         """Deletes a ban.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}

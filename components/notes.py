@@ -6,6 +6,7 @@ class Notes:
         self.BASE_URL = BASE_URL
         self.helpers = helpers
 
+
     async def delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes/{(%23%2Fdefinitions%2FplayerNote%2Fdefinitions%2Fidentity)}

@@ -12,6 +12,7 @@ from components.game_info import Game_Info
 from components.bans import Bans
 
 
+
 class Battlemetrics:
     """Sets up the wrapper.
 
