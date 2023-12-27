@@ -325,29 +325,32 @@ class Player:
         return await self.helpers._make_request(method="POST", url=url, data=data)
 
     
-    async def add_ban(self, reason: str, note: str, battlemetrics_id: str, org_id: str, banlist: str, server_id: str,
+    async def add_ban(self, reason: str, note: str, org_id: str, banlist: str, server_id: str,
                          expires: str = "permanent",
                          orgwide: bool = True,
-                         beguid_id: int = None, steamid_id: int = None) -> dict:
-        """Bans a user from your server or organization.
+                         battlemetrics_id: int = None,
+                         steam_id:int = None) -> dict:
+        """Creates a ban for the targeted user. One of battlemetrics_id or steam_id is required to ban the user.
+        By default the ban is set to organization wide.
+        
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-ban-/bans
         Documentation is incorrect.
+
         Args:
             reason (str): Reason for the ban (This is what the user/server sees)
             note (str): Note attached to the ban (Admins/staff can see this)
-            beguid_id (int): The battlemetrics ID for the BEGUID.
-            steamid_id (int): The battlemetrics ID for the STEAMID
-            battlemetrics_id (str): Battlemetrics ID of the banned user
             org_id (str): Organization ID the ban is associated to.
             banlist (str): Banlist the ban is associated to.
             server_id (str): Server ID the ban is associated to.
-            expires (str, optional): Expiration, leave none for permanent. Defaults to None.
-            orgwide (bool, optional): Orgwide or single server?. Defaults to True.
-        Notes:
-            Steamid_id and beguid_id are the ID's that battlemetrics associates with them. Not the ID themselves.
+            expires (str, optional): _description_. Defaults to "permanent".
+            orgwide (bool, optional): _description_. Defaults to True.
+            battlemetrics_id (int, optional): Battlemetrics ID of the banned user.
+            steam_id (int, optional): Steam ID of the banned user.
+
         Returns:
             dict: The results, whether it was successful or not.
         """
+        
         if expires == "permanent":
             expires = None
 
@@ -400,11 +403,25 @@ class Player:
                     }
                 }
         }
+        #Grab the complete profile
+        if not steam_id and not battlemetrics_id:
+            return "Please submit either a STEAM IDENTIFIER or BATTLEMETRICS IDENTIFIER"
+        
+        if steam_id and not battlemetrics_id:
+            #Grab the battlemetrics identifiers from a steam identifier.
+            battlemetrics_identifiers = self.match_identifiers(identifier=steam_id, identifier_type="steamID")
+            #Grab the complete profile from this user.
+            battlemetrics_id = battlemetrics_identifiers['data'][0]['relationships']['player']['data']['id']
+        if battlemetrics_id:
+            player_info = self.info(identifier=battlemetrics_id)
 
-        if steamid_id:
-            data['data']['attributes']['identifiers'].append(int(steamid_id))
-        if beguid_id:
-            data['data']['attributes']['identifiers'].append(int(beguid_id))
+        #Grab the battlemetrics ID's for the users BEGUID and STEAMID
+        for included in player_info['included']:
+            if included['type'] == "identifier":
+                if included['attributes']['type'] == "BEGUID":
+                    data['data']['attributes']['identifiers'].append(int(included['id']))
+                if included['attributes']['type'] == "steamID":
+                    data['data']['attributes']['identifiers'].append(int(included['id']))
         url = f"{self.BASE_URL}/bans"
         return await self.helpers._make_request(method="POST", url=url, data=data)
     
