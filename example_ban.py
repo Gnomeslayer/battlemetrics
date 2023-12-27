@@ -24,4 +24,3 @@ asyncio.run(bmapi.player.add_ban(reason="Document Ban.",
                                               banlist=example_banlist,
                                               server_id=example_server_id,
                                               org_id=example_org_id))
-
