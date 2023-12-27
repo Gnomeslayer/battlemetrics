@@ -1,7 +1,9 @@
 import datetime
-from helpers import Helpers
+from components.helpers import Helpers
 from datetime import datetime, timedelta
 from time import strftime, localtime
+import uuid
+import json
 
 class Player:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
@@ -323,9 +325,10 @@ class Player:
         return await self.helpers._make_request(method="POST", url=url, data=data)
 
     
-    async def add_ban(self, reason: str, note: str, beguid_id: int, steamid_id: int, battlemetrics_id: str, org_id: str, banlist: str, server_id: str,
+    async def add_ban(self, reason: str, note: str, battlemetrics_id: str, org_id: str, banlist: str, server_id: str,
                          expires: str = "permanent",
-                         orgwide: bool = True) -> dict:
+                         orgwide: bool = True,
+                         beguid_id: int = None, steamid_id: int = None) -> dict:
         """Bans a user from your server or organization.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-ban-/bans
         Documentation is incorrect.
@@ -352,7 +355,6 @@ class Player:
             expires = await self.helpers.calculate_future_date(expires)
 
         current_datetime = datetime.now()
-        
         #Not needed.
         #formatted_datetime = current_datetime.strftime('%Y-%m-%dT%H:%M:%S.%fZ')
 
@@ -361,10 +363,11 @@ class Player:
                 {
                     "type": "ban",
                     "attributes": {
+                            "uid":str(uuid.uuid4())[:14],
                             "reason": reason,
                             "note": note,
                             "expires": expires,
-                            "identifiers": [beguid_id, steamid_id],
+                            "identifiers": [],
                             "orgWide": orgwide,
                             "autoAddEnabled": True,
                             "nativeEnabled": None
@@ -398,6 +401,10 @@ class Player:
                 }
         }
 
+        if steamid_id:
+            data['data']['attributes']['identifiers'].append(int(steamid_id))
+        if beguid_id:
+            data['data']['attributes']['identifiers'].append(int(beguid_id))
         url = f"{self.BASE_URL}/bans"
         return await self.helpers._make_request(method="POST", url=url, data=data)
     

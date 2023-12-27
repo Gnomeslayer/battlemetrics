@@ -1,4 +1,4 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Game_Info:

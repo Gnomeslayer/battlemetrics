@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from helpers import Helpers
+from components.helpers import Helpers
 from datetime import datetime
 
 
