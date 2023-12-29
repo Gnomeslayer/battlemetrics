@@ -38,6 +38,7 @@ class Server:
     
     async def search(self, search: str = None, countries: list = None, favorited: bool = False, game: str = None,
                           blacklist: str = None, whitelist: str = None, organization: str = None, rcon: bool = True, server_type: list = None) -> dict:
+        
         """List, search and filter servers.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers
         Args:
@@ -45,8 +46,8 @@ class Server:
             countries (list, optional): Server in a country. Defaults to None.
             favorited (bool, optional): Favorited or not on battlemetrics. Defaults to False.
             game (str, optional): Specific game. Defaults to None.
-            blacklist (str, optional): Blacklisted servers. Defaults to None.
-            whitelist (str, optional): Whitelisted servers. Defaults to None.
+            blacklist (str, optional): Blacklisted servers (comma seperated). Defaults to None.
+            whitelist (str, optional): Whitelisted servers (comma seperated). Defaults to None.
             organization (str, optional): Organization ID. Defaults to None.
             rcon (bool, optional): RCON only. Defaults to False.
             server_type (list, optional): takes a list with any of the following: official, modded, community. Defaults to Non e
@@ -58,7 +59,20 @@ class Server:
         official = "689d22c5-66f4-11ea-8764-b7f50ac8fe2a"
         community = "689d22c6-66f4-11ea-8764-e75bf88ce534"
         modded = "689d22c4-66f4-11ea-8764-ff40d927c47a"
-
+        
+        #New Stuff to add! \o/
+        blueprints = "ce84a17d-a52b-11ee-a465-1798067d9f03" #Boolean
+        pvp = "689d22c2-66f4-11ea-8764-e7fb71d2bf20" #boolean
+        kits = "ce84a17c-a52b-11ee-a465-1fcfab67c57a" #Boolean
+        gamemode = "796542ee-36ed-11ed-873e-631bb6c8148e" #List, standard or hardcore.
+        standard = "7eaae984-36ed-11ed-873e-9b4d5140c855"
+        hardcore = "7eaae985-36ed-11ed-873e-4f5345affee4"
+        mapsize = "689d22c3-66f4-11ea-8764-5723d5d7cfba" #1:9999999
+        grouplimit = "ce84a17e-a52b-11ee-a465-a3c586d9e374" #1:255
+        gatherrate = "ce84a17f-a52b-11ee-a465-33d2d6d4f5ea" #1:255
+        
+        #status = online,offline,dead,invalid
+        
         data = {}
         data['page[size]'] = "100"
         data['include'] = "serverGroup"
@@ -100,7 +114,7 @@ class Server:
                 url += f"?{features}"
 
         return await self.helpers._make_request(method="GET", url=url, data=data)
-
+    
     async def create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:
         """Add a server to the system.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-server-/servers
@@ -464,3 +478,4 @@ class Server:
             "resolution": f"{resolution}"
         }
         return await self.helpers._make_request(method="GET", url=url, data=data)
+
