@@ -36,48 +36,92 @@ class Server:
         url = f"{self.BASE_URL}/servers/{server_id}/relationships/leaderboards/time"
         return await self.helpers._make_request(method="GET", url=url, data=data)
     
-    async def search(self, search: str = None, countries: list = None, favorited: bool = False, game: str = None,
-                          blacklist: str = None, whitelist: str = None, organization: str = None, rcon: bool = True, server_type: list = None) -> dict:
+    async def search(self,*,
+                     search:str = None,
+                     countries:list[str]=None,
+                     game: str = None,
+                     blacklist: list[str] = None,
+                     whitelist: list[str] = None,
+                     organization: str = None,
+                     rcon: bool = True,
+                     server_type:list[str] = None,
+                     game_mode:list[str]=None,
+                     gather_rate_min:int=None,
+                     gather_rate_max:int=None,
+                     group_size_min:int=None,
+                     group_size_max:int=None,
+                     map_size_min:int=None,
+                     map_size_max:int=None,
+                     blueprints:str="both",
+                     pve:str="both",
+                     kits:str="both",
+                     status:bool=True) -> dict:
         
         """List, search and filter servers.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers
         Args:
             search (str, optional): Search for specific server. Defaults to None.
             countries (list, optional): Server in a country. Defaults to None.
-            favorited (bool, optional): Favorited or not on battlemetrics. Defaults to False.
             game (str, optional): Specific game. Defaults to None.
             blacklist (str, optional): Blacklisted servers (comma seperated). Defaults to None.
             whitelist (str, optional): Whitelisted servers (comma seperated). Defaults to None.
             organization (str, optional): Organization ID. Defaults to None.
             rcon (bool, optional): RCON only. Defaults to False.
-            server_type (list, optional): takes a list with any of the following: official, modded, community. Defaults to Non e
+            server_type (list, optional): takes a list with any of the following: official, modded, community. Defaults to None,
+            game_mode (list, optional): standard or hardcore. Defaults to none.
+            gather_rate_min (int, optional): 1 or none.
+            gather_rate_max (int, optional): Max 9999999
+            group_size_min (int, optional): 1 or none.
+            group_size_max (int, optional): Max 255
+            map_size_min (int, optional): 1 or none.
+            map_size_max (int, optional): Max 9999999
+            blueprints (string): Takes 1 of 3 options: True, False or Both. Defaults to both.
+            pvp (string): Takes 1 of 3 options: True, False or Both. Defaults to both.
+            kits (string): Takes 1 of 3 options: True, False or Both. Defaults to both.
+            
         Returns:
             dict: Dictionary response from battlemetrics.
         """
 
         url = f"{self.BASE_URL}/servers"
-        official = "689d22c5-66f4-11ea-8764-b7f50ac8fe2a"
-        community = "689d22c6-66f4-11ea-8764-e75bf88ce534"
-        modded = "689d22c4-66f4-11ea-8764-ff40d927c47a"
+        
+        server_type_uuid = "845b5e50-648f-11ea-aa7c-b3870f9c01b3"
+        server_types = {
+            "official": "689d22c5-66f4-11ea-8764-b7f50ac8fe2a",
+            "community": "689d22c6-66f4-11ea-8764-e75bf88ce534",
+            "modded": "689d22c4-66f4-11ea-8764-ff40d927c47a"
+        }
         
         #New Stuff to add! \o/
-        blueprints = "ce84a17d-a52b-11ee-a465-1798067d9f03" #Boolean
-        pvp = "689d22c2-66f4-11ea-8764-e7fb71d2bf20" #boolean
-        kits = "ce84a17c-a52b-11ee-a465-1fcfab67c57a" #Boolean
-        gamemode = "796542ee-36ed-11ed-873e-631bb6c8148e" #List, standard or hardcore.
-        standard = "7eaae984-36ed-11ed-873e-9b4d5140c855"
-        hardcore = "7eaae985-36ed-11ed-873e-4f5345affee4"
-        mapsize = "689d22c3-66f4-11ea-8764-5723d5d7cfba" #1:9999999
-        grouplimit = "ce84a17e-a52b-11ee-a465-a3c586d9e374" #1:255
-        gatherrate = "ce84a17f-a52b-11ee-a465-33d2d6d4f5ea" #1:255
+        blueprints_uuid = "ce84a17d-a52b-11ee-a465-1798067d9f03" #Boolean
+        pve_uuid = "689d22c2-66f4-11ea-8764-e7fb71d2bf20" #boolean
+        kits_uuid = "ce84a17c-a52b-11ee-a465-1fcfab67c57a" #Boolean
         
-        #status = online,offline,dead,invalid
         
+        
+        #Gamemode
+        gamemode_uuid = "796542ee-36ed-11ed-873e-631bb6c8148e" #List, standard or hardcore.
+        game_modes = {
+            "standard": "7eaae984-36ed-11ed-873e-9b4d5140c855",
+            "hardcore": "7eaae985-36ed-11ed-873e-4f5345affee4" 
+        }
+        
+        
+        mapsize_uuid = "689d22c3-66f4-11ea-8764-5723d5d7cfba" #1:9999999
+        grouplimit_uuid = "ce84a17e-a52b-11ee-a465-a3c586d9e374" #1:255
+        gatherrate_uuid = "ce84a17f-a52b-11ee-a465-33d2d6d4f5ea" #1:255
+
+    
         data = {}
         data['page[size]'] = "100"
         data['include'] = "serverGroup"
-        # data['filter[favorites]'] = str(favorited).lower()
         data['filter[rcon]'] = str(rcon).lower()
+        
+        if not status:
+            data['filter[status]'] = "offline,dead,invalid"
+        else:
+            data['filter[status]'] = "true"
+            
         if search:
             data["filter[search]"] = search
         if countries:
@@ -90,29 +134,49 @@ class Server:
             data["filter[ids][whitelist]"] = whitelist
         if organization:
             data["filter[organizations]"] = int(organization)
+            
+        if group_size_min or group_size_max:
+            data[f"filter[features][{grouplimit_uuid}]"] = f"{group_size_min}:{group_size_max}"
+            
+        if map_size_min or map_size_max:
+            data[f"filter[features][{mapsize_uuid}]"] = f"{map_size_min}:{map_size_max}"
+            
+        if gather_rate_min or gather_rate_max:
+            data[f"filter[features][{gatherrate_uuid}]"] = f"{gather_rate_min}:{gather_rate_max}"
+            
+        if blueprints.lower() == "true" or blueprints.lower() == "false":
+            data[f"filter[features][{blueprints_uuid}]"] = f"{blueprints}"
+            
+        if pve.lower() == "true" or pve.lower() == "false":
+            data[f"filter[features][{pve_uuid}]"] = f"{pve}"
+            
+        if kits.lower() == "true" or kits.lower() == "false":
+            data[f"filter[features][{kits_uuid}]"] = f"{kits}"
+        
+          
         if server_type:
             count = 0
             features = None
             for ServerType in server_type:
-                if ServerType.lower() == "official":
-                    if features:
-                        features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={official}"
-                    else:
-                        features = f"filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={official}"
-                elif ServerType.lower() == "community":
-                    if features:
-                        features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={community}"
-                    else:
-                        features = f"filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={community}"
-                elif ServerType.lower() == "modded":
-                    if features:
-                        features += f"&filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={modded}"
-                    else:
-                        features = f"filter[features][845b5e50-648f-11ea-aa7c-b3870f9c01b3][or][{count}]={modded}"
+                if features:
+                    features += f"&filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower]}"
+                else:
+                    features = f"filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower]}"
                 count += 1
             if features:
                 url += f"?{features}"
-
+        
+        if game_mode:
+            count = 0
+            features = None
+            for mode in game_mode:
+                if features:
+                    features += f"&filter[features][{gamemode_uuid}][or][{count}]={game_modes[mode.lower]}"
+                else:
+                    features = f"filter[features][{gamemode_uuid}][or][{count}]={game_modes[mode.lower]}"
+                count += 1
+            if features:
+                url += f"?{features}"
         return await self.helpers._make_request(method="GET", url=url, data=data)
     
     async def create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:

@@ -31,7 +31,7 @@ class Player:
         url = f"{self.BASE_URL}/servers/{server_id}/player-count-history"
         data = {
             "start": start_time,
-            "end": end_time,
+            "stop": end_time,
             "resolution": resolution
         }
         return await self.helpers._make_request(method="GET", url=url, data=data)
@@ -241,7 +241,7 @@ class Player:
             "include": "playerFlag"
         }
         url = f"{self.BASE_URL}/players/{player_id}/relationships/flags"
-        return await self.helpers.make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, data=data)
 
     async def delete_flag(self, player_id: int, flag_id: str) -> dict:
         """Deletes a targeted flag from a targeted player ID
