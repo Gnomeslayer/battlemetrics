@@ -9,32 +9,6 @@ class Player:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
-
-    async def count_history(self, server_id: int, start_time: str = None, end_time: str = None, resolution: str = "raw") -> dict:
-        """Player Count History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/player-count-history
-        Args:
-            server_id (int): The server ID
-            start_time (str, optional): The UTC start time. Defaults to 1 day ago.
-            end_time (str, optional): The UTC end time. Defaults to today/now.
-            resolution (str, optional): One of: "raw" or "30" or "60" or "1440". Defaults to "raw"
-        Returns:
-            dict: A datapoint of the player count history.
-        """
-
-        if not start_time:
-            now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=1)
-            start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
-        if not end_time:
-            end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/player-count-history"
-        data = {
-            "start": start_time,
-            "stop": end_time,
-            "resolution": resolution
-        }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
     
     async def identifiers(self, player_id: int) -> dict:
         """Get player identifiers and related players and identifiers.
@@ -202,7 +176,7 @@ class Player:
         if filter_server:
             data["filter[servers]"] = filter_server
         if filter_organization:
-            data["filter[organization]"] = filter_organization
+            data["filter[organizations]"] = filter_organization
         return await self.helpers._make_request(method="GET", url=url, data=data)
 
     async def add_flag(self, player_id: int, flag_id: str = None) -> dict:
