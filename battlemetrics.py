@@ -11,7 +11,6 @@ from components.organization import Organization
 from components.game_info import Game_Info
 from components.bans import Bans
 
-
 class Battlemetrics:
     """Sets up the wrapper.
 
@@ -119,5 +118,5 @@ class Battlemetrics:
             data['filter[search]'] = filter_search
         if filter_bmid:
             data['filter[players]'] = filter_bmid
-
+        
         return await self.helpers._make_request(method="GET", url=url, data=data)

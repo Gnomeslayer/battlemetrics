@@ -1,10 +1,11 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Flags:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.BASE_URL = BASE_URL
         self.helpers = helpers
+
 
     async def create(self, color: str, description: str, icon_name: str, flag_name: str, organization_id: int, user_id: int) -> dict:
         """Create a new flag

@@ -1,10 +1,11 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Session:
     def __init__(self, BASE_URL: str, helpers: Helpers) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
+
 
     async def info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
         """Returns the session information for the targeted server, game or organization.

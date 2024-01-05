@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from helpers import Helpers
+from components.helpers import Helpers
 from datetime import datetime
 
 
@@ -8,6 +8,7 @@ class Bans:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
+
 
     async def delete(self, banid: str) -> dict:
         """Deletes a ban.

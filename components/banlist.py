@@ -1,10 +1,11 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Ban_List:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
+
 
     async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
         """Creates an invite to 

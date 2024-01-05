@@ -2,6 +2,7 @@
 
 This repository provides a Python wrapper for the Battlemetrics API, allowing users to easily access and interact with Battlemetrics data.
 
+
 # Disclaimer
 Please note that I am an individual member of the community and not affiliated with Battlemetrics. The resources provided here are developed to facilitate the usage of the Battlemetrics API but come with no official endorsement or sponsorship from Battlemetrics.
 

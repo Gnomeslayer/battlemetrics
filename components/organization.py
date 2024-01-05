@@ -1,6 +1,6 @@
 import datetime
 import uuid
-from helpers import Helpers
+from components.helpers import Helpers
 from datetime import datetime, timedelta
 from time import strftime, localtime
 
@@ -8,6 +8,7 @@ class Organization:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
+
 
     async def info(self, organization_id: int) -> dict:
         """Returns an organizations profile.

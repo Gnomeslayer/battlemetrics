@@ -1,10 +1,11 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Game_Info:
     def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
         self.helpers = helpers
         self.BASE_URL = BASE_URL
+
 
     async def features(self, game: str = None) -> dict:
         """Lists the game features for the specified game

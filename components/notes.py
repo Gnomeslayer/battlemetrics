@@ -1,10 +1,11 @@
-from helpers import Helpers
+from components.helpers import Helpers
 
 
 class Notes:
     def __init__(self, BASE_URL: str, helpers: Helpers) -> None:
         self.BASE_URL = BASE_URL
         self.helpers = helpers
+
 
     async def delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
