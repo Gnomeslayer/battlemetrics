@@ -407,7 +407,7 @@ class Ban_List:
             "include": "organization,owner,server"
         }
         banlists = await self.helpers._make_request(method="GET", url=url, data=data)
-        for banlist in banlists:
+        for banlist in banlists['data']:
             if banlist['id'] == banlist_id:
                 return banlist
         return banlists
