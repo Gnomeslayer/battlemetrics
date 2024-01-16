@@ -100,7 +100,22 @@ class Helpers:
                     "You're being rate limited by the API. Please wait a minute before trying again.")
                 return
 
+            content_type = response_content.headers.get('content-type', '')
+
+            if 'json' in content_type:
+                try:
+                    response = await response_content.json()
+                except:
+                    response = self.exception_handler(response_content)
+            elif 'octet-stream' in content_type:
+                response = await self._parse_octet_stream(await r.content.read())
+            elif "text/html" in content_type:
+                response = await r.text()
+                response = response.replace("'", "").replace("b", "")
             else:
+                raise Exception(
+                    f"Unsupported content type: {content_type}")
+        return response
 
     async def exception_handler(self, response_content):
         json_string = response_content.decode('utf-8')
