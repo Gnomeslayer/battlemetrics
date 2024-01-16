@@ -95,6 +95,11 @@ class Helpers:
                 async with session.request(method=method, url=url, params=data) as r:
                     response_content = await r.content.read()
 
+            if response_content.status == '429':
+                print(
+                    "You're being rate limited by the API. Please wait a minute before trying again.")
+                return
+
             else:
 
     async def exception_handler(self, response_content):
