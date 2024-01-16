@@ -88,37 +88,13 @@ class Helpers:
         async with aiohttp.ClientSession(headers=self.headers) as session:
             response = None
             response_content = None
+            if method in ["POST", "PATCH"]:
                 async with session.request(method=method, url=url, json=data) as r:
                     response_content = await r.content.read()
-                    if r.status == '429':
-                        print(
-                            "You're being rate limited by the API. Please wait a minute before trying again.")
-                        return
-                    try:
-                        response = json.loads(response_content)
-                    except:
-                        json_string = response_content.decode('utf-8')
-                        json_dict = None
-                        loops = 0
-                        while not json_dict:
-                            if loops == 100000:
-                                print("Loop count reached..")
-                                break
-                            try:
-                                json_dict = json.loads(json_string)
-                            except json.decoder.JSONDecodeError as e:
-                                expecting = e.args[0].split()[1]
-                                expecting.replace("'", "")
-                                expecting.replace("\"", "")
-                                if len(expecting) == 3:
-                                    expecting = expecting.replace("'", "")
-                                else:
-                                    expecting = expecting.split()
-                                    expecting = f"\"{expecting[0]}\":"
-                                json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
-                            loops += 1
-                        response = json_dict
-                    return response
+            else:
+                async with session.request(method=method, url=url, params=data) as r:
+                    response_content = await r.content.read()
+
             else:
 
     async def exception_handler(self, response_content):
