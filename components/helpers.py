@@ -120,45 +120,26 @@ class Helpers:
                         response = json_dict
                     return response
             else:
-                async with session.request(method=method, url=url, params=data) as r:
-                    content_type = r.headers.get('content-type', '')
-                    if r.status == '429':
-                        print(
-                            "You're being rate limited by the API. Please wait a minute before trying again.")
-                        return
-                    if 'json' in content_type:
-                        try:
-                            response = await r.json()
-                        except:
-                            json_string = response_content.decode('utf-8')
-                            json_dict = None
-                            loops = 0
-                            while not json_dict:
-                                if loops == 100000:
-                                    print("Loop count reached..")
-                                    break
-                                try:
-                                    json_dict = json.loads(json_string)
-                                except json.decoder.JSONDecodeError as e:
-                                    expecting = e.args[0].split()[1]
-                                    expecting.replace("'", "")
-                                    expecting.replace("\"", "")
-                                    if len(expecting) == 3:
-                                        expecting = expecting.replace("'", "")
-                                    else:
-                                        expecting = expecting.split()
-                                        expecting = f"\"{expecting[0]}\":"
-                                    json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
-                                loops += 1
-                            response = json_dict
-                    elif 'octet-stream' in content_type:
-                        response = await self._parse_octet_stream(await r.content.read())
-                    elif "text/html" in content_type:
-                        response = await r.content.read()
-                        response = str(response)
-                        response = response.replace("'", "")
-                        response = response.replace("b", "")
-                    else:
-                        raise Exception(
-                            f"Unsupported content type: {content_type}")
-        return response
+
+    async def exception_handler(self, response_content):
+        json_string = response_content.decode('utf-8')
+        json_dict = None
+        loops = 0
+        while not json_dict:
+            if loops == 100000:
+                print("Loop count reached..")
+                break
+            try:
+                json_dict = json.loads(json_string)
+            except json.decoder.JSONDecodeError as e:
+                expecting = e.args[0].split()[1]
+                expecting.replace("'", "")
+                expecting.replace("\"", "")
+                if len(expecting) == 3:
+                    expecting = expecting.replace("'", "")
+                else:
+                    expecting = expecting.split()
+                    expecting = f"\"{expecting[0]}\":"
+                json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
+            loops += 1
+        return json_dict
