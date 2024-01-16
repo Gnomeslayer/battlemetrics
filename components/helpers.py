@@ -7,8 +7,7 @@ import aiohttp
 
 
 class Helpers:
-    
-    
+
     def __init__(self, api_key: str) -> None:
         self.headers = {"Authorization": f"Bearer {api_key}"}
 
@@ -46,7 +45,6 @@ class Helpers:
     async def _replace_char_at_position(self, input_string, position, new_character):
         return input_string[:position] + new_character + input_string[position + 1:]
 
-    
     async def calculate_future_date(input_string):
         # Extract the numeric part and unit from the input string
         number = int(input_string[:-1])
@@ -83,7 +81,7 @@ class Helpers:
         Returns:
             dict: The response from the server.
         """
-        
+
         async with aiohttp.ClientSession(headers=self.headers) as session:
             response = None
             response_content = None
