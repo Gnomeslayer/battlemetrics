@@ -72,7 +72,6 @@ class Helpers:
         else:
             return None
 
-    
     async def _make_request(self, method: str, url: str, data: dict = None) -> dict:
         """Queries the API and spits out the response.
         Args:
