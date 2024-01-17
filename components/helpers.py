@@ -86,21 +86,22 @@ class Helpers:
             response = None
             response_content = None
             response_status = None
+            content_type = None
             if method in ["POST", "PATCH"]:
                 async with session.request(method=method, url=url, json=data) as r:
                     response_content = await r.content.read()
                     response_status = r.status
+                    content_type = r.headers.get('content-type', '')
             else:
                 async with session.request(method=method, url=url, params=data) as r:
                     response_content = await r.content.read()
                     response_status = r.status
+                    content_type = r.headers.get('content-type', '')
 
             if response_status == '429':
                 print(
                     "You're being rate limited by the API. Please wait a minute before trying again.")
                 return
-
-            content_type = response_content.headers.get('content-type', '')
 
             if 'json' in content_type:
                 try:
