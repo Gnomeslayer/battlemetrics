@@ -95,7 +95,7 @@ class Helpers:
                     response_content = await r.content.read()
                     response_status = r.status
 
-            if response_content.status == '429':
+            if response_status == '429':
                 print(
                     "You're being rate limited by the API. Please wait a minute before trying again.")
                 return
