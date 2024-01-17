@@ -85,12 +85,15 @@ class Helpers:
         async with aiohttp.ClientSession(headers=self.headers) as session:
             response = None
             response_content = None
+            response_status = None
             if method in ["POST", "PATCH"]:
                 async with session.request(method=method, url=url, json=data) as r:
                     response_content = await r.content.read()
+                    response_status = r.status
             else:
                 async with session.request(method=method, url=url, params=data) as r:
                     response_content = await r.content.read()
+                    response_status = r.status
 
             if response_content.status == '429':
                 print(
