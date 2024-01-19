@@ -38,7 +38,7 @@ class Notes:
         }
         if filter_personal:
             data["filter[personal]"] = str(filter_personal).lower()
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
 
     async def update(self, player_id: int, note_id: str, note: str, shared: bool, append: bool = False) -> dict:
@@ -69,7 +69,7 @@ class Notes:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, data=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json=data)
 
 
     async def info(self, player_id: int, note_id: str) -> dict:

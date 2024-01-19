@@ -3308,9 +3308,9 @@
                 "address": "eusolo.rustafied.com",
                 "ip": "64.40.9.138",
                 "port": 28015,
-                "players": 69,
+                "players": 148,
                 "maxPlayers": 150,
-                "rank": 199,
+                "rank": 226,
                 "location": [
                     -0.093,
                     51.5088
@@ -3319,60 +3319,60 @@
                 "details": {
                     "tags": [
                         "mp150",
-                        "cp71",
+                        "cp149",
                         "ptrak",
-                        "qp0",
+                        "qp33",
                         "v2516",
                         "biweekly",
                         "vanilla",
                         "eu",
                         "rs00kW(0rAi40Ixz[0Q#q*",
-                        "h99064828",
+                        "ha534670a",
                         "stok",
-                        "born1704393905",
+                        "born1705589857",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "rustmaps"
                     ],
                     "official": true,
                     "rust_type": "official",
                     "map": "Rustafied Custom Map",
                     "environment": "w",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 192508,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 123866,
                     "rust_fps": 40,
-                    "rust_fps_avg": 40,
-                    "rust_gc_cl": 570,
-                    "rust_gc_mb": 3177,
-                    "rust_hash": "99064828",
+                    "rust_fps_avg": 39.97,
+                    "rust_gc_cl": 565,
+                    "rust_gc_mb": 2643,
+                    "rust_hash": "a534670a",
                     "rust_headerimage": "https://cdn.rustafied.systems/server-header-images/EU SOLO.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 30873,
+                    "rust_uptime": 12192,
                     "rust_url": "https://forum.rustafied.com/store/product/52-eu-solo/",
-                    "rust_world_seed": 1830675452,
-                    "rust_world_size": 3000,
-                    "rust_world_levelurl": "https://cdn.rustamaps.com/2024-01-04_Rustafied.com_-_EU_Solo.map",
+                    "rust_world_seed": 581036237,
+                    "rust_world_size": 3250,
+                    "rust_world_levelurl": "https://cdn.rustamaps.com/2024-01-18_Rustafied.com_-_EU_Solo.map",
                     "rust_maps": {
-                        "seed": 1830675452,
-                        "size": 3000,
-                        "url": "https://rustmaps.com/map/95ca1b4f4888459294487346c4fe2ebb",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/95ca1b4f4888459294487346c4fe2ebb/thumbnail.png",
-                        "monuments": 129,
+                        "seed": 581036237,
+                        "size": 3250,
+                        "url": "https://rustmaps.com/map/bc1010c76af54d9ca5af1fbad4092f1c",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/bc1010c76af54d9ca5af1fbad4092f1c/thumbnail.png",
+                        "monuments": 130,
                         "barren": false,
-                        "updatedAt": "2024-01-17T13:49:54.082Z",
-                        "mapUrl": "https://cdn.rustamaps.com/2024-01-04_Rustafied.com_-_EU_Solo.map"
+                        "updatedAt": "2024-01-19T09:15:24.859Z",
+                        "mapUrl": "https://cdn.rustamaps.com/2024-01-18_Rustafied.com_-_EU_Solo.map"
                     },
-                    "rust_description": "Wipe: Biweekly on Thursdays @ 3PM London time (or when forced)\nBase Pop: 150 players | Map size: 3000 | BP Wipe: Monthly\n\n\\tREPORT A PLAYER: my.rustafied.com or in-game using /report\n\n\\tSTORE: rustafied.com/store\\t\\t|\\tSUPPORT: rustafied.com/support\n\\tRULES: rustafied.com/solo\\t\\t|\\tDISCORD: discord.gg/rustafied\n\nWhat to expect:\n\\t- High quality gameplay and player experience\n\\t- Player based map voting for upcoming wipes\n\\t- Custom anti-cheat and active server moderation\n\\t- Hosted on the highest-end server infrastructure available",
+                    "rust_description": "Wipe: Biweekly on Thursdays @ 3PM London time (or when forced)\nBase Pop: 150 players | Map size: 3250 | BP Wipe: Monthly\n\n\\tREPORT A PLAYER: my.rustafied.com or in-game using /report\n\n\\tSTORE: rustafied.com/store\\t\\t|\\tSUPPORT: rustafied.com/support\n\\tRULES: rustafied.com/solo\\t\\t|\\tDISCORD: discord.gg/rustafied\n\nWhat to expect:\n\\t- High quality gameplay and player experience\n\\t- Player based map voting for upcoming wipes\n\\t- Custom anti-cheat and active server moderation\n\\t- Hosted on the highest-end server infrastructure available",
                     "rust_modded": false,
-                    "rust_queued_players": 0,
+                    "rust_queued_players": 33,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-04T18:45:05.000Z",
-                    "rust_last_ent_drop": "2024-01-04T18:50:12.716Z",
-                    "rust_last_seed_change": "2024-01-04T18:50:12.716Z",
-                    "rust_last_wipe": "2024-01-04T18:50:12.716Z",
-                    "rust_last_wipe_ent": 49551,
+                    "rust_born": "2024-01-18T14:57:37.000Z",
+                    "rust_last_ent_drop": "2024-01-18T14:59:43.201Z",
+                    "rust_last_seed_change": "2024-01-18T14:59:43.201Z",
+                    "rust_last_wipe": "2024-01-18T14:59:43.201Z",
+                    "rust_last_wipe_ent": 58624,
                     "rust_settings_source": "user",
                     "rust_settings": {
                         "version": 3,
@@ -3410,10 +3410,6 @@
                     },
                     "rust_wipes": [
                         {
-                            "type": "map",
-                            "timestamp": "2024-01-18T15:00:00.000Z"
-                        },
-                        {
                             "type": "full",
                             "timestamp": "2024-02-01T19:00:00.000Z"
                         },
@@ -3422,15 +3418,15 @@
                             "timestamp": "2024-02-15T15:00:00.000Z"
                         }
                     ],
-                    "rust_next_wipe": "2024-01-18T15:00:00.000Z",
-                    "rust_next_wipe_map": "2024-01-18T15:00:00.000Z",
+                    "rust_next_wipe": "2024-02-01T19:00:00.000Z",
+                    "rust_next_wipe_map": "2024-02-01T19:00:00.000Z",
                     "rust_next_wipe_bp": "2024-02-01T19:00:00.000Z",
                     "rust_next_wipe_full": "2024-02-01T19:00:00.000Z",
-                    "serverSteamId": "90179658765593606"
+                    "serverSteamId": "90179704653341702"
                 },
                 "private": false,
                 "createdAt": "2017-08-31T16:23:58.554Z",
-                "updatedAt": "2024-01-17T14:39:55.805Z",
+                "updatedAt": "2024-01-19T09:31:36.195Z",
                 "portQuery": 28018,
                 "country": "GB",
                 "queryStatus": "valid"
@@ -3453,9 +3449,9 @@
                 "address": null,
                 "ip": "64.40.8.96",
                 "port": 28010,
-                "players": 5,
+                "players": 0,
                 "maxPlayers": 150,
-                "rank": 1229,
+                "rank": 1192,
                 "location": [
                     -96.8704,
                     32.8137
@@ -3464,7 +3460,7 @@
                 "details": {
                     "tags": [
                         "mp150",
-                        "cp5",
+                        "cp0",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -3483,17 +3479,17 @@
                     "map": "Rusticated Generated Maps",
                     "environment": "w",
                     "rust_build": "91458",
-                    "rust_ent_cnt_i": 65642,
-                    "rust_fps": 17,
-                    "rust_fps_avg": 39.43,
-                    "rust_gc_cl": 681,
-                    "rust_gc_mb": 3777,
+                    "rust_ent_cnt_i": 66537,
+                    "rust_fps": 40,
+                    "rust_fps_avg": 40,
+                    "rust_gc_cl": 1283,
+                    "rust_gc_mb": 4318,
                     "rust_hash": "12fd6e5b",
                     "rust_headerimage": "https://cdn.discordapp.com/attachments/375878034496028672/475052886338961419/banner_512x256.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 67369,
+                    "rust_uptime": 221689,
                     "rust_url": "https://rusticated.com/link/",
                     "rust_world_seed": 2019562663,
                     "rust_world_size": 3500,
@@ -3505,7 +3501,7 @@
                         "thumbnailUrl": "https://content.rustmaps.com/maps/244/cc9ddbd6d5d046c7815fb71a24aeaff1/thumbnail.png",
                         "monuments": 161,
                         "barren": false,
-                        "updatedAt": "2024-01-17T14:13:25.611Z",
+                        "updatedAt": "2024-01-19T08:35:38.813Z",
                         "mapUrl": "https://maps.rustmaps.com/244/f3fbbf05ff504311bb7dab32982a69c0/procedural__3500_dgDUlqafoUet8K7zgClRuw.map"
                     },
                     "rust_description": "Wipes: Saturday @ 1PM ET & Tuesday @ 3PM ET, Bps wipe on force wipe\nPurchase Kits at: www.rusticated.com/vip\nDiscord: rusticated.com/discord\n\nUse /rules to see our rules\n\n Swapping Rules:\n- Remove all bags/beds for the players that is leaving \n- Change codes ( If you don't change codes you can potentially be banned for authorizing more than 3) \n- Clear TC \n- Player that is leaving can not return to your group for the rest of wipe \n\n- Communications may be recorded for rule enforcement, gameplay improvement, and issue resolution. By joining and playing, you consent to recording in accordance with applicable laws. Opt-out by not joining or leaving.",
@@ -3518,11 +3514,107 @@
                     "rust_last_wipe": "2024-01-04T18:56:30.420Z",
                     "rust_map_size_ent_count": "2018-07-28T17:03:41.711Z",
                     "rust_last_wipe_ent": 62495,
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "full",
+                        "groupLimit": 3,
+                        "teamUILimit": 3,
+                        "kits": true,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TU"
+                                ],
+                                "hour": 15,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            },
+                            {
+                                "days": [
+                                    "SA"
+                                ],
+                                "hour": 13,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/New_York",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-20T18:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-23T20:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-27T18:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-30T20:00:00.000Z"
+                        },
+                        {
+                            "type": "full",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-03T18:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-06T20:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-10T18:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-13T20:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-17T18:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-20T18:00:00.000Z",
+                    "rust_next_wipe_map": "2024-01-20T18:00:00.000Z",
+                    "rust_next_wipe_bp": "2024-02-01T19:00:00.000Z",
+                    "rust_next_wipe_full": "2024-02-01T19:00:00.000Z",
                     "serverSteamId": "90179640715581468"
                 },
                 "private": false,
                 "createdAt": "2018-06-16T01:09:24.658Z",
-                "updatedAt": "2024-01-17T14:38:36.886Z",
+                "updatedAt": "2024-01-19T09:30:50.989Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -3541,13 +3633,13 @@
             "id": "2522221",
             "attributes": {
                 "id": "2522221",
-                "name": "[US] Stevious 2x | Solo/Duo/Trio | 1/11",
+                "name": "[US] Stevious 2x | Solo/Duo/Trio | 1/18",
                 "address": null,
                 "ip": "205.234.243.2",
                 "port": 28010,
-                "players": 4,
-                "maxPlayers": 250,
-                "rank": 98,
+                "players": 232,
+                "maxPlayers": 480,
+                "rank": 212,
                 "location": [
                     -87.6288,
                     41.8486
@@ -3555,19 +3647,19 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp250",
-                        "cp4",
+                        "mp480",
+                        "cp232",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "weekly",
                         "vanilla",
                         "NA",
-                        "h12fd6e5b",
+                        "h5a346290",
                         "stok",
-                        "born1705006765",
+                        "born1705611580",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "rustmaps",
                         "oxide",
                         "modded"
@@ -3576,42 +3668,42 @@
                     "rust_type": "modded",
                     "map": "Custom Map",
                     "environment": "w",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 207309,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 184234,
                     "rust_fps": 30,
                     "rust_fps_avg": 30,
-                    "rust_gc_cl": 299,
-                    "rust_gc_mb": 3314,
-                    "rust_hash": "12fd6e5b",
+                    "rust_gc_cl": 866,
+                    "rust_gc_mb": 4752,
+                    "rust_hash": "5a346290",
                     "rust_headerimage": "https://www.stevious.io/svr_images/Stevious_2x_Background_1.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 11188,
+                    "rust_uptime": 45203,
                     "rust_url": "https://stevious.io/",
-                    "rust_world_seed": 564688512,
+                    "rust_world_seed": 446877184,
                     "rust_world_size": 3800,
-                    "rust_world_levelurl": "https://maps.rustmaps.com/244/dd61c0b72a0041f58dacf106e22e2567/ms-Efo4noE2oqIlrAkoPtQ/stevious_trio_3800_564688512v1.map",
+                    "rust_world_levelurl": "https://maps.rustmaps.com/244/51d119baea38443183e909eccaf28620/Nbf1kWzugkeO8_f4mrr4cw/stevious_trio_3800_446877184v1.map",
                     "rust_maps": {
-                        "seed": 564688512,
+                        "seed": 446877184,
                         "size": 3800,
-                        "url": "https://rustmaps.com/map/70e1d763506f4b9091fa36c3a8a17e66",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/70e1d763506f4b9091fa36c3a8a17e66/thumbnail.png",
-                        "monuments": 114,
+                        "url": "https://rustmaps.com/map/cbc0cd719dd945bcbbf48c21b2cd8ef5",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/cbc0cd719dd945bcbbf48c21b2cd8ef5/thumbnail.png",
+                        "monuments": 123,
                         "barren": false,
-                        "updatedAt": "2024-01-17T12:05:02.890Z",
-                        "mapUrl": "https://maps.rustmaps.com/244/dd61c0b72a0041f58dacf106e22e2567/ms-Efo4noE2oqIlrAkoPtQ/stevious_trio_3800_564688512v1.map"
+                        "updatedAt": "2024-01-19T09:21:11.242Z",
+                        "mapUrl": "https://maps.rustmaps.com/244/51d119baea38443183e909eccaf28620/Nbf1kWzugkeO8_f4mrr4cw/stevious_trio_3800_446877184v1.map"
                     },
                     "rust_description": "Max Teamsize: 3 players (Includes players offline)\n\nVisit https://stevious.io for VIP (Queue Skip) and Rules / Discord information.\n\nWeekly wipes and the following modifications: \n\n2x Gather Rates (2.5x for Sulfur and Wood) \nHalf smelt and crafting speeds (Vanilla for raiding items) \nBuilding and Level 1 Workbench blueprints unlocked \nComponent System loot tables (Junk items removed)",
                     "rust_modded": true,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-11T20:59:25.000Z",
-                    "rust_last_ent_drop": "2024-01-11T21:01:35.772Z",
-                    "rust_last_seed_change": "2024-01-11T21:01:35.772Z",
-                    "rust_last_wipe": "2024-01-11T21:01:35.772Z",
+                    "rust_born": "2024-01-18T20:59:40.000Z",
+                    "rust_last_ent_drop": "2024-01-18T21:05:13.070Z",
+                    "rust_last_seed_change": "2024-01-18T21:05:13.070Z",
+                    "rust_last_wipe": "2024-01-18T21:05:13.070Z",
                     "rust_map_size_ent_count": "2018-08-02T11:33:21.710Z",
-                    "rust_last_wipe_ent": 48213,
+                    "rust_last_wipe_ent": 49283,
                     "rust_settings_source": "user",
                     "rust_settings": {
                         "version": 3,
@@ -3650,10 +3742,6 @@
                     "rust_wipes": [
                         {
                             "type": "map",
-                            "timestamp": "2024-01-18T21:00:00.000Z"
-                        },
-                        {
-                            "type": "map",
                             "timestamp": "2024-01-25T21:00:00.000Z"
                         },
                         {
@@ -3669,15 +3757,15 @@
                             "timestamp": "2024-02-15T21:00:00.000Z"
                         }
                     ],
-                    "rust_next_wipe": "2024-01-18T21:00:00.000Z",
-                    "rust_next_wipe_map": "2024-01-18T21:00:00.000Z",
+                    "rust_next_wipe": "2024-01-25T21:00:00.000Z",
+                    "rust_next_wipe_map": "2024-01-25T21:00:00.000Z",
                     "rust_next_wipe_bp": "2024-02-01T19:00:00.000Z",
                     "rust_next_wipe_full": "2024-02-01T19:00:00.000Z",
-                    "serverSteamId": "90179664738200600"
+                    "serverSteamId": "90179697181044760"
                 },
                 "private": false,
                 "createdAt": "2018-07-31T16:38:43.772Z",
-                "updatedAt": "2024-01-17T14:36:55.640Z",
+                "updatedAt": "2024-01-19T09:33:11.418Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -3700,9 +3788,9 @@
                 "address": null,
                 "ip": "45.88.228.58",
                 "port": 28015,
-                "players": 48,
-                "maxPlayers": 250,
-                "rank": 70,
+                "players": 152,
+                "maxPlayers": 300,
+                "rank": 145,
                 "location": [
                     -96.8336,
                     32.7908
@@ -3710,18 +3798,18 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp250",
-                        "cp47",
+                        "mp300",
+                        "cp150",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "weekly",
                         "vanilla",
-                        "h2097cfc5",
+                        "hf89cba59",
                         "stok",
-                        "born1705003119",
+                        "born1705607943",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "oxide",
                         "rustmaps"
                     ],
@@ -3729,47 +3817,104 @@
                     "rust_type": "official",
                     "map": "Reddit Maps",
                     "environment": "l",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 160699,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 130063,
                     "rust_fps": 30,
-                    "rust_fps_avg": 29.97,
-                    "rust_gc_cl": 320,
-                    "rust_gc_mb": 4397,
-                    "rust_hash": "2097cfc5",
+                    "rust_fps_avg": 29.98,
+                    "rust_gc_cl": 679,
+                    "rust_gc_mb": 4394,
+                    "rust_hash": "f89cba59",
                     "rust_headerimage": "https://cdn.discordapp.com/attachments/634346569029910549/877729276655444008/unknown.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 84964,
+                    "rust_uptime": 48713,
                     "rust_url": "https://reddit.com/r/playrust",
                     "rust_world_seed": 1337,
-                    "rust_world_size": 3600,
-                    "rust_world_levelurl": "https://maps.rustmaps.com/244/e3e2134d4b5a4e05ba11519794516015/RedditMap_3600_1825135353_01-09-2024.map",
+                    "rust_world_size": 3800,
+                    "rust_world_levelurl": "https://maps.rustmaps.com/244/257ceecb574e4d67977bcd7241c559e0/RedditMaps_3800_728052769_01-16-2024.map",
                     "rust_maps": {
                         "seed": 1337,
-                        "size": 3600,
-                        "url": "https://rustmaps.com/map/1826aa7576c242e1936f27d230414690",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/1826aa7576c242e1936f27d230414690/thumbnail.png",
-                        "monuments": 162,
+                        "size": 3800,
+                        "url": "https://rustmaps.com/map/da3f85d0d00e4945b40fd3bbd616bede",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/da3f85d0d00e4945b40fd3bbd616bede/thumbnail.png",
+                        "monuments": 148,
                         "barren": false,
-                        "updatedAt": "2024-01-17T12:05:23.139Z",
-                        "mapUrl": "https://maps.rustmaps.com/244/e3e2134d4b5a4e05ba11519794516015/RedditMap_3600_1825135353_01-09-2024.map"
+                        "updatedAt": "2024-01-19T08:33:23.822Z",
+                        "mapUrl": "https://maps.rustmaps.com/244/257ceecb574e4d67977bcd7241c559e0/RedditMaps_3800_728052769_01-16-2024.map"
                     },
                     "rust_description": "Welcome to Reddit's official /r/PlayRust US Main server! \n - No cheating or exploiting. \n - No spam, racism/slurs, discrimination. \n - No Rust gamebans on previous accounts. \n \n VIP: vip.redditplayrust.com \n Rules & Support: redditplayrust.com \n Discord: discord.gg/playrust \n Weekly Map: Thursdays @ 3PM EST / BP Wipe @ Forced",
                     "rust_modded": false,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-11T19:58:39.000Z",
+                    "rust_born": "2024-01-18T19:59:03.000Z",
                     "rust_last_ent_drop": "2024-01-11T19:59:01.955Z",
                     "rust_last_seed_change": "2021-10-28T18:55:36.471Z",
                     "rust_last_wipe": "2024-01-11T19:59:01.955Z",
                     "rust_map_size_ent_count": "2019-08-08T20:15:06.124Z",
                     "rust_last_wipe_ent": 67909,
-                    "serverSteamId": "90179636406540293"
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "full",
+                        "groupLimit": 999999,
+                        "teamUILimit": 999999,
+                        "kits": false,
+                        "rates": {
+                            "component": 1,
+                            "craft": 1,
+                            "gather": 1,
+                            "scrap": 1
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TH"
+                                ],
+                                "hour": 15,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/New_York",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-25T20:00:00.000Z"
+                        },
+                        {
+                            "type": "full",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-08T20:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-15T20:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-25T20:00:00.000Z",
+                    "rust_next_wipe_map": "2024-01-25T20:00:00.000Z",
+                    "rust_next_wipe_bp": "2024-02-01T19:00:00.000Z",
+                    "rust_next_wipe_full": "2024-02-01T19:00:00.000Z",
+                    "serverSteamId": "90179696544004101"
                 },
                 "private": false,
                 "createdAt": "2018-12-05T01:08:51.899Z",
-                "updatedAt": "2024-01-17T14:39:53.223Z",
+                "updatedAt": "2024-01-19T09:32:18.707Z",
                 "portQuery": 8401,
                 "country": "US",
                 "queryStatus": "valid"
@@ -3792,9 +3937,9 @@
                 "address": null,
                 "ip": "208.103.169.24",
                 "port": 28029,
-                "players": 46,
+                "players": 41,
                 "maxPlayers": 250,
-                "rank": 289,
+                "rank": 293,
                 "location": [
                     -96.8704,
                     32.8137
@@ -3803,7 +3948,7 @@
                 "details": {
                     "tags": [
                         "mp250",
-                        "cp44",
+                        "cp42",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -3812,7 +3957,7 @@
                         "NA",
                         "h3d8871ed",
                         "stok",
-                        "born1705352578",
+                        "born1705611781",
                         "gmrust",
                         "cs91340",
                         "oxide"
@@ -3822,17 +3967,17 @@
                     "map": "SOLO-DUO-TRIO",
                     "environment": "l",
                     "rust_build": "91340",
-                    "rust_ent_cnt_i": 123256,
+                    "rust_ent_cnt_i": 93736,
                     "rust_fps": 30,
-                    "rust_fps_avg": 29.92,
-                    "rust_gc_cl": 718,
-                    "rust_gc_mb": 3810,
+                    "rust_fps_avg": 30,
+                    "rust_gc_cl": 482,
+                    "rust_gc_mb": 2639,
                     "rust_hash": "3d8871ed",
                     "rust_headerimage": "https://i.imgur.com/NlWqD19.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 149689,
+                    "rust_uptime": 44980,
                     "rust_url": "https://discord.gg/icefuse",
                     "rust_world_seed": 2140536499,
                     "rust_world_size": 3500,
@@ -3848,16 +3993,101 @@
                     "rust_modded": false,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-15T21:02:58.000Z",
+                    "rust_born": "2024-01-18T21:03:01.000Z",
                     "rust_last_ent_drop": "2022-05-12T18:06:14.325Z",
                     "rust_last_seed_change": "2023-05-01T20:06:53.689Z",
                     "rust_last_wipe": "2023-05-01T20:06:53.689Z",
                     "rust_last_wipe_ent": 93505,
-                    "serverSteamId": "90179619758859293"
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "unknown",
+                        "groupLimit": 3,
+                        "teamUILimit": 3,
+                        "kits": false,
+                        "rates": {
+                            "component": 1,
+                            "craft": 1,
+                            "gather": 1,
+                            "scrap": 1
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "MO"
+                                ],
+                                "hour": 16,
+                                "minute": 0,
+                                "type": "unknown",
+                                "weeks": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            },
+                            {
+                                "days": [
+                                    "TH"
+                                ],
+                                "hour": 16,
+                                "minute": 0,
+                                "type": "unknown",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/New_York",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-22T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-25T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-29T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-05T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-08T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-12T21:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-15T21:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-22T21:00:00.000Z",
+                    "serverSteamId": "90179697236889629"
                 },
                 "private": false,
                 "createdAt": "2019-02-11T06:50:26.597Z",
-                "updatedAt": "2024-01-17T14:39:48.733Z",
+                "updatedAt": "2024-01-19T09:32:50.121Z",
                 "portQuery": 28029,
                 "country": "US",
                 "queryStatus": "valid"
@@ -3886,9 +4116,9 @@
                 "address": null,
                 "ip": "216.39.240.66",
                 "port": 28010,
-                "players": 15,
+                "players": 13,
                 "maxPlayers": 140,
-                "rank": 444,
+                "rank": 480,
                 "location": [
                     -77.0369,
                     38.9072
@@ -3897,7 +4127,7 @@
                 "details": {
                     "tags": [
                         "mp140",
-                        "cp15",
+                        "cp13",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -3915,17 +4145,17 @@
                     "map": "Custom Map",
                     "environment": "w",
                     "rust_build": "91340",
-                    "rust_ent_cnt_i": 211678,
+                    "rust_ent_cnt_i": 212595,
                     "rust_fps": 30,
-                    "rust_fps_avg": 29.97,
-                    "rust_gc_cl": 148,
-                    "rust_gc_mb": 2638,
+                    "rust_fps_avg": 29.93,
+                    "rust_gc_cl": 211,
+                    "rust_gc_mb": 3798,
                     "rust_hash": "fb0bd1c",
                     "rust_headerimage": "https://media.discordapp.net/attachments/1006963182889349150/1135862384771203122/4k-Wallpaper1_1.png?width=818&height=460",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 5186,
+                    "rust_uptime": 73099,
                     "rust_url": "https://discord.gg/rgsofficial",
                     "rust_world_seed": 1337,
                     "rust_world_size": 3900,
@@ -3950,7 +4180,7 @@
                     "rust_settings": {
                         "version": 3,
                         "teamUILimit": 12,
-                        "groupLimit": 0,
+                        "groupLimit": 999999,
                         "timeZone": "America/New_York",
                         "rates": {
                             "gather": 1,
@@ -3973,11 +4203,11 @@
                     ],
                     "rust_next_wipe": "2024-02-01T19:00:00.000Z",
                     "rust_next_wipe_map": "2024-02-01T19:00:00.000Z",
-                    "serverSteamId": "90179666767127554"
+                    "serverSteamId": "90179690398649346"
                 },
                 "private": false,
                 "createdAt": "2019-02-21T23:54:38.434Z",
-                "updatedAt": "2024-01-17T14:39:26.505Z",
+                "updatedAt": "2024-01-19T09:31:08.203Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid",
@@ -3990,7 +4220,7 @@
                     "clientPerf": false
                 },
                 "rconStatus": "connected",
-                "rconLastConnected": "2024-01-17T13:13:23.892Z",
+                "rconLastConnected": "2024-01-18T13:13:20.903Z",
                 "rconDisconnected": null
             },
             "relationships": {
@@ -4017,9 +4247,9 @@
                 "address": null,
                 "ip": "104.238.229.42",
                 "port": 28015,
-                "players": 56,
+                "players": 33,
                 "maxPlayers": 200,
-                "rank": 176,
+                "rank": 173,
                 "location": [
                     -96.8022,
                     32.7797
@@ -4028,36 +4258,36 @@
                 "details": {
                     "tags": [
                         "mp200",
-                        "cp56",
+                        "cp33",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "monthly",
                         "vanilla",
                         "NA",
-                        "h2097cfc5",
+                        "hf89cba59",
                         "stok",
                         "born1704394833",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "oxide"
                     ],
                     "official": false,
                     "rust_type": "community",
                     "map": "Custom Map",
                     "environment": "l",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 360897,
-                    "rust_fps": 16,
-                    "rust_fps_avg": 16.8,
-                    "rust_gc_cl": 564,
-                    "rust_gc_mb": 6613,
-                    "rust_hash": "2097cfc5",
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 365715,
+                    "rust_fps": 22,
+                    "rust_fps_avg": 20.5,
+                    "rust_gc_cl": 508,
+                    "rust_gc_mb": 6843,
+                    "rust_hash": "f89cba59",
                     "rust_headerimage": "https://i.imgur.com/pTAV79O.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 81527,
+                    "rust_uptime": 63065,
                     "rust_url": "https://shop.pickleservers.com/",
                     "rust_world_seed": 1337,
                     "rust_world_size": 4000,
@@ -4105,11 +4335,11 @@
                     ],
                     "rust_next_wipe": "2024-02-01T19:00:00.000Z",
                     "rust_next_wipe_map": "2024-02-01T19:00:00.000Z",
-                    "serverSteamId": "90179637428732946"
+                    "serverSteamId": "90179693468518418"
                 },
                 "private": false,
                 "createdAt": "2019-04-14T03:04:43.514Z",
-                "updatedAt": "2024-01-17T14:39:38.441Z",
+                "updatedAt": "2024-01-19T09:32:47.365Z",
                 "portQuery": 28016,
                 "country": "US",
                 "queryStatus": "valid"
@@ -4128,13 +4358,13 @@
             "id": "6071691",
             "attributes": {
                 "id": "6071691",
-                "name": "[US] Stevious 2x Large | Vanilla | 1/11",
+                "name": "[US] Stevious 2x Large | Vanilla | 1/18",
                 "address": null,
                 "ip": "199.231.233.159",
                 "port": 28010,
-                "players": 7,
-                "maxPlayers": 250,
-                "rank": 87,
+                "players": 150,
+                "maxPlayers": 520,
+                "rank": 148,
                 "location": [
                     -87.6288,
                     41.8486
@@ -4142,19 +4372,19 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp250",
-                        "cp8",
+                        "mp520",
+                        "cp152",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "weekly",
                         "vanilla",
                         "NA",
-                        "h12fd6e5b",
+                        "h5a346290",
                         "stok",
-                        "born1705008633",
+                        "born1705613376",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "rustmaps",
                         "oxide",
                         "modded"
@@ -4163,50 +4393,104 @@
                     "rust_type": "modded",
                     "map": "Custom Map",
                     "environment": "w",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 191690,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 172057,
                     "rust_fps": 30,
                     "rust_fps_avg": 30,
-                    "rust_gc_cl": 318,
-                    "rust_gc_mb": 3159,
-                    "rust_hash": "12fd6e5b",
+                    "rust_gc_cl": 848,
+                    "rust_gc_mb": 4508,
+                    "rust_hash": "5a346290",
                     "rust_headerimage": "https://www.stevious.io/svr_images/Stevious_2x_Background_1.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 11109,
+                    "rust_uptime": 42747,
                     "rust_url": "https://stevious.io/",
-                    "rust_world_seed": 1593065984,
+                    "rust_world_seed": 838641792,
                     "rust_world_size": 3900,
-                    "rust_world_levelurl": "https://maps.rustmaps.com/244/c9f02855153f49c38befd8484d447525/H3Uot1BLvEqu19ISrMLiog/stevious_large_3900_1593065984v1.map",
+                    "rust_world_levelurl": "https://maps.rustmaps.com/244/d65791a272174fd3ab5abf8375e768dc/5Gem2oL2m026AzeIO4BKKg/stevious_large_3900_838641792v1.map",
                     "rust_maps": {
-                        "seed": 1593065984,
+                        "seed": 838641792,
                         "size": 3900,
-                        "url": "https://rustmaps.com/map/be88fdc1ebe84466802edf7a878c0872",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/be88fdc1ebe84466802edf7a878c0872/thumbnail.png",
-                        "monuments": 111,
+                        "url": "https://rustmaps.com/map/c23dfbe97b8641548cc63322f27ebcf9",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/c23dfbe97b8641548cc63322f27ebcf9/thumbnail.png",
+                        "monuments": 117,
                         "barren": false,
-                        "updatedAt": "2024-01-17T12:59:52.643Z",
-                        "mapUrl": "https://maps.rustmaps.com/244/c9f02855153f49c38befd8484d447525/H3Uot1BLvEqu19ISrMLiog/stevious_large_3900_1593065984v1.map"
+                        "updatedAt": "2024-01-19T06:57:42.667Z",
+                        "mapUrl": "https://maps.rustmaps.com/244/d65791a272174fd3ab5abf8375e768dc/5Gem2oL2m026AzeIO4BKKg/stevious_large_3900_838641792v1.map"
                     },
                     "rust_description": "Wiped weekly on Thursday @ 4.30PM ET. Visit https://stevious.io for VIP (Queue Skip) and Rules / Discord information.\n\nServer modifications:\n\n2x Gather Rates (2.5x for Sulfur and Wood) \nHalf smelt and crafting speeds (Vanilla for raiding items) \nBuilding and Level 1 Workbench blueprints unlocked \nComponent System loot tables (Junk items removed)",
                     "rust_modded": true,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-11T21:30:33.000Z",
-                    "rust_last_ent_drop": "2024-01-11T21:36:35.175Z",
-                    "rust_last_seed_change": "2024-01-11T21:36:35.175Z",
-                    "rust_last_wipe": "2024-01-11T21:36:35.175Z",
+                    "rust_born": "2024-01-18T21:29:36.000Z",
+                    "rust_last_ent_drop": "2024-01-18T21:49:46.583Z",
+                    "rust_last_seed_change": "2024-01-18T21:49:46.583Z",
+                    "rust_last_wipe": "2024-01-18T21:49:46.583Z",
                     "rust_map_size_ent_count": "2021-03-04T19:11:53.550Z",
-                    "rust_last_wipe_ent": 48062,
-                    "serverSteamId": "90179664331915291"
+                    "rust_last_wipe_ent": 55857,
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "unknown",
+                        "groupLimit": 999999,
+                        "teamUILimit": 999999,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TH"
+                                ],
+                                "hour": 16,
+                                "minute": 0,
+                                "type": "unknown",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/Chicago",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-25T22:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-08T22:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-15T22:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-25T22:00:00.000Z",
+                    "serverSteamId": "90179698663049243"
                 },
                 "private": false,
                 "createdAt": "2020-03-19T07:46:03.353Z",
-                "updatedAt": "2024-01-17T14:39:21.601Z",
+                "updatedAt": "2024-01-19T09:32:53.276Z",
                 "portQuery": 28015,
                 "country": "US",
-                "queryStatus": "valid"
+                "queryStatus": "timeout"
             },
             "relationships": {
                 "game": {
@@ -4222,13 +4506,13 @@
             "id": "6727424",
             "attributes": {
                 "id": "6727424",
-                "name": "Rusticated.com - US | 2x Vanilla | Thursday | Shared Bps | 1/11",
+                "name": "Rusticated.com - US | 2x Vanilla | Thursday | Shared Bps | 1/18",
                 "address": null,
                 "ip": "199.231.233.72",
                 "port": 28010,
-                "players": 10,
-                "maxPlayers": 150,
-                "rank": 83,
+                "players": 200,
+                "maxPlayers": 225,
+                "rank": 209,
                 "location": [
                     -96.8336,
                     32.7908
@@ -4236,18 +4520,18 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp150",
-                        "cp10",
+                        "mp225",
+                        "cp201",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "weekly",
                         "NA",
-                        "h12fd6e5b",
+                        "h5a346290",
                         "stok",
-                        "born1705003032",
+                        "born1705607839",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "oxide",
                         "modded",
                         "rustmaps"
@@ -4256,46 +4540,103 @@
                     "rust_type": "modded",
                     "map": "Rusticated Generated Maps",
                     "environment": "w",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 162969,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 203170,
                     "rust_fps": 40,
-                    "rust_fps_avg": 40,
-                    "rust_gc_cl": 729,
-                    "rust_gc_mb": 4853,
-                    "rust_hash": "12fd6e5b",
+                    "rust_fps_avg": 39.45,
+                    "rust_gc_cl": 1029,
+                    "rust_gc_mb": 5469,
+                    "rust_hash": "5a346290",
                     "rust_headerimage": "https://cdn.discordapp.com/attachments/375878034496028672/475052886338961419/banner_512x256.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 84979,
+                    "rust_uptime": 48957,
                     "rust_url": "https://rusticated.com/",
                     "rust_world_seed": 1916950014,
                     "rust_world_size": 3800,
-                    "rust_world_levelurl": "https://maps.rustmaps.com/244/f4aab05d6dc74c68924e71d1c8c6a0bd/procedural__3800_ikHFZQvas0K8Imi9uQ1Hiw.map",
+                    "rust_world_levelurl": "https://maps.rustmaps.com/244/00d20c9b309c448f874d795e250608be/procedural__3800_1V6iPG41Uk-LXuXc3CZzyA.map",
                     "rust_maps": {
                         "seed": 1916950014,
                         "size": 3800,
-                        "url": "https://rustmaps.com/map/6db7a72073c54728922ec571dab438b2",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/6db7a72073c54728922ec571dab438b2/thumbnail.png",
+                        "url": "https://rustmaps.com/map/40d20157fe124c7f8392aee177993a60",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/40d20157fe124c7f8392aee177993a60/thumbnail.png",
                         "monuments": 145,
                         "barren": false,
-                        "updatedAt": "2024-01-17T11:49:52.916Z",
-                        "mapUrl": "https://maps.rustmaps.com/244/f4aab05d6dc74c68924e71d1c8c6a0bd/procedural__3800_ikHFZQvas0K8Imi9uQ1Hiw.map"
+                        "updatedAt": "2024-01-19T08:20:34.478Z",
+                        "mapUrl": "https://maps.rustmaps.com/244/00d20c9b309c448f874d795e250608be/procedural__3800_1V6iPG41Uk-LXuXc3CZzyA.map"
                     },
                     "rust_description": "Thursday weekly map wipes, Bps wipe on force wipe\nPurchase Vip at: www.rusticated.com/vip\nDiscord: rusticated.com/discord\n\nUse /rules in game to see our rules \n\nShared BP's with Team \nHalf Craft & Half Recycling \nFull Base WorkBench \nJunk removed from loot tables \nPlus More!",
                     "rust_modded": true,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-11T19:57:12.000Z",
+                    "rust_born": "2024-01-18T19:57:19.000Z",
                     "rust_last_ent_drop": "2022-06-16T19:00:27.381Z",
                     "rust_last_seed_change": "2024-01-04T18:57:10.677Z",
                     "rust_last_wipe": "2024-01-04T18:57:10.677Z",
                     "rust_last_wipe_ent": 75204,
-                    "serverSteamId": "90179636401325060"
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "full",
+                        "groupLimit": 999999,
+                        "teamUILimit": 999999,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TH"
+                                ],
+                                "hour": 14,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/Chicago",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-25T20:00:00.000Z"
+                        },
+                        {
+                            "type": "full",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-08T20:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-15T20:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-25T20:00:00.000Z",
+                    "rust_next_wipe_map": "2024-01-25T20:00:00.000Z",
+                    "rust_next_wipe_bp": "2024-02-01T19:00:00.000Z",
+                    "rust_next_wipe_full": "2024-02-01T19:00:00.000Z",
+                    "serverSteamId": "90179696423772164"
                 },
                 "private": false,
                 "createdAt": "2020-04-27T20:26:01.167Z",
-                "updatedAt": "2024-01-17T14:36:43.570Z",
+                "updatedAt": "2024-01-19T09:32:59.948Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -4318,9 +4659,9 @@
                 "address": "mars.projectnova.gg",
                 "ip": "199.231.233.34",
                 "port": 28015,
-                "players": 114,
-                "maxPlayers": 120,
-                "rank": 136,
+                "players": 38,
+                "maxPlayers": 50,
+                "rank": 99,
                 "location": [
                     -96.8336,
                     32.7908
@@ -4328,8 +4669,8 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp120",
-                        "cp110",
+                        "mp50",
+                        "cp38",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -4349,17 +4690,17 @@
                     "map": "Mars by Project Nova",
                     "environment": "w",
                     "rust_build": "91340",
-                    "rust_ent_cnt_i": 119428,
+                    "rust_ent_cnt_i": 124227,
                     "rust_fps": 57,
-                    "rust_fps_avg": 58.18,
-                    "rust_gc_cl": 945,
-                    "rust_gc_mb": 3307,
+                    "rust_fps_avg": 57.78,
+                    "rust_gc_cl": 2102,
+                    "rust_gc_mb": 4331,
                     "rust_hash": "fb0bd1c",
                     "rust_headerimage": "https://i.imgur.com/1Sj20Ms.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 66586,
+                    "rust_uptime": 221466,
                     "rust_url": "https://discord.gg/6ru78Vx2wt",
                     "rust_world_seed": 1337,
                     "rust_world_size": 3000,
@@ -4371,7 +4712,7 @@
                         "thumbnailUrl": "https://content.rustmaps.com/maps/244/6ee44dc1dbd042f9938fccf7bce73307/thumbnail.png",
                         "monuments": 27,
                         "barren": false,
-                        "updatedAt": "2024-01-17T13:10:52.685Z",
+                        "updatedAt": "2024-01-19T08:32:38.941Z",
                         "mapUrl": "https://maps.rustmaps.com/244/44525765ae314c89ae28c80f0fcbca93/-kB5XZbhi0iqwvCBQUj2tw/Marsv29v1.0.9993.map"
                     },
                     "rust_description": "WIPES TUE & FRI @ 3PM EST \nBLUEPRINTS WIPE ONLY FRIDAYS @ 3PM EST \n-------------------------------------------------------------------------------\n\u20223x Gather + Perfectly Balanced Loot \n\u2022SOLO/DUO/TRIO \n\u2022Oxygen System \n\u2022Custom Items In Loot, Custom Anti-Cheats, Customized Vanilla Monuments, Boost Jumps, and MUCH more! \n \nVIP now available at ProjectNova.gg\n Join our Discord at Discord.ProjectNova.gg\n \n Team Swapping Rules\n - Be sure to clear TC\n - English only in global chat!\n - Change door codes\n - Remove any beds or bags placed by the player your booting\n - The booted player cannot rejoin for the rest of the wipe\n Unless strictly following these rules you are subject to being banned",
@@ -4398,8 +4739,8 @@
                         "forceWipeType": "full",
                         "blueprints": true,
                         "kits": true,
-                        "decay": true,
-                        "decayScale": 2,
+                        "decay": 2,
+                        "upkeep": 1,
                         "wipes": [
                             {
                                 "weeks": [
@@ -4483,10 +4824,10 @@
                 },
                 "private": false,
                 "createdAt": "2020-08-25T00:14:11.208Z",
-                "updatedAt": "2024-01-17T14:40:00.936Z",
+                "updatedAt": "2024-01-19T09:32:17.877Z",
                 "portQuery": 28014,
                 "country": "US",
-                "queryStatus": "timeout"
+                "queryStatus": "valid"
             },
             "relationships": {
                 "game": {
@@ -4510,11 +4851,11 @@
                 "id": "9347971",
                 "name": "[US] ProjectLazarus Original: 2x Free-Battlepass|Skill|Youtubers|Economy+",
                 "address": null,
-                "ip": "199.231.233.22",
+                "ip": "216.39.242.6",
                 "port": 28014,
-                "players": 8,
+                "players": 18,
                 "maxPlayers": 150,
-                "rank": 546,
+                "rank": 604,
                 "location": [
                     -96.8336,
                     32.7908
@@ -4523,17 +4864,17 @@
                 "details": {
                     "tags": [
                         "mp150",
-                        "cp10",
+                        "cp17",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "weekly",
                         "na",
-                        "h12fd6e5b",
+                        "h5a346290",
                         "stok",
-                        "born1705002977",
+                        "born1705607688",
                         "gmrust",
-                        "cs91458",
+                        "cs91742",
                         "oxide",
                         "modded"
                     ],
@@ -4541,34 +4882,88 @@
                     "rust_type": "modded",
                     "map": "Project Lazarus Maps",
                     "environment": "w",
-                    "rust_build": "91458",
-                    "rust_ent_cnt_i": 114321,
+                    "rust_build": "91742",
+                    "rust_ent_cnt_i": 80298,
                     "rust_fps": 40,
-                    "rust_fps_avg": 39.98,
-                    "rust_gc_cl": 558,
-                    "rust_gc_mb": 2964,
-                    "rust_hash": "12fd6e5b",
+                    "rust_fps_avg": 39.85,
+                    "rust_gc_cl": 500,
+                    "rust_gc_mb": 3112,
+                    "rust_hash": "5a346290",
                     "rust_headerimage": "https://i.imgur.com/cJNLWGo.jpg",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 21579,
+                    "rust_uptime": 9050,
                     "rust_url": "https://www.theprojectlazarus.com/",
                     "rust_world_seed": 1337,
-                    "rust_world_size": 3000,
+                    "rust_world_size": 3250,
                     "rust_description": "The Project Lazarus server strives to bring many survival aspects from games such as Dayz and incorporate them into the Rust.\n\nThis server wipes every Thursday at 4 PM EST (Except for Force)\n\nThe server has the following modifications:\n\u2726 2x Resource Rate\n\u2726 Half Smelt & Crafting Speeds\n\u2726 Group Limit: 4\n\u2726 All Tier 1 BPs Unlocked\n\u2726 Improved Loot Tables\n\u2726 Weekly Wipes\n\nThe server has the following custom mechanics:\n\u2726 Ground Loot System: Loot items from the ground similar to DayZ.\n\u2726 Monument Heists: Rob banks across the map and sell the gold bars at outposts.\n\u2726 XP System: Redeem XP rewards by leveling up through farming and killing NPCs.\n\u2726 Quest System: Complete various tasks to earn skill points which can be used to unlock perks.\n\u2726 Drug System: Grow cocaine, heroine and cannabis at your base. You can then sell these drugs at the outpost once processed.\n\u2726 Redemption System: Earn points for each kill on a geared player. These points can be used to unlock loot crates.\n\u2726 Team Competitions: Earn points by doing various things. The team with the most points wins.\n\u2726 Tiered Tool Cupboard: Players must upgrade their tool cupboard with cash to be able to upgrade to the next building tier.\n\u2726 Player Run Marketplace: Players can access a marketplace through their mobile which allows them to earn cash where ever they are.\n\u2726 DayZ Inspired Mechanics: Backpacks, parachutes, molotovs and drones.",
                     "rust_modded": true,
                     "rust_queued_players": 0,
                     "rust_gamemode": "standard",
-                    "rust_born": "2024-01-11T19:56:17.000Z",
-                    "rust_last_ent_drop": "2024-01-11T19:58:23.677Z",
-                    "rust_last_wipe": "2024-01-11T19:58:23.677Z",
-                    "rust_last_wipe_ent": 49486,
-                    "serverSteamId": "90179660092655634"
+                    "rust_born": "2024-01-18T19:54:48.000Z",
+                    "rust_last_ent_drop": "2024-01-18T19:55:31.135Z",
+                    "rust_last_wipe": "2024-01-18T19:55:31.135Z",
+                    "rust_last_wipe_ent": 52418,
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "unknown",
+                        "groupLimit": 4,
+                        "teamUILimit": 4,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TH"
+                                ],
+                                "hour": 15,
+                                "minute": 0,
+                                "type": "unknown",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/New_York",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-25T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-08T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-15T20:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-25T20:00:00.000Z",
+                    "serverSteamId": "90179705197283334"
                 },
                 "private": false,
                 "createdAt": "2020-12-11T14:01:50.513Z",
-                "updatedAt": "2024-01-17T14:38:17.350Z",
+                "updatedAt": "2024-01-19T09:32:07.895Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -4597,9 +4992,9 @@
                 "address": null,
                 "ip": "199.231.233.52",
                 "port": 28010,
-                "players": 47,
+                "players": 2,
                 "maxPlayers": 100,
-                "rank": 104,
+                "rank": 80,
                 "location": [
                     -96.8336,
                     32.7908
@@ -4608,7 +5003,7 @@
                 "details": {
                     "tags": [
                         "mp100",
-                        "cp47",
+                        "cp1",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -4627,17 +5022,17 @@
                     "map": "Custom Map",
                     "environment": "l",
                     "rust_build": "91458",
-                    "rust_ent_cnt_i": 227439,
-                    "rust_fps": 57,
-                    "rust_fps_avg": 58.47,
-                    "rust_gc_cl": 1042,
-                    "rust_gc_mb": 7507,
+                    "rust_ent_cnt_i": 191087,
+                    "rust_fps": 60,
+                    "rust_fps_avg": 59.98,
+                    "rust_gc_cl": 1193,
+                    "rust_gc_mb": 8574,
                     "rust_hash": "2097cfc5",
                     "rust_headerimage": "1",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 157199,
+                    "rust_uptime": 311553,
                     "rust_url": "https://hollowservers.co/",
                     "rust_world_seed": 1337,
                     "rust_world_size": 3500,
@@ -4658,11 +5053,90 @@
                     "rust_last_seed_change": "2022-12-28T19:03:15.394Z",
                     "rust_last_wipe": "2024-01-15T18:59:26.693Z",
                     "rust_last_wipe_ent": 67908,
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "unknown",
+                        "groupLimit": 3,
+                        "teamUILimit": 3,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "MO",
+                                    "FR"
+                                ],
+                                "hour": 13,
+                                "minute": 0,
+                                "type": "unknown",
+                                "weeks": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/Chicago",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-19T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-22T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-26T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-29T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-02T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-05T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-09T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-12T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-16T19:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-19T19:00:00.000Z",
                     "serverSteamId": "90179618001486864"
                 },
                 "private": false,
                 "createdAt": "2021-01-29T21:41:07.745Z",
-                "updatedAt": "2024-01-17T14:38:52.343Z",
+                "updatedAt": "2024-01-19T09:31:30.633Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -4762,9 +5236,9 @@
                 "address": "mon.rustoria.us",
                 "ip": "208.103.169.85",
                 "port": 28010,
-                "players": 407,
-                "maxPlayers": 450,
-                "rank": 17,
+                "players": 122,
+                "maxPlayers": 200,
+                "rank": 6,
                 "location": [
                     -96.8704,
                     32.8137
@@ -4772,8 +5246,8 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp525",
-                        "cp482",
+                        "mp200",
+                        "cp131",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -4793,17 +5267,17 @@
                     "map": "Rustoria Map Generation",
                     "environment": "w",
                     "rust_build": "91339",
-                    "rust_ent_cnt_i": 312691,
-                    "rust_fps": 22,
-                    "rust_fps_avg": 21.85,
-                    "rust_gc_cl": 504,
-                    "rust_gc_mb": 15318,
+                    "rust_ent_cnt_i": 311172,
+                    "rust_fps": 30,
+                    "rust_fps_avg": 29.98,
+                    "rust_gc_cl": 317,
+                    "rust_gc_mb": 5872,
                     "rust_hash": "1035d032",
                     "rust_headerimage": "https://i.imgur.com/hArBtva.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 52414,
+                    "rust_uptime": 66069,
                     "rust_url": "http://rustoria.co",
                     "rust_world_seed": 37677,
                     "rust_world_size": 4000,
@@ -4815,7 +5289,7 @@
                         "thumbnailUrl": "https://content.rustmaps.com/maps/244/adf9bcaef39849baa12932ba9cf77834/thumbnail.png",
                         "monuments": 144,
                         "barren": false,
-                        "updatedAt": "2024-01-17T02:43:24.472Z",
+                        "updatedAt": "2024-01-19T09:23:11.277Z",
                         "mapUrl": "https://maps.rustmaps.com/244/699432c85066446ea6a610ecaab337a9/procedural__4000_CeFnqjCNTU-J_33e-ICubA.map"
                     },
                     "rust_description": "Wipe Schedule:\n\\tMap - Weekly on Mondays @ 3PM EST, or when force updates occur.\n\\tBPs - Never\n\nVIP: donate.rustoria.co\n\nRules:\n\\t- No hacking / scripting\n\\t- No intentional bug abuse\n\\t- No EAC / FP banned alts\n\\t- No ban evading\n\\t- No racism\n\nGood performance\nActive non playing admins\nSeeds are carefully picked\n\nDiscord: rustoria.co/discord\nFull rules: rustoria.co/vanilla/rules",
@@ -4830,8 +5304,8 @@
                     "rust_settings_source": "user",
                     "rust_settings": {
                         "version": 3,
-                        "teamUILimit": 0,
-                        "groupLimit": 0,
+                        "teamUILimit": 999999,
+                        "groupLimit": 999999,
                         "timeZone": "America/New_York",
                         "rates": {
                             "gather": 1,
@@ -4886,11 +5360,11 @@
                     ],
                     "rust_next_wipe": "2024-01-22T20:00:00.000Z",
                     "rust_next_wipe_map": "2024-01-22T20:00:00.000Z",
-                    "serverSteamId": "90179636512318490"
+                    "serverSteamId": "90179692475783194"
                 },
                 "private": false,
                 "createdAt": "2021-08-09T21:05:03.699Z",
-                "updatedAt": "2024-01-17T14:39:46.504Z",
+                "updatedAt": "2024-01-19T09:32:27.137Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "timeout"
@@ -4909,13 +5383,13 @@
             "id": "13519849",
             "attributes": {
                 "id": "13519849",
-                "name": "WARBANDITS.GG US 3X |Solo/Duo/Trio/Quad|LootX3| JUST WIPED 01/16",
+                "name": "WARBANDITS.GG US 3X |Solo/Duo/Trio/Quad|LootX3| JUST WIPED 01/1",
                 "address": null,
                 "ip": "199.231.233.119",
                 "port": 28010,
-                "players": 17,
+                "players": 11,
                 "maxPlayers": 200,
-                "rank": 501,
+                "rank": 393,
                 "location": [
                     -96.8336,
                     32.7908
@@ -4924,7 +5398,7 @@
                 "details": {
                     "tags": [
                         "mp200",
-                        "cp16",
+                        "cp11",
                         "ptrak",
                         "qp0",
                         "v2516",
@@ -4944,17 +5418,17 @@
                     "map": "WarBandits Map Generation",
                     "environment": "w",
                     "rust_build": "91340",
-                    "rust_ent_cnt_i": 145802,
-                    "rust_fps": 60,
-                    "rust_fps_avg": 59.58,
-                    "rust_gc_cl": 693,
-                    "rust_gc_mb": 3798,
+                    "rust_ent_cnt_i": 154137,
+                    "rust_fps": 58,
+                    "rust_fps_avg": 57.8,
+                    "rust_gc_cl": 977,
+                    "rust_gc_mb": 5909,
                     "rust_hash": "fb0bd1c",
                     "rust_headerimage": "https://warbandits.gg/assets/media/rust/us3xquad.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 67100,
+                    "rust_uptime": 221807,
                     "rust_url": "https://discord.gg/nXJSJSZ",
                     "rust_world_seed": 1402563851,
                     "rust_world_size": 3850,
@@ -4966,7 +5440,7 @@
                         "thumbnailUrl": "https://content.rustmaps.com/maps/244/ab9af1591db046ccb272bd81c2052425/thumbnail.png",
                         "monuments": 142,
                         "barren": false,
-                        "updatedAt": "2024-01-17T12:23:23.155Z",
+                        "updatedAt": "2024-01-19T06:56:09.081Z",
                         "mapUrl": "https://maps.rustmaps.com/244/ba6169f043f449a8b5710b9288178e02/WarBandits_ba6169f043f449a8b5710b9288178e02.map"
                     },
                     "rust_description": "Welcome to WarBandits.gg 3x Solo/Duo/Trio/Quad! \nOn our servers we provide the best Rust gameplay. We run multiple balanced plugins to improve the quality of the game. Our servers also run on the best Network & Hardware possible to improve your ingame experience on our servers! \n \u2726 3x Gather Rates \n \u2726 3x Crafting Speed \n \u2726 3x Components and Scrap \n \u2726 Recyclers at additional monuments \n \u2726 Custom High Performance Maps \n \u2726 Extended Workbench range \n \u2726 Tier 1 BPs unlocked \n \u2726 Long Days & Short Nights \n \u2726 Group Limit: 4 \n \u2726 Active Staff \n \u2726 Fast Smelt \n Make sure to join our discord server before playing by pressing the view webpage button or by visiting the link warbandits.gg/discord",
@@ -4978,11 +5452,78 @@
                     "rust_last_seed_change": "2024-01-16T20:02:14.149Z",
                     "rust_last_wipe": "2024-01-16T20:02:14.149Z",
                     "rust_last_wipe_ent": 84307,
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "unknown",
+                        "groupLimit": 4,
+                        "teamUILimit": 4,
+                        "kits": false,
+                        "rates": {
+                            "component": 3,
+                            "craft": 3,
+                            "gather": 3,
+                            "scrap": 3
+                        },
+                        "wipes": [
+                            {
+                                "rrule": "DTSTART;TZID=America/Chicago:20231212T140000\nRRULE:INTERVAL=72;FREQ=HOURLY",
+                                "type": "unknown"
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/Chicago",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-20T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-23T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-26T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-01-29T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-01T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-04T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-07T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-10T20:00:00.000Z"
+                        },
+                        {
+                            "type": "unknown",
+                            "timestamp": "2024-02-13T20:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-20T20:00:00.000Z",
                     "serverSteamId": "90179640725160979"
                 },
                 "private": false,
                 "createdAt": "2021-12-04T21:42:35.535Z",
-                "updatedAt": "2024-01-17T14:37:21.392Z",
+                "updatedAt": "2024-01-19T09:33:09.280Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -5005,9 +5546,9 @@
                 "address": "2xquad.helixrust.gg",
                 "ip": "199.231.233.95",
                 "port": 28010,
-                "players": 60,
+                "players": 63,
                 "maxPlayers": 200,
-                "rank": 89,
+                "rank": 82,
                 "location": [
                     -96.8336,
                     32.7908
@@ -5016,13 +5557,13 @@
                 "details": {
                     "tags": [
                         "mp200",
-                        "cp61",
+                        "cp63",
                         "ptrak",
                         "qp0",
                         "v2516",
                         "monthly",
                         "hfb0bd1c",
-                        "strst",
+                        "stok",
                         "born1704394483",
                         "gmrust",
                         "cs91340",
@@ -5035,17 +5576,17 @@
                     "map": "Helix Better FPS Map | x2",
                     "environment": "w",
                     "rust_build": "91340",
-                    "rust_ent_cnt_i": 396091,
-                    "rust_fps": 45,
-                    "rust_fps_avg": 42.48,
-                    "rust_gc_cl": 600,
-                    "rust_gc_mb": 8179,
+                    "rust_ent_cnt_i": 395884,
+                    "rust_fps": 44,
+                    "rust_fps_avg": 43.38,
+                    "rust_gc_cl": 568,
+                    "rust_gc_mb": 7638,
                     "rust_hash": "fb0bd1c",
                     "rust_headerimage": "https://i.imgur.com/UR5sZGO.png",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 84685,
+                    "rust_uptime": 66398,
                     "rust_url": "https://store.helixrust.gg",
                     "rust_world_seed": 1337,
                     "rust_world_size": 4250,
@@ -5057,7 +5598,7 @@
                         "thumbnailUrl": "https://content.rustmaps.com/maps/244/8295266001dc4741bd51b4d620189301/thumbnail.png",
                         "monuments": 143,
                         "barren": false,
-                        "updatedAt": "2024-01-17T14:27:40.595Z",
+                        "updatedAt": "2024-01-19T09:22:41.244Z",
                         "mapUrl": "https://maps.rustmaps.com/244/8bd595c1ec8f46b9930b1b5ea7f787f0/Helix_4250__EFdqyqBQEyk4SvOFtR4CA.map"
                     },
                     "rust_description": "Helix Rust - perfectly modded rust servers\nMonthly map wipes on Forced wipes (first Thursday of each month at 2pm EST)\nBlueprints don't wipe\nJoin our discord at helixrust.gg/discord\nPurchase ranks at store.helixrust.gg\nMax group size is 4, no alliences/truces, etc. Read /teamlimits to avoid being banned\n\\tFree skinbox for everyone - skin any item with any skin using /skinbox\n\\t2x gather rates on everything\n\\t2x craft times, recycler & smelting speed\n\\t2x stack sizes\n\\tSome minicopters spawn on the roads\n\\tDrone marketplaces at Fishing Villages & Ranches\n\\tBandit Camp merged with outpost\n\\tIncreased shoreside boat spawns\n\\tRecyclers at Dome, Oilrigs, Cargo, Ranches & Fishing Villages\n\\tNights are 5 minutes long\n\\tNo fog or rain\n\\tFood doesn't burn\n---------------\nRules: (in-game /rules for more)\n\\tNo cheating/exploiting.\n\\tNo Rust game banned alts in the last 180 days\n\\tNo more than 1 Rust game banned alt\n\\tNo VAC bans that are less than 15 days old\n\\tPlaying with cheaters/evaders will result in a ban\n\\tNo more than 2 steam bans (vac/game bans combined)\n\\tNo limited and no not setup steam accounts",
@@ -5068,11 +5609,38 @@
                     "rust_last_ent_drop": "2024-01-04T18:58:48.188Z",
                     "rust_last_wipe": "2024-01-04T18:58:48.188Z",
                     "rust_last_wipe_ent": 94171,
-                    "serverSteamId": "90179636549947419"
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "map",
+                        "groupLimit": 4,
+                        "teamUILimit": 4,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "America/New_York",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-02-01T19:00:00.000Z",
+                    "rust_next_wipe_map": "2024-02-01T19:00:00.000Z",
+                    "serverSteamId": "90179692467529755"
                 },
                 "private": false,
                 "createdAt": "2022-02-01T03:43:49.470Z",
-                "updatedAt": "2024-01-17T14:39:31.915Z",
+                "updatedAt": "2024-01-19T09:32:40.670Z",
                 "portQuery": 28015,
                 "country": "US",
                 "queryStatus": "valid"
@@ -5095,9 +5663,9 @@
                 "address": null,
                 "ip": "154.6.138.9",
                 "port": 28015,
-                "players": 340,
-                "maxPlayers": 350,
-                "rank": 123,
+                "players": 24,
+                "maxPlayers": 300,
+                "rank": 87,
                 "location": [
                     -0.03,
                     51.5031
@@ -5105,10 +5673,10 @@
                 "status": "online",
                 "details": {
                     "tags": [
-                        "mp350",
-                        "cp335",
+                        "mp300",
+                        "cp26",
                         "ptrak",
-                        "qp23",
+                        "qp0",
                         "v2516",
                         "weekly",
                         "h12fd6e5b",
@@ -5117,49 +5685,164 @@
                         "gmrust",
                         "cs91458",
                         "oxide",
-                        "modded"
+                        "modded",
+                        "rustmaps"
                     ],
                     "official": false,
                     "rust_type": "modded",
                     "map": "Custom Map",
                     "environment": "w",
                     "rust_build": "91458",
-                    "rust_ent_cnt_i": 220359,
-                    "rust_fps": 43,
-                    "rust_fps_avg": 43.63,
-                    "rust_gc_cl": 483,
-                    "rust_gc_mb": 4565,
+                    "rust_ent_cnt_i": 209766,
+                    "rust_fps": 59,
+                    "rust_fps_avg": 58.88,
+                    "rust_gc_cl": 492,
+                    "rust_gc_mb": 5460,
                     "rust_hash": "12fd6e5b",
                     "rust_headerimage": "https://cdn.discordapp.com/attachments/1007577972640849921/1101863355439915048/survivor.jpg",
                     "rust_mem_pv": null,
                     "rust_mem_ws": null,
                     "pve": false,
-                    "rust_uptime": 29310,
+                    "rust_uptime": 96597,
                     "rust_url": "https://survivors.gg",
                     "rust_world_seed": 11943,
                     "rust_world_size": 3750,
+                    "rust_world_levelurl": "https://maps.rustmaps.com/244/9322c5a93bd44977898b957e8e2b729f/procedural__3750_IjBq1kfB7Uy0xnTAFtWRmQ.map",
                     "rust_maps": {
-                        "seed": 270992,
-                        "size": 3800,
-                        "url": "https://rustmaps.com/map/3800_270992",
-                        "thumbnailUrl": "https://content.rustmaps.com/maps/231/60801353a86442719a761fe5c2a68bfa/thumbnail.png",
-                        "monuments": 162,
-                        "barren": false
+                        "seed": 11943,
+                        "size": 3750,
+                        "url": "https://rustmaps.com/map/8996fa3815c045688c3675c689bec8ec",
+                        "thumbnailUrl": "https://content.rustmaps.com/maps/244/8996fa3815c045688c3675c689bec8ec/thumbnail.png",
+                        "monuments": 127,
+                        "barren": false,
+                        "updatedAt": "2024-01-19T06:41:34.662Z",
+                        "mapUrl": "https://maps.rustmaps.com/244/9322c5a93bd44977898b957e8e2b729f/procedural__3750_IjBq1kfB7Uy0xnTAFtWRmQ.map"
                     },
                     "rust_description": "\n \u272f Welcome to Survivors.gg \n \u272f\u272f Rust gaming community since 2014 \n \u272f\u272f\u272f Join Us: www.discord.survivors.gg \n\n \u272f Want to skip the queue? Get it at www.survivors.gg \n \u272f Map wipes every Tuesday and Friday at 14:00 CET \n \u272f Full wipes every 2 weeks on Friday at 16:00 CET \n \u272f No wipe on Friday after Forced Update \n \u272f Max Team: 2 Players \n \u272f Electric BP's are unlocked \n \u272f 2x Gather Rates. \n \u272f Half smelt, crafting speeds \n \u272f Faster nights \n \u272f Fishing Village and Large Barn with Recycler \n \u272f write /help for all commands \n \u272f no Kits, no TP and no P2W! \n\n Admins do not play or interfere with gameplay. \n Visit www.Survivors.gg for more information.",
                     "rust_modded": true,
-                    "rust_queued_players": 23,
+                    "rust_queued_players": 0,
                     "rust_gamemode": "standard",
                     "rust_born": "2024-01-16T12:59:05.000Z",
                     "rust_last_ent_drop": "2024-01-16T13:05:10.372Z",
                     "rust_last_seed_change": "2024-01-16T13:05:10.372Z",
                     "rust_last_wipe": "2024-01-16T13:05:10.372Z",
                     "rust_last_wipe_ent": 78154,
-                    "serverSteamId": "90179659061704726"
+                    "rust_settings_source": "detected",
+                    "rust_settings": {
+                        "blueprints": true,
+                        "forceWipeType": "map",
+                        "groupLimit": 2,
+                        "teamUILimit": 2,
+                        "kits": false,
+                        "rates": {
+                            "component": 2,
+                            "craft": 2,
+                            "gather": 2,
+                            "scrap": 2
+                        },
+                        "wipes": [
+                            {
+                                "days": [
+                                    "TU"
+                                ],
+                                "hour": 14,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    1,
+                                    1,
+                                    1,
+                                    1,
+                                    1
+                                ]
+                            },
+                            {
+                                "days": [
+                                    "FR"
+                                ],
+                                "hour": 16,
+                                "minute": 0,
+                                "type": "full",
+                                "weeks": [
+                                    1,
+                                    0,
+                                    1,
+                                    0,
+                                    1
+                                ]
+                            },
+                            {
+                                "days": [
+                                    "FR"
+                                ],
+                                "hour": 16,
+                                "minute": 0,
+                                "type": "map",
+                                "weeks": [
+                                    0,
+                                    1,
+                                    0,
+                                    1,
+                                    0
+                                ]
+                            }
+                        ],
+                        "decay": 1,
+                        "upkeep": 1,
+                        "timeZone": "Europe/Paris",
+                        "version": 3
+                    },
+                    "rust_wipes": [
+                        {
+                            "type": "full",
+                            "timestamp": "2024-01-19T15:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-23T13:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-26T15:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-01-30T13:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-01T19:00:00.000Z"
+                        },
+                        {
+                            "type": "full",
+                            "timestamp": "2024-02-02T15:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-06T13:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-09T15:00:00.000Z"
+                        },
+                        {
+                            "type": "map",
+                            "timestamp": "2024-02-13T13:00:00.000Z"
+                        },
+                        {
+                            "type": "full",
+                            "timestamp": "2024-02-16T15:00:00.000Z"
+                        }
+                    ],
+                    "rust_next_wipe": "2024-01-19T15:00:00.000Z",
+                    "rust_next_wipe_map": "2024-01-19T15:00:00.000Z",
+                    "rust_next_wipe_bp": "2024-01-19T15:00:00.000Z",
+                    "rust_next_wipe_full": "2024-01-19T15:00:00.000Z",
+                    "serverSteamId": "90179682795375638"
                 },
                 "private": false,
                 "createdAt": "2022-03-19T06:32:59.295Z",
-                "updatedAt": "2024-01-17T14:40:04.099Z",
+                "updatedAt": "2024-01-19T09:31:59.532Z",
                 "portQuery": 28014,
                 "country": "GB",
                 "queryStatus": "timeout"

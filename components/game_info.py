@@ -22,7 +22,7 @@ class Game_Info:
         if game:
             data['filter[game]'] = game
         url = f"{self.BASE_URL}/game-features"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def feature_options(self, feature_id: str, sort: str = "players") -> dict:
         """Gets the game feature options.
@@ -39,7 +39,7 @@ class Game_Info:
             "sort": sort
         }
         url = f"{self.BASE_URL}/game-features/{feature_id}/relationships/options"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def list(self, game: str = None) -> dict:
         """Lists all the games Battlemetrics can view.
@@ -56,7 +56,7 @@ class Game_Info:
         if game:
             data['fields[game]'] = game
         url = f"{self.BASE_URL}/games"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def info(self, game_id: str, game: str = None) -> dict:
         """Gets information on a specific game.
@@ -74,4 +74,4 @@ class Game_Info:
         if game:
             data['fields[game]'] = game
         url = f"{self.BASE_URL}/games/{game_id}"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
