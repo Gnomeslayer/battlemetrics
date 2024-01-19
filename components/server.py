@@ -34,7 +34,7 @@ class Server:
         if player:
             data['filter[player]'] = player
         url = f"{self.BASE_URL}/servers/{server_id}/relationships/leaderboards/time"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def search(self,*,
                      search:str = None,
@@ -177,7 +177,7 @@ class Server:
                 count += 1
             if features:
                 url += f"?{features}"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:
         """Add a server to the system.
@@ -215,7 +215,7 @@ class Server:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def enable_rcon(self, server_id: int) -> dict:
         # This endpoint is not completed by the creator of this wrapper.
@@ -249,7 +249,7 @@ class Server:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def send_chat(self, server_id: int, message: str, sender_name: str) -> dict:
         """
@@ -330,7 +330,7 @@ class Server:
             "include": "player,identifier,session,serverEvent,uptime:7,uptime:30,uptime:90,serverGroup,serverDescription,organization,orgDescription,orgGroupDescription"
         }
 
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def rank_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Server Rank History
@@ -354,7 +354,7 @@ class Server:
             "start": start_time,
             "stop": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def group_rank_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Group Rank History. The server must belong to a group.
@@ -378,7 +378,7 @@ class Server:
             "start": start_time,
             "end": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def time_played_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Time Played History
@@ -402,7 +402,7 @@ class Server:
             "start": start_time,
             "stop": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def first_time_played_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """First Time Player History
@@ -426,7 +426,7 @@ class Server:
             "start": start_time,
             "end": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def unique_players_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Unique Player History
@@ -450,7 +450,7 @@ class Server:
             "start": start_time,
             "end": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def session_history(self, server_id: int, start_time: str = None, end_time: str = None) -> dict:
         """Session history
@@ -475,7 +475,7 @@ class Server:
             "stop": end_time,
             "include": "player"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def force_update(self, server_id: int) -> dict:
         """Force Update will cause us to immediately queue the server to be queried and updated. This is limited to subscribers and users who belong to the organization that owns the server if it is claimed.
@@ -514,7 +514,7 @@ class Server:
             "filter[range]": f"{start_time}:{end_time}",
             "include": f"uptime:{uptime}"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def downtime_history(self, server_id: int, resolution: str = "59", start_time: str = None, end_time: str = None) -> dict:
         """Downtime History. Value is number of seconds the server was offline during that period. The default resolution provides daily values (1439 minutes).
@@ -541,7 +541,7 @@ class Server:
             "stop": f"{end_time}",
             "resolution": f"{resolution}"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
 
     async def player_count_history(self, server_id: int, start_time: str = None, end_time: str = None, resolution: str = "raw") -> dict:
@@ -568,4 +568,4 @@ class Server:
             "stop": end_time,
             "resolution": resolution
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)

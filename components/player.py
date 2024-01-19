@@ -24,7 +24,7 @@ class Player:
             "include": "player,identifier",
             "page[size]": "100"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def search(self, search: str = None, filter_game: str = None, filter_online: bool = False, filter_servers: int = None, filter_organization: int = None, filter_public: bool = False, flag: str = None) -> dict:
         """Grabs a list of players based on the filters provided. For accurate information, filter by server or organization.
@@ -67,7 +67,7 @@ class Player:
         if filter_game:
             data['server']['game'] = filter_game
 
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def info(self, identifier: int) -> dict:
 
@@ -88,7 +88,7 @@ class Player:
             "include": "identifier,server,playerCounter,playerFlag,flagPlayer"
         }
         
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     
     async def play_history(self, player_id: int, server_id: int, start_time: str = None, end_time: str = None) -> dict:
@@ -117,7 +117,7 @@ class Player:
             "start": start_time,
             "stop": end_time
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def server_info(self, player_id: int, server_id: int) -> dict:
         """Returns server specifics for the given player and server.
@@ -155,7 +155,7 @@ class Player:
                 }
             ]
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def session_history(self, player_id: int, filter_server: str = None, filter_organization: str = None) -> dict:
         """Returns player's session history.
@@ -177,7 +177,7 @@ class Player:
             data["filter[servers]"] = filter_server
         if filter_organization:
             data["filter[organizations]"] = filter_organization
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def add_flag(self, player_id: int, flag_id: str = None) -> dict:
         """Creates or adds a flag to the targeted players profile.
@@ -199,7 +199,7 @@ class Player:
         }
         if flag_id:
             data['data'][0]['id'] = flag_id
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def flags(self, player_id: int) -> dict:
         """Returns all the flags on a players profile
@@ -215,7 +215,7 @@ class Player:
             "include": "playerFlag"
         }
         url = f"{self.BASE_URL}/players/{player_id}/relationships/flags"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def delete_flag(self, player_id: int, flag_id: str) -> dict:
         """Deletes a targeted flag from a targeted player ID
@@ -262,7 +262,7 @@ class Player:
         if server_names:
             data["filter[servers]"] = server_names
         url = f"{self.BASE_URL}/players/{player_id}/relationships/coplay"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def quick_match(self, identifier: str, identifier_type: str) -> dict:
         """Player Quick Match Identifiers
@@ -296,7 +296,7 @@ class Player:
             ]
         }
 
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     
     async def add_ban(self, reason: str, note: str, org_id: str, banlist: str, server_id: str,
@@ -397,7 +397,7 @@ class Player:
                 if included['attributes']['type'] == "steamID":
                     data['data']['attributes']['identifiers'].append(int(included['id']))
         url = f"{self.BASE_URL}/bans"
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
     
     async def add_note(self, note: str, organization_id: int, player_id: int, shared: bool = True) -> dict:
         """Create a new note
@@ -429,4 +429,4 @@ class Player:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)

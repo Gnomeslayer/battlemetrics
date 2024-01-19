@@ -55,7 +55,7 @@ class Bans:
                 ban['data']['attributes']['note'] += f"\n{note}"
             else:
                 ban['data']['attributes']['note'] = note
-        return await self.helpers._make_request(method="PATCH", url=url, data=ban)
+        return await self.helpers._make_request(method="PATCH", url=url, json=ban)
 
     async def search(self, search: str = None, player_id: int = None, banlist: str = None, expired: bool = True, exempt: bool = False, server: int = None, organization_id: int = None, userIDs: str = None):
         """List, search and filter existing bans.
@@ -98,7 +98,7 @@ class Bans:
             data['filter[users]'] = userIDs
         url = f"{self.BASE_URL}/bans"
 
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
     
     
     async def native_ban_info(self, server: int = None, ban: str = None) -> dict:
@@ -124,7 +124,7 @@ class Bans:
         if server:
             data["filter[server]"] = server
         url = f"{self.BASE_URL}/bans-native"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def native_force_update(self, native_id: str) -> dict:
         """Forces an update on a native ban

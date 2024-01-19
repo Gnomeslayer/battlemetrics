@@ -7,8 +7,7 @@ import aiohttp
 
 
 class Helpers:
-    
-    
+
     def __init__(self, api_key: str) -> None:
         self.headers = {"Authorization": f"Bearer {api_key}"}
 
@@ -46,7 +45,6 @@ class Helpers:
     async def _replace_char_at_position(self, input_string, position, new_character):
         return input_string[:position] + new_character + input_string[position + 1:]
 
-    
     async def calculate_future_date(input_string):
         # Extract the numeric part and unit from the input string
         number = int(input_string[:-1])
@@ -72,93 +70,69 @@ class Helpers:
         else:
             return None
 
-    
-    async def _make_request(self, method: str, url: str, data: dict = None) -> dict:
+    async def _make_request(self, method: str, url: str, params: dict = None, json:dict= None) -> dict:
         """Queries the API and spits out the response.
         Args:
             method (str): One of: GET, POST, PATCH, DELETE
             url (str): The endpoint/url you wish to query.
-            data (dict, optional): Any params or json data you wish to send to enhance your experience?. Defaults to None.
+            params (dict, optional): Any params you wish to send to enhance your experience?. Defaults to None.
+            json (dict, optional): json data you wish to send to enhance your experience?. Defaults to None.
         Raises:
             Exception: Doom and gloom.
         Returns:
             dict: The response from the server.
         """
-        
+
         async with aiohttp.ClientSession(headers=self.headers) as session:
-            method_list = ["POST", "PATCH"]
-            if method in method_list:
-                async with session.request(method=method, url=url, json=data) as r:
+            async with session.request(method=method, url=url, json=json, params=params) as r:
+                if r:
                     response_content = await r.content.read()
-                    if r.status == '429':
-                        print(
-                            "You're being rate limited by the API. Please wait a minute before trying again.")
-                        return
-                    try:
-                        response = json.loads(response_content)
-                    except:
-                        json_string = response_content.decode('utf-8')
-                        json_dict = None
-                        loops = 0
-                        while not json_dict:
-                            if loops == 100000:
-                                print("Loop count reached..")
-                                break
-                            try:
-                                json_dict = json.loads(json_string)
-                            except json.decoder.JSONDecodeError as e:
-                                expecting = e.args[0].split()[1]
-                                expecting.replace("'", "")
-                                expecting.replace("\"", "")
-                                if len(expecting) == 3:
-                                    expecting = expecting.replace("'", "")
-                                else:
-                                    expecting = expecting.split()
-                                    expecting = f"\"{expecting[0]}\":"
-                                json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
-                            loops += 1
-                        response = json_dict
-                    return response
-            else:
-                async with session.request(method=method, url=url, params=data) as r:
+                    response_status = r.status
                     content_type = r.headers.get('content-type', '')
-                    if r.status == '429':
-                        print(
-                            "You're being rate limited by the API. Please wait a minute before trying again.")
-                        return
-                    if 'json' in content_type:
-                        try:
-                            response = await r.json()
-                        except:
-                            json_string = response_content.decode('utf-8')
-                            json_dict = None
-                            loops = 0
-                            while not json_dict:
-                                if loops == 100000:
-                                    print("Loop count reached..")
-                                    break
-                                try:
-                                    json_dict = json.loads(json_string)
-                                except json.decoder.JSONDecodeError as e:
-                                    expecting = e.args[0].split()[1]
-                                    expecting.replace("'", "")
-                                    expecting.replace("\"", "")
-                                    if len(expecting) == 3:
-                                        expecting = expecting.replace("'", "")
-                                    else:
-                                        expecting = expecting.split()
-                                        expecting = f"\"{expecting[0]}\":"
-                                    json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
-                                loops += 1
-                            response = json_dict
-                    elif 'octet-stream' in content_type:
-                        response = await self._parse_octet_stream(await r.content.read())
-                    elif "text/html" in content_type:
-                        response = await r.content.read()
-                        response = str(response)
-                        response = response.replace("'", "")
-                        response = response.replace("b", "")
-                    else:
-                        raise Exception(
-                            f"Unsupported content type: {content_type}")
+                else:
+                    print("Some error message here?")
+
+        if response_status == '429':
+            print("You're being rate limited by the API. Please wait a minute before trying again.")
+            return
+        if 'json' in content_type:
+            #Try and convert the response to something we can handle.
+            try:
+                response = await response_content.json()
+            except:
+                #Attempt to fix any errors in the json response.
+                response = await self.exception_handler(response_content)
+        #This is dedicated if the user is attempting to download a banlist. Currently only allows RUST banlists.
+        elif 'octet-stream' in content_type:
+            response = await self._parse_octet_stream(await response.content.read())
+        #Sometimes the API returns HTML responses. Lets handle those.
+        elif "text/html" in content_type:
+            response = await response.text()
+            response = response.replace("'", "").replace("b", "")
+        else:
+            raise Exception(f"Unsupported content type: {content_type}")
         return response
+
+    #This function attempts to find and fix any errors in the JSON response.
+    async def exception_handler(self, response_content):
+        json_string = response_content.decode('utf-8')
+        json_dict = None
+        loops = 0
+        while not json_dict:
+            if loops == 100000:
+                print("Loop count reached..")
+                break
+            try:
+                json_dict = json.loads(json_string)
+            except json.decoder.JSONDecodeError as e:
+                expecting = e.args[0].split()[1]
+                expecting.replace("'", "")
+                expecting.replace("\"", "")
+                if len(expecting) == 3:
+                    expecting = expecting.replace("'", "")
+                else:
+                    expecting = expecting.split()
+                    expecting = f"\"{expecting[0]}\":"
+                json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
+            loops += 1
+        return json_dict

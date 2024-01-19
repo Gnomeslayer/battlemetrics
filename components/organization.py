@@ -23,7 +23,7 @@ class Organization:
         data = {
             "include": "organizationUser,banList,role,organizationStats"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def stats(self, organization_id: int, start: str, end: str, game: str = None) -> dict:
         """Gets the player stats for the organization
@@ -49,7 +49,7 @@ class Organization:
         }
         if game:
             data["filter[game]"] = game
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def friends_list(self, organization_id: str, filter_accepted: bool = True, filter_origin: bool = True, filter_name: str = None, filter_reciprocated: bool = True) -> dict:
         """Gets all the organization friends.
@@ -73,7 +73,7 @@ class Organization:
         }
         if filter_name:
             data['filter[name]'] = filter_name
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def friend(self, organization_id: int, friend_organization_id: int) -> dict:
         """Gets the friend information for your organization.
@@ -89,7 +89,7 @@ class Organization:
         data = {
             "include": "organization,playerFlag,organizationStats"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def friend_update(self, organization_id: int, friend_organization_id: int, identifiers: list, playerflag: str, shared_notes: bool = True, accepted: bool = True) -> dict:
         """Updates your organizations friendship.
@@ -116,7 +116,7 @@ class Organization:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, data=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json=data)
 
     async def friend_create(self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True) -> dict:
         """Creates a new friend invite to the targeted organization ID
@@ -156,7 +156,7 @@ class Organization:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def friend_delete(self, organization_id: int, friends_id: int) -> dict:
         """Deletes a friendship
@@ -193,7 +193,7 @@ class Organization:
             "filter[game]": "rust",
             "filter[range]": f"{start_date}:{end_date}"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def commands_activity(self, organization_id: int, summary: bool = False, users: str = None, commands: str = None, time_start: str = None, time_end: str = None, servers: int = None) -> dict:
         """Grabs all the command activity related to the targeted organization
@@ -228,7 +228,7 @@ class Organization:
         if servers:
             data['filter[servers]'] = servers
         url = f"{self.BASE_URL}/organizations/{organization_id}/relationships/command-stats"
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def user_organization_view(self) -> dict:
         """Retrieves the organizations the current API token can view.
@@ -243,4 +243,4 @@ class Organization:
             "include": "organizationUser,banList,organizationStats"
         }
 
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)

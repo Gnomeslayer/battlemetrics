@@ -47,7 +47,7 @@ class Flags:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def delete(self, flag_id: str) -> dict:
         """Delete an existing flag.
@@ -89,7 +89,7 @@ class Flags:
         }
         if filter_personal:
             data["filter[personal]"] = str(filter_personal).lower()
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def update(self, flag_id: str, color: str, description: str, icon_name: str, flag_name: str) -> dict:
         """Create a new flag
@@ -116,4 +116,4 @@ class Flags:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, data=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json=data)
