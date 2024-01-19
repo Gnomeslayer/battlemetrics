@@ -35,7 +35,7 @@ class Session:
             data["filter[players]"] = filter_player
         if filter_identifiers:
             data["filter[identifiers]"] = filter_identifiers
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def coplay(self, sessionid: str) -> dict:
         """Returns a list of sessions that were active during the same time as the provided session id.
@@ -51,5 +51,5 @@ class Session:
             "include": "identifier,server,player",
             "page[size]": "99"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 

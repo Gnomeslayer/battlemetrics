@@ -54,7 +54,7 @@ class Battlemetrics:
         data = {
             "token": token
         }
-        return await self.helpers._make_request(method="POST", url=url, data=data)
+        return await self.helpers._make_request(method="POST", url=url, json=data)
 
     async def pagination(self, page_link:str) -> dict:
         return await self.helpers._make_request(method="GET", url=page_link)
@@ -86,7 +86,7 @@ class Battlemetrics:
             "metrics[0][resolution]": resolution,
             "fields[dataPoint]": "name,group,timestamp,value"
         }
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def activity_logs(self, filter_bmid: int = None, filter_search: str = None, filter_servers: int = None, blacklist: str = None, whitelist: str = None) -> dict:
         """Retrieves the activity logs.
@@ -119,4 +119,4 @@ class Battlemetrics:
         if filter_bmid:
             data['filter[players]'] = filter_bmid
         
-        return await self.helpers._make_request(method="GET", url=url, data=data)
+        return await self.helpers._make_request(method="GET", url=url, params=data)
