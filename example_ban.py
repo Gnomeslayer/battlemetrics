@@ -13,11 +13,6 @@ example_org_id = 13771
 
 bmapi = Battlemetrics(config['tokens']['battlemetrics_token'])
 
-
-
-#Creating the ban.
-#Only requires a steam ID or Battlemetrics identifier.
-#It will automagically grab everything it requires from there.
 asyncio.run(bmapi.player.add_ban(reason="Document Ban.",
                                               note="This was made for the purpose of documentation.",
                                               battlemetrics_id=example_bmid,
