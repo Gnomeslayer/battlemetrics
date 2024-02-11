@@ -3,6 +3,7 @@ import json
 from time import strftime, localtime
 
 import aiohttp
+import re
 
 
 class Helpers:
@@ -55,8 +56,35 @@ class Helpers:
                         except Exception as e:
                             print(f"Even the exception handler can't handle this nonsene!\n{e}")
                 elif 'octet-stream' in content_type:
-                    stream = await r.content.read()
-                    response = await self._parse_octet_stream(stream)
+                    stream = await r.text(encoding='utf-8')
+                    pattern = re.compile(r"""
+                            ^\s*banid[ ]              # Appears to be a literal, skip this
+                            (?P<steamid>\d+)[ ]         # that banID number
+                            "(?P<name>.*?)"[ ]        # whodunnit
+                            "(?P<reason>.*?)"[ ]      # what they did
+                            (?P<duration>-?\d*)\s*$   # the duration of the ban
+                        """, re.VERBOSE)
+                    data = []
+                    for line in stream.splitlines():
+                        if contents := pattern.match(line):
+                            contents = contents.groupdict()
+                            if contents['duration'] == "-1":
+                                contents['duration'] = "Permanent"
+                            else:
+                                duration = int(contents['duration'])
+                                try:
+                                    duration = strftime(
+                                        '%Y-%m-%d %H:%M:%S', localtime(duration))
+                                    print(duration)
+                                except Exception as e:
+                                    print(f"Failed to convert duration to time, defaulted to 'The future'\nSteam ID: {contents['steamid']}\nDuration: {duration}\nError: {e}")
+                                    duration = "The future"
+                                contents['duration'] = duration
+                            data.append(contents)
+                        else:
+                            print(f"Voodoo Failed. VOODOOO FAILED! PANIC!!\n{line}")
+                    return data
+                
                 elif 'text/html' in content_type:
                     response = await r.text()
                     response = response.replace("'", "").replace("b", "")
@@ -123,7 +151,8 @@ class Helpers:
         print("Loop failed to achieve anything. Just like my life.")
         return
     
-    async def _parse_octet_stream(self, response:bytes) -> dict:
+    #Keeping here in case we need this in future. Never know.
+    async def _parse_octet_stream(self, response:str) -> dict:
         """Takes your banlist file from the API request and processes it into a dictionary
         Args:
             response (octet-stream): The file response from the API
@@ -131,7 +160,7 @@ class Helpers:
             dict: Returns the converted file in dictionary form.
         """
 
-        cfg_str = response.decode('utf-8')
+        cfg_str = response
         ban_dict = {}
         for line in cfg_str.split("\n"):
             if line.startswith("banid"):

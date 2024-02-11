@@ -7,6 +7,29 @@ class Ban_List:
         self.base_url = base_url
 
 
+    async def rust_banlist_export(self, organization_id:int, server_id:int = None) -> list[dict]:
+        """Exports your rust banlist.
+        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans/export
+        
+        Args:
+            organization_id (int): Organization ID the banlist belongs to
+            server_id (int): Server ID the banlist is associated with.
+
+        Returns:
+            list[dict]: A list of dictionaries that provide the ban data.
+        """
+        
+        url = f"{self.base_url}/bans/export"
+        data = {
+            "filter[organization]": organization_id,
+            "format": "rust/bans.cfg"
+        }
+        if server_id:
+            data["filter[server]"] = server_id
+            
+        return await self.helpers._make_request(method="GET", url=url, params=data)
+    
+    
     async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, 
                             permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
         """Creates an invite to 
