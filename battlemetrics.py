@@ -1,4 +1,3 @@
-from time import strftime, localtime
 from datetime import datetime, timedelta
 from components.player import Player
 from components.server import Server
@@ -22,22 +21,22 @@ class Battlemetrics:
     """
 
     def __init__(self, api_key: str) -> None:
-        self.BASE_URL = "https://api.battlemetrics.com"
+        self.base_url = "https://api.battlemetrics.com"
         self.api_key = api_key
         #self.response_data = None
         self.headers = {"Authorization": f"Bearer {api_key}"}
         self.helpers = Helpers(api_key=api_key)
-        self.player = Player(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.server = Server(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.notes = Notes(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.flags = Flags(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.session = Session(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.ban_list = Ban_List(helpers=self.helpers, BASE_URL=self.BASE_URL)
-        self.bans = Bans(helpers=self.helpers, BASE_URL=self.BASE_URL)
+        self.player = Player(helpers=self.helpers, base_url=self.base_url)
+        self.server = Server(helpers=self.helpers, base_url=self.base_url)
+        self.notes = Notes(helpers=self.helpers, base_url=self.base_url)
+        self.flags = Flags(helpers=self.helpers, base_url=self.base_url)
+        self.session = Session(helpers=self.helpers, base_url=self.base_url)
+        self.ban_list = Ban_List(helpers=self.helpers, base_url=self.base_url)
+        self.bans = Bans(helpers=self.helpers, base_url=self.base_url)
         self.organization = Organization(
-            helpers=self.helpers, BASE_URL=self.BASE_URL)
+            helpers=self.helpers, base_url=self.base_url)
         self.game_info = Game_Info(
-            helpers=self.helpers, BASE_URL=self.BASE_URL)
+            helpers=self.helpers, base_url=self.base_url)
 
     async def check_api_scopes(self, token: str = None) -> dict:
         """Retrieves the tokens scopes from the oauth.
@@ -54,7 +53,7 @@ class Battlemetrics:
         data = {
             "token": token
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def pagination(self, page_link:str) -> dict:
         return await self.helpers._make_request(method="GET", url=page_link)
@@ -71,7 +70,7 @@ class Battlemetrics:
             dict: a bunch of numbers.
         """
 
-        url = f"{self.BASE_URL}/metrics"
+        url = f"{self.base_url}/metrics"
         # current_time = datetime.utcnow()
         # current_time_str = current_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not start_date:
@@ -102,7 +101,7 @@ class Battlemetrics:
             dict: The activity logs information.
         """
 
-        url = f"{self.BASE_URL}/activity"
+        url = f"{self.base_url}/activity"
         data = {
             "page[size]": "100",
             "include": "organization,server,user,player"

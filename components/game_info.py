@@ -2,9 +2,9 @@ from components.helpers import Helpers
 
 
 class Game_Info:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
 
 
     async def features(self, game: str = None) -> dict:
@@ -21,7 +21,7 @@ class Game_Info:
         }
         if game:
             data['filter[game]'] = game
-        url = f"{self.BASE_URL}/game-features"
+        url = f"{self.base_url}/game-features"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def feature_options(self, feature_id: str, sort: str = "players") -> dict:
@@ -38,7 +38,7 @@ class Game_Info:
             "page[size]": "100",
             "sort": sort
         }
-        url = f"{self.BASE_URL}/game-features/{feature_id}/relationships/options"
+        url = f"{self.base_url}/game-features/{feature_id}/relationships/options"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def list(self, game: str = None) -> dict:
@@ -55,7 +55,7 @@ class Game_Info:
         }
         if game:
             data['fields[game]'] = game
-        url = f"{self.BASE_URL}/games"
+        url = f"{self.base_url}/games"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def info(self, game_id: str, game: str = None) -> dict:
@@ -73,5 +73,5 @@ class Game_Info:
         }
         if game:
             data['fields[game]'] = game
-        url = f"{self.BASE_URL}/games/{game_id}"
+        url = f"{self.base_url}/games/{game_id}"
         return await self.helpers._make_request(method="GET", url=url, params=data)

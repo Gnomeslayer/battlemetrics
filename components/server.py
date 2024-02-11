@@ -1,11 +1,10 @@
 import datetime
 from components.helpers import Helpers
 from datetime import datetime, timedelta
-from time import strftime, localtime
 
 class Server:
-    def __init__(self, BASE_URL: str, helpers: Helpers) -> None:
-        self.BASE_URL = BASE_URL
+    def __init__(self, base_url: str, helpers: Helpers) -> None:
+        self.base_url = base_url
         self.helpers = helpers
 
     async def leaderboard_info(self, server_id: int,  start: str = None, end: str = None, player: int = None) -> dict:
@@ -33,7 +32,7 @@ class Server:
         }
         if player:
             data['filter[player]'] = player
-        url = f"{self.BASE_URL}/servers/{server_id}/relationships/leaderboards/time"
+        url = f"{self.base_url}/servers/{server_id}/relationships/leaderboards/time"
         return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def search(self,*,
@@ -83,7 +82,7 @@ class Server:
             dict: Dictionary response from battlemetrics.
         """
 
-        url = f"{self.BASE_URL}/servers"
+        url = f"{self.base_url}/servers"
         
         server_type_uuid = "845b5e50-648f-11ea-aa7c-b3870f9c01b3"
         server_types = {
@@ -196,7 +195,7 @@ class Server:
             dict: Response from battlemetrics.
         """
 
-        url = f"{self.BASE_URL}/servers"
+        url = f"{self.base_url}/servers"
         data = {
             "data": {
                 "type": "server",
@@ -215,7 +214,7 @@ class Server:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def enable_rcon(self, server_id: int) -> dict:
         # This endpoint is not completed by the creator of this wrapper.
@@ -234,7 +233,7 @@ class Server:
             dict: If it was successful or not.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/command"
+        url = f"{self.base_url}/servers/{server_id}/command"
         data = {
             "data":
             {
@@ -249,7 +248,7 @@ class Server:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def send_chat(self, server_id: int, message: str, sender_name: str) -> dict:
         """
@@ -264,7 +263,7 @@ class Server:
             dict: If it was successful or not.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/command"
+        url = f"{self.base_url}/servers/{server_id}/command"
         chat = {
             "data": {
                 "type": "rconCommand",
@@ -288,7 +287,7 @@ class Server:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/rcon"
+        url = f"{self.base_url}/servers/{server_id}/rcon"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def disconnect_rcon(self, server_id: int) -> dict:
@@ -301,7 +300,7 @@ class Server:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/rcon/disconnect"
+        url = f"{self.base_url}/servers/{server_id}/rcon/disconnect"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def connect_rcon(self, server_id: int) -> dict:
@@ -313,7 +312,7 @@ class Server:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/rcon/connect"
+        url = f"{self.base_url}/servers/{server_id}/rcon/connect"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, server_id: int) -> dict:
@@ -325,7 +324,7 @@ class Server:
             dict: The server information.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}"
+        url = f"{self.base_url}/servers/{server_id}"
         data = {
             "include": "player,identifier,session,serverEvent,uptime:7,uptime:30,uptime:90,serverGroup,serverDescription,organization,orgDescription,orgGroupDescription"
         }
@@ -349,7 +348,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/rank-history"
+        url = f"{self.base_url}/servers/{server_id}/rank-history"
         data = {
             "start": start_time,
             "stop": end_time
@@ -373,7 +372,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/group-rank-history"
+        url = f"{self.base_url}/servers/{server_id}/group-rank-history"
         data = {
             "start": start_time,
             "end": end_time
@@ -397,7 +396,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/time-played-history"
+        url = f"{self.base_url}/servers/{server_id}/time-played-history"
         data = {
             "start": start_time,
             "stop": end_time
@@ -421,7 +420,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/first-time-history"
+        url = f"{self.base_url}/servers/{server_id}/first-time-history"
         data = {
             "start": start_time,
             "end": end_time
@@ -445,7 +444,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/unique-player-history"
+        url = f"{self.base_url}/servers/{server_id}/unique-player-history"
         data = {
             "start": start_time,
             "end": end_time
@@ -469,7 +468,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/relationships/sessions"
+        url = f"{self.base_url}/servers/{server_id}/relationships/sessions"
         data = {
             "start": start_time,
             "stop": end_time,
@@ -487,7 +486,7 @@ class Server:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/servers/{server_id}/force-update"
+        url = f"{self.base_url}/servers/{server_id}/force-update"
         return await self.helpers._make_request(method="POST", url=url)
 
     async def outage_history(self, server_id: int, uptime: str = "89", start_time: str = None, end_time: str = None) -> dict:
@@ -508,7 +507,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/relationships/outages"
+        url = f"{self.base_url}/servers/{server_id}/relationships/outages"
         data = {
             "page[size]": "99",
             "filter[range]": f"{start_time}:{end_time}",
@@ -534,7 +533,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/relationships/downtime"
+        url = f"{self.base_url}/servers/{server_id}/relationships/downtime"
         data = {
             "page[size]": "99",
             "start": f"{start_time}",
@@ -562,7 +561,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/servers/{server_id}/player-count-history"
+        url = f"{self.base_url}/servers/{server_id}/player-count-history"
         data = {
             "start": start_time,
             "stop": end_time,

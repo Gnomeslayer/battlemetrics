@@ -2,9 +2,9 @@ from components.helpers import Helpers
 
 
 class Session:
-    def __init__(self, BASE_URL: str, helpers: Helpers) -> None:
+    def __init__(self, base_url: str, helpers: Helpers) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
 
 
     async def info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
@@ -20,7 +20,7 @@ class Session:
             dict: Session information.
         """
 
-        url = f"{self.BASE_URL}/sessions"
+        url = f"{self.base_url}/sessions"
         data = {
             "include": "identifier,server,player",
             "page[size]": "100"
@@ -46,7 +46,7 @@ class Session:
             dict: A dictionary response from the server.
         """
 
-        url = f"{self.BASE_URL}/sessions/{sessionid}/relationships/coplay"
+        url = f"{self.base_url}/sessions/{sessionid}/relationships/coplay"
         data = {
             "include": "identifier,server,player",
             "page[size]": "99"

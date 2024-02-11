@@ -2,8 +2,8 @@ from components.helpers import Helpers
 
 
 class Notes:
-    def __init__(self, BASE_URL: str, helpers: Helpers) -> None:
-        self.BASE_URL = BASE_URL
+    def __init__(self, base_url: str, helpers: Helpers) -> None:
+        self.base_url = base_url
         self.helpers = helpers
 
 
@@ -17,7 +17,7 @@ class Notes:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes/{note_id}"
+        url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
 
@@ -31,7 +31,7 @@ class Notes:
             dict: List of notes on users profile.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes"
+        url = f"{self.base_url}/players/{player_id}/relationships/notes"
         data = {
             "include": "user,organization",
             "page[size]": "100"
@@ -53,9 +53,9 @@ class Notes:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes/{note_id}"
+        url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         if append:
-            existingnote = self.note_info(player_id=player_id, note_id=note_id)
+            existingnote = self.info(player_id=player_id, note_id=note_id)
             if existingnote:
                 existingnote = existingnote['data']['attributes']['note']
             note = f"{existingnote}\n{note}"
@@ -69,7 +69,7 @@ class Notes:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, json=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json_dict=data)
 
 
     async def info(self, player_id: int, note_id: str) -> dict:
@@ -82,5 +82,5 @@ class Notes:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes/{note_id}"
+        url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         return await self.helpers._make_request(method="GET", url=url)

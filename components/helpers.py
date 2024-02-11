@@ -1,5 +1,4 @@
-from datetime import timedelta
-import datetime
+from datetime import timedelta, datetime
 import json
 from time import strftime, localtime
 
@@ -11,7 +10,120 @@ class Helpers:
     def __init__(self, api_key: str) -> None:
         self.headers = {"Authorization": f"Bearer {api_key}"}
 
-    async def _parse_octet_stream(self, response) -> dict:
+    async def _make_request(self, method: str, url: str, params: dict = None, json_dict:dict= None) -> dict:
+        """Queries the API and spits out the response.
+        Args:
+            method (str): One of: GET, POST, PATCH, DELETE
+            url (str): The endpoint/url you wish to query.
+            params (dict, optional): Any params you wish to send to enhance your experience?. Defaults to None.
+            json (dict, optional): json data you wish to send to enhance your experience?. Defaults to None.
+        Raises:
+            Exception: Doom and gloom.
+        Returns:
+            dict: The response from the server.
+        """
+
+        async with aiohttp.ClientSession(headers=self.headers) as session:
+            async with session.request(method=method, url=url, json=json_dict, params=params) as r:
+                content_type = r.headers.get('content-type', '')
+                response_status = int(r.status)
+                
+                if response_status >= 400:
+                    if response_status == 429:
+                        print("You're being rate limited by the API. Please wait a few minutes before trying again.")
+                        return
+                    else:
+                        with open('error_logs.txt', 'a') as file:
+                            file.write(f"There's an issue, the response status was: {response_status}\nMethod: {method}\nurl: {url}\nparams: {params}\njson: {json_dict}\nr: {r}")
+                        return
+                
+                if 'json' in content_type:
+                    try:
+                        response = await r.json()
+                    except Exception as e:
+                        print(f"There's an issue with the respon json data.. Going to try and fix!\n<<Exception@Json>>\n{e}\n")
+                        try:
+                            stream = await r.content.read()
+                            if len(stream) < 10:
+                                stream = await r.text()
+                            try:
+                                response = json.loads(stream)
+                                return response
+                            except Exception as e:
+                                print(f"Tried turning a text to dict.. Failed..\n{e}")
+                                response = await self.exception_handler(stream)
+                        except Exception as e:
+                            print(f"Even the exception handler can't handle this nonsene!\n{e}")
+                elif 'octet-stream' in content_type:
+                    stream = await r.content.read()
+                    response = await self._parse_octet_stream(stream)
+                elif 'text/html' in content_type:
+                    response = await r.text()
+                    response = response.replace("'", "").replace("b", "")
+                else:
+                    raise Exception(f"Unsupported Content Type: {content_type}\n Some additional stuff: {r}\nresponse_status: {response_status}")
+                await session.close()
+        return response
+
+    #This function attempts to find and fix any errors in the JSON response.
+    async def exception_handler(self, response_content) -> dict:
+        print("Exception Handler Running...Attempting to fix the response.")
+        if type(response_content) == bytes:
+            json_string: str = response_content.decode('utf-8')
+        else:
+            json_string = response_content
+        loops = 0
+        max_loops = 50000
+        while True and loops < max_loops:
+            loops += 1
+            try:
+                response = json.loads(json_string)
+                print(f"Fixer ending early \o/ Ran: {loops} times!")
+                return response
+            except json.JSONDecodeError as e:
+                # Get the position of the error
+                error_position = e.pos
+                
+                # Attempt to fix the error based on the type of error
+                if e.msg == "Expecting value":
+                    # Remove unexpected characters from the beginning of the string
+                    if json_string[error_position-1] == ":" and json_string[error_position-2] == "\"" and json_string[error_position-3] == "\"":
+                        json_string = json_string[:error_position-4] + json_string[error_position:]
+                    elif json_string[error_position-1] == ":":
+                        json_string = json_string[:error_position-1] + 'Test' + json_string[error_position-1:]
+                    else:
+                        json_string = json_string[:error_position-2] + json_string[error_position-2:]
+                elif e.msg == "Extra data":
+                    # Remove unexpected characters from the end of the string
+                    json_string = json_string[:error_position]
+                elif e.msg == "Unterminated string":
+                    # If the string is unterminated, add a closing quote
+                    json_string = json_string[:error_position] + '"' + json_string[error_position:]
+                elif e.msg == "Expecting ':'":
+                    # If there's a missing colon, add it at the appropriate position
+                    json_string = json_string[:error_position] + ':' + json_string[error_position:]
+                elif e.msg == "Expecting ',' or ']'":
+                    # If there's a missing comma or bracket, add it at the appropriate position
+                    json_string = json_string[:error_position] + ',' + json_string[error_position:]
+                elif e.msg == "Expecting property name enclosed in double quotes":
+                    # If property names are not enclosed in double quotes, add them
+                    json_string = json_string[:error_position] + '"' + json_string[error_position:]
+                    next_quote_position = json_string.find('"', error_position + 1)
+                    if next_quote_position != -1:
+                        json_string = json_string[:next_quote_position] + '"' + json_string[next_quote_position:]
+                    else:
+                        # If there's no closing quote, add one at the end of the string
+                        json_string += '"'
+                elif "Expecting ':' delimiter" in e.msg:
+                    json_string = json_string[:error_position] + ':' + json_string[error_position:]
+                else:
+                    # If the error is not recognized, return None
+                    print(f"EXITED FIXER AFTER RUNNING {loops} times!\n{e}")
+                    return None
+        print("Loop failed to achieve anything. Just like my life.")
+        return
+    
+    async def _parse_octet_stream(self, response:bytes) -> dict:
         """Takes your banlist file from the API request and processes it into a dictionary
         Args:
             response (octet-stream): The file response from the API
@@ -42,10 +154,10 @@ class Helpers:
                     "playername": player_name, "reason": reason, "expires": duration}
         return ban_dict
 
-    async def _replace_char_at_position(self, input_string, position, new_character):
+    async def _replace_char_at_position(self, input_string:str, position:int, new_character:str) -> str:
         return input_string[:position] + new_character + input_string[position + 1:]
 
-    async def calculate_future_date(input_string):
+    async def calculate_future_date(self, input_string:str) -> str:
         # Extract the numeric part and unit from the input string
         number = int(input_string[:-1])
         unit = input_string[-1]
@@ -54,8 +166,9 @@ class Helpers:
         unit_to_timedelta = {
             'd': timedelta(days=number),
             'w': timedelta(weeks=number),
-            'm': timedelta(days=number*30),  # Approximate for months
-            'h': timedelta(hours=number),    # Hours
+            'm': timedelta(minutes=number),  # Approximate for months
+            'h': timedelta(hours=number),
+            's': timedelta(seconds=number)# Hours
         }
 
         # Get the timedelta object based on the unit
@@ -69,70 +182,5 @@ class Helpers:
             return future_date
         else:
             return None
-
-    async def _make_request(self, method: str, url: str, params: dict = None, json:dict= None) -> dict:
-        """Queries the API and spits out the response.
-        Args:
-            method (str): One of: GET, POST, PATCH, DELETE
-            url (str): The endpoint/url you wish to query.
-            params (dict, optional): Any params you wish to send to enhance your experience?. Defaults to None.
-            json (dict, optional): json data you wish to send to enhance your experience?. Defaults to None.
-        Raises:
-            Exception: Doom and gloom.
-        Returns:
-            dict: The response from the server.
-        """
-
-        async with aiohttp.ClientSession(headers=self.headers) as session:
-            async with session.request(method=method, url=url, json=json, params=params) as r:
-                if r:
-                    response_content = await r.content.read()
-                    response_status = r.status
-                    content_type = r.headers.get('content-type', '')
-                else:
-                    print("Some error message here?")
-
-        if response_status == '429':
-            print("You're being rate limited by the API. Please wait a minute before trying again.")
-            return
-        if 'json' in content_type:
-            #Try and convert the response to something we can handle.
-            try:
-                response = await response_content.json()
-            except:
-                #Attempt to fix any errors in the json response.
-                response = await self.exception_handler(response_content)
-        #This is dedicated if the user is attempting to download a banlist. Currently only allows RUST banlists.
-        elif 'octet-stream' in content_type:
-            response = await self._parse_octet_stream(await response.content.read())
-        #Sometimes the API returns HTML responses. Lets handle those.
-        elif "text/html" in content_type:
-            response = await response.text()
-            response = response.replace("'", "").replace("b", "")
-        else:
-            raise Exception(f"Unsupported content type: {content_type}")
-        return response
-
-    #This function attempts to find and fix any errors in the JSON response.
-    async def exception_handler(self, response_content):
-        json_string = response_content.decode('utf-8')
-        json_dict = None
-        loops = 0
-        while not json_dict:
-            if loops == 100000:
-                print("Loop count reached..")
-                break
-            try:
-                json_dict = json.loads(json_string)
-            except json.decoder.JSONDecodeError as e:
-                expecting = e.args[0].split()[1]
-                expecting.replace("'", "")
-                expecting.replace("\"", "")
-                if len(expecting) == 3:
-                    expecting = expecting.replace("'", "")
-                else:
-                    expecting = expecting.split()
-                    expecting = f"\"{expecting[0]}\":"
-                json_string = await self._replace_char_at_position(json_string, e.pos, expecting)
-            loops += 1
-        return json_dict
+        
+        

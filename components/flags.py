@@ -2,8 +2,8 @@ from components.helpers import Helpers
 
 
 class Flags:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
-        self.BASE_URL = BASE_URL
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
+        self.base_url = base_url
         self.helpers = helpers
 
 
@@ -21,7 +21,7 @@ class Flags:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/player-flags"
+        url = f"{self.base_url}/player-flags"
         data = {
             "data": {
                 "type": "playerFlag",
@@ -47,7 +47,7 @@ class Flags:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def delete(self, flag_id: str) -> dict:
         """Delete an existing flag.
@@ -58,7 +58,7 @@ class Flags:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/player-flags/{flag_id}"
+        url = f"{self.base_url}/player-flags/{flag_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, flag_id: str) -> dict:
@@ -70,7 +70,7 @@ class Flags:
             dict: Dictionary response of the flag data.
         """
 
-        url = f"{self.BASE_URL}/player-flags/{flag_id}"
+        url = f"{self.base_url}/player-flags/{flag_id}"
         return await self.helpers._make_request(method="GET", url=url)
 
     async def list(self, filter_personal: bool = False) -> dict:
@@ -82,7 +82,7 @@ class Flags:
             dict: Dictionary response of a list of flags.
         """
 
-        url = f"{self.BASE_URL}/player-flags"
+        url = f"{self.base_url}/player-flags"
         data = {
             "page[size]": "100",
             "include": "organization"
@@ -103,7 +103,7 @@ class Flags:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/player-flags/{flag_id}"
+        url = f"{self.base_url}/player-flags/{flag_id}"
         data = {
             "data": {
                 "type": "playerFlag",
@@ -116,4 +116,4 @@ class Flags:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, json=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json_dict=data)

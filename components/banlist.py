@@ -2,12 +2,13 @@ from components.helpers import Helpers
 
 
 class Ban_List:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
 
 
-    async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
+    async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, 
+                            permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:
         """Creates an invite to 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banListInvite-/ban-lists/{(%23%2Fdefinitions%2FbanList%2Fdefinitions%2Fidentity)}/relationships/invites
         Args:
@@ -23,7 +24,7 @@ class Ban_List:
             dict: Returns whether it was successful or not.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/invites"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites"
         data = {
             "data": {
                 "type": "banListInvite",
@@ -45,7 +46,7 @@ class Ban_List:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def read_invitation(self, invite_id: str) -> dict:
         """Allows you to see the information about a specific banlist invite, such as uses.
@@ -56,7 +57,7 @@ class Ban_List:
             dict: The banlist invite information
         """
 
-        url = f"{self.BASE_URL}/ban-list-invites/{invite_id}"
+        url = f"{self.base_url}/ban-list-invites/{invite_id}"
         data = {
             "include": "banList",
             "fields[organization]": "tz,banTemplate",
@@ -73,7 +74,7 @@ class Ban_List:
             banlist_id (str): The ID of a banlist
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/invites"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites"
         data = {
             "include": "banList",
             "fields[organization]": "tz,banTemplate",
@@ -94,7 +95,7 @@ class Ban_List:
             dict: Whether it was successful or not.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/invites/{banlist_invite_id}"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites/{banlist_invite_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def exemption_create(self, banid: str, organization_id: int, reason: str = None) -> dict:
@@ -108,7 +109,7 @@ class Ban_List:
             dict: Whether it was successful or not.
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}/relationships/exemptions"
+        url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
         data = {
             "data": {
                 "type": "banExemption",
@@ -125,7 +126,7 @@ class Ban_List:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def exemption_delete(self, banid: str) -> dict:
         """Deletes an exemption
@@ -136,7 +137,7 @@ class Ban_List:
             dict: Whether it was successful or not
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}/relationships/exemptions"
+        url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def exemption_info_single(self, banid: str, exemptionid: str) -> dict:
@@ -149,7 +150,7 @@ class Ban_List:
             dict: Information about the exemption
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}/relationships/exemptions/{exemptionid}"
+        url = f"{self.base_url}/bans/{banid}/relationships/exemptions/{exemptionid}"
         return await self.helpers._make_request(method="GET", url=url)
 
     async def exemption_info_all(self, banid: str) -> dict:
@@ -161,7 +162,7 @@ class Ban_List:
             dict: All ban exemptions
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}/relationships/exemptions"
+        url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
         data = {
             "fields[banExemption]": "reason"
         }
@@ -180,10 +181,11 @@ class Ban_List:
 
         banexemption = await self.exemption_info_single(banid=banid, exemptionid=exemptionid)
         banexemption['data']['attributes']['reason'] = reason
-        url = f"{self.BASE_URL}/bans/{banid}/relationships/exemptions"
+        url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
         return await self.helpers._make_request(method="PATCH", url=url, json=banexemption)
 
-    async def create(self, organization_id: int, action: str, autoadd: bool, ban_identifiers: list, native_ban: bool, list_default_reasons: list, ban_list_name: str) -> dict:
+    async def create(self, organization_id: int, action: str, autoadd: bool, 
+                     ban_identifiers: list, native_ban: bool, list_default_reasons: list, ban_list_name: str) -> dict:
         """Creates a new banlist for your targeted organization.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banList-/ban-lists
         Args:
@@ -198,7 +200,7 @@ class Ban_List:
             dict: Returns a dictionary response of the new banlist created.
         """
 
-        url = f"{self.BASE_URL}/ban-lists"
+        url = f"{self.base_url}/ban-lists"
         data = {
             "data": {
                 "type": "banList",
@@ -229,9 +231,10 @@ class Ban_List:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
-    async def accept_invite(self, code: str, action: str, autoadd: bool, ban_identifiers: list, native_ban: bool, list_default_reasons: list, organization_id: str, organization_owner_id: str) -> dict:
+    async def accept_invite(self, code: str, action: str, autoadd: bool, ban_identifiers: list, native_ban: bool, 
+                            list_default_reasons: list, organization_id: str, organization_owner_id: str) -> dict:
         """Accepts an invitation to subscribe to a banlist.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banList-/ban-lists/accept-invite
         Args:
@@ -247,7 +250,7 @@ class Ban_List:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/accept-invite"
+        url = f"{self.base_url}/ban-lists/accept-invite"
         data = {
             "data": {
                 "type": "banList",
@@ -278,7 +281,7 @@ class Ban_List:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def unsubscribe(self, banlist_id: str, organization_id: str) -> dict:
         """Unscubscribes from a banlist
@@ -290,7 +293,7 @@ class Ban_List:
             dict: Response from server.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def list(self) -> dict:
@@ -300,7 +303,7 @@ class Ban_List:
             dict: A dictionary response of all the banlists you have access to.
         """
 
-        url = f"{self.BASE_URL}/ban-lists"
+        url = f"{self.base_url}/ban-lists"
         data = {
             "include": "server,organization,owner",
             "page[size]": "100"
@@ -316,7 +319,7 @@ class Ban_List:
             dict: A dictionary response of all the organizations subbed to the targeted banlist.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/organizations"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations"
         data = {
             "include": "server,organization,owner",
             "page[size]": "100"
@@ -334,7 +337,7 @@ class Ban_List:
             dict: A dictionary response of all the information requested.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/{organization_id}"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/{organization_id}"
         data = {
             "include": "organization, owner, server"
         }
@@ -349,13 +352,15 @@ class Ban_List:
             dict: Returns a dictionary response of the requested data.
         """
 
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}"
+        url = f"{self.base_url}/ban-lists/{banlist_id}"
         data = {
             "include": "owner"
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def update(self, banlist_id: str, organization_id: str, action: str = None, autoadd: bool = None, ban_identifiers: list = None, native_ban: bool = None, list_default_reasons: list = None, ban_list_name: str = None) -> dict:
+    async def update(self, banlist_id: str, organization_id: str, action: str = None, 
+                     autoadd: bool = None, ban_identifiers: list = None, native_ban: bool = None, 
+                     list_default_reasons: list = None, ban_list_name: str = None) -> dict:
         """Updates the targeted banlist with the altered information you supply
         Documentation: https://www.battlemetrics.com/developers/documentation#link-PATCH-banList-/ban-lists/{(%23%2Fdefinitions%2FbanList%2Fdefinitions%2Fidentity)}/relationships/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
         Args:
@@ -389,7 +394,7 @@ class Ban_List:
             banlist['attributes']['defaultReasons'] = list_default_reasons
         if ban_list_name:
             banlist['attributes']['name'] = ban_list_name
-        url = f"{self.BASE_URL}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
+        url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
         return await self.helpers._make_request(method="PATCH", url=url, json=banlist)
 
     async def get_list(self, banlist_id: str = None) -> dict:
@@ -411,4 +416,3 @@ class Ban_List:
             if banlist['id'] == banlist_id:
                 return banlist
         return banlists
-

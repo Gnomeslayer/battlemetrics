@@ -2,12 +2,11 @@ import datetime
 import uuid
 from components.helpers import Helpers
 from datetime import datetime, timedelta
-from time import strftime, localtime
 
 class Organization:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
 
 
     async def info(self, organization_id: int) -> dict:
@@ -19,7 +18,7 @@ class Organization:
             dict: The information about your organization or a targeted organization
         """
 
-        url = f"{self.BASE_URL}/organizations/{organization_id}"
+        url = f"{self.base_url}/organizations/{organization_id}"
         data = {
             "include": "organizationUser,banList,role,organizationStats"
         }
@@ -43,7 +42,7 @@ class Organization:
             start = start.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end:
             end = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/organizations/{organization_id}/stats/players"
+        url = f"{self.base_url}/organizations/{organization_id}/stats/players"
         data = {
             "filter[range]": f"{start}:{end}"
         }
@@ -64,7 +63,7 @@ class Organization:
             dict: Returns all the friendship information based on the paramaters set.
         """
 
-        url = f"{self.BASE_URL}/organizations/{organization_id}/relationships/friends"
+        url = f"{self.base_url}/organizations/{organization_id}/relationships/friends"
         data = {
             "include": "organization",
             "filter[accepted]": str(filter_accepted).lower(),
@@ -85,7 +84,7 @@ class Organization:
             dict: Dictionary response about the organization friendship
         """
 
-        url = f"{self.BASE_URL}/organizations/{organization_id}/relationships/friends/{friend_organization_id}"
+        url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friend_organization_id}"
         data = {
             "include": "organization,playerFlag,organizationStats"
         }
@@ -116,7 +115,7 @@ class Organization:
                 }
             }
         }
-        return await self.helpers._make_request(method="PATCH", url=url, json=data)
+        return await self.helpers._make_request(method="PATCH", url=url, json_dict=data)
 
     async def friend_create(self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True) -> dict:
         """Creates a new friend invite to the targeted organization ID
@@ -156,7 +155,7 @@ class Organization:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def friend_delete(self, organization_id: int, friends_id: int) -> dict:
         """Deletes a friendship
@@ -168,7 +167,7 @@ class Organization:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/organizations/{organization_id}/relationships/friends/{friends_id}"
+        url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friends_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def player_stats(self, organization_id: int, start_date: str = None, end_date: str = None) -> dict:
@@ -182,7 +181,7 @@ class Organization:
             dict: Returns a dictionary of all the stats!
         """
 
-        url = f"{self.BASE_URL}/organizations/{organization_id}/stats/players"
+        url = f"{self.base_url}/organizations/{organization_id}/stats/players"
         if not start_date:
             now = datetime.utcnow()
             start_date = now - timedelta(days=1)
@@ -227,7 +226,7 @@ class Organization:
             data['filter[commands]'] = commands
         if servers:
             data['filter[servers]'] = servers
-        url = f"{self.BASE_URL}/organizations/{organization_id}/relationships/command-stats"
+        url = f"{self.base_url}/organizations/{organization_id}/relationships/command-stats"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def user_organization_view(self) -> dict:
@@ -237,7 +236,7 @@ class Organization:
         Returns:
             dict: Returns a dictionary of all the organizations the user can view.
         """
-        url = f"{self.BASE_URL}/organizations"
+        url = f"{self.base_url}/organizations"
         data = {
             "page[size]": "100",
             "include": "organizationUser,banList,organizationStats"

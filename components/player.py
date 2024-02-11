@@ -1,14 +1,12 @@
 import datetime
 from components.helpers import Helpers
 from datetime import datetime, timedelta
-from time import strftime, localtime
 import uuid
-import json
 
 class Player:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
     
     async def identifiers(self, player_id: int) -> dict:
         """Get player identifiers and related players and identifiers.
@@ -19,7 +17,7 @@ class Player:
             dict: Players related identifiers.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/related-identifiers"
+        url = f"{self.base_url}/players/{player_id}/relationships/related-identifiers"
         data = {
             "include": "player,identifier",
             "page[size]": "100"
@@ -40,7 +38,7 @@ class Player:
             dict: A dictionary response of all the players.
         """
 
-        url = f"{self.BASE_URL}/players"
+        url = f"{self.base_url}/players"
         data = {
             "page[size]": "100",
             "include": "server,identifier,playerFlag,flagPlayer"
@@ -83,7 +81,7 @@ class Player:
 
         """
 
-        url = f"{self.BASE_URL}/players/{identifier}"
+        url = f"{self.base_url}/players/{identifier}"
         data = {
             "include": "identifier,server,playerCounter,playerFlag,flagPlayer"
         }
@@ -112,7 +110,7 @@ class Player:
             now = datetime.utcnow()
             end_time = now + timedelta(days=1)
             end_time = end_time.strftime('%Y-%m-%dT%H:%M:%SZ')
-        url = f"{self.BASE_URL}/players/{player_id}/time-played-history/{server_id}"
+        url = f"{self.base_url}/players/{player_id}/time-played-history/{server_id}"
         data = {
             "start": start_time,
             "stop": end_time
@@ -129,7 +127,7 @@ class Player:
             dict: Response from the server showing the player server info.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/servers/{server_id}"
+        url = f"{self.base_url}/players/{player_id}/servers/{server_id}"
         return await self.helpers._make_request(method="GET", url=url)
 
     async def match_identifiers(self, identifier: str, identifier_type: str = None) -> dict:
@@ -143,7 +141,7 @@ class Player:
             dict: Dictionary response of any matches.
         """
 
-        url = f"{self.BASE_URL}/players/match?include=player,server,identifier,playerFlag,flagPlayer"
+        url = f"{self.base_url}/players/match?include=player,server,identifier,playerFlag,flagPlayer"
         data = {
             "data": [
                 {
@@ -155,7 +153,7 @@ class Player:
                 }
             ]
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def session_history(self, player_id: int, filter_server: str = None, filter_organization: str = None) -> dict:
         """Returns player's session history.
@@ -168,7 +166,7 @@ class Player:
             dict: Returns a players session history.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/sessions"
+        url = f"{self.base_url}/players/{player_id}/relationships/sessions"
         data = {
             "include": "identifier,server",
             "page[size]": "100"
@@ -189,7 +187,7 @@ class Player:
             dict: Player profile relating to the new flag.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/flags"
+        url = f"{self.base_url}/players/{player_id}/relationships/flags"
         data = {
             "data": [
                 {
@@ -199,7 +197,7 @@ class Player:
         }
         if flag_id:
             data['data'][0]['id'] = flag_id
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def flags(self, player_id: int) -> dict:
         """Returns all the flags on a players profile
@@ -214,7 +212,7 @@ class Player:
             "page[size]": "100",
             "include": "playerFlag"
         }
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/flags"
+        url = f"{self.base_url}/players/{player_id}/relationships/flags"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def delete_flag(self, player_id: int, flag_id: str) -> dict:
@@ -227,7 +225,7 @@ class Player:
             dict: If you were successful or not.
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/flags/{flag_id}"
+        url = f"{self.base_url}/players/{player_id}/relationships/flags/{flag_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def coplay_info(self, player_id: int, time_start: str = None, time_end: str = None, player_names: str = None, organization_names: str = None, server_names: str = None) -> dict:
@@ -261,7 +259,7 @@ class Player:
             data["filter[organizations]"] = organization_names
         if server_names:
             data["filter[servers]"] = server_names
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/coplay"
+        url = f"{self.base_url}/players/{player_id}/relationships/coplay"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def quick_match(self, identifier: str, identifier_type: str) -> dict:
@@ -283,7 +281,7 @@ class Player:
             dict: Returns a dictionary of the matching player(s)
         """
 
-        url = f"{self.BASE_URL}/players/quick-match"
+        url = f"{self.base_url}/players/quick-match"
         data = {
             "data": [
                 {
@@ -296,7 +294,7 @@ class Player:
             ]
         }
 
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     
     async def add_ban(self, reason: str, note: str, org_id: str, banlist: str, server_id: str,
@@ -396,8 +394,8 @@ class Player:
                     data['data']['attributes']['identifiers'].append(int(included['id']))
                 if included['attributes']['type'] == "steamID":
                     data['data']['attributes']['identifiers'].append(int(included['id']))
-        url = f"{self.BASE_URL}/bans"
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        url = f"{self.base_url}/bans"
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
     
     async def add_note(self, note: str, organization_id: int, player_id: int, shared: bool = True) -> dict:
         """Create a new note
@@ -411,7 +409,7 @@ class Player:
             dict: Response from server (was it successful?)
         """
 
-        url = f"{self.BASE_URL}/players/{player_id}/relationships/notes"
+        url = f"{self.base_url}/players/{player_id}/relationships/notes"
         data = {
             "data": {
                 "type": "playerNote",
@@ -429,4 +427,4 @@ class Player:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=data)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=data)

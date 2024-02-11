@@ -1,13 +1,9 @@
-import datetime
-import uuid
 from components.helpers import Helpers
-from datetime import datetime
-
 
 class Bans:
-    def __init__(self, helpers: Helpers, BASE_URL: str) -> None:
+    def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
-        self.BASE_URL = BASE_URL
+        self.base_url = base_url
 
 
     async def delete(self, banid: str) -> dict:
@@ -19,7 +15,7 @@ class Bans:
             dict: The response from the server.
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}"
+        url = f"{self.base_url}/bans/{banid}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, banid: str) -> dict:
@@ -31,7 +27,7 @@ class Bans:
             dict: The ban information
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}"
+        url = f"{self.base_url}/bans/{banid}"
         return await self.helpers._make_request(method="GET", url=url)
 
     async def update(self, banid: str, reason: str = None, note: str = None, append: bool = False) -> dict:
@@ -46,7 +42,7 @@ class Bans:
             dict: The response from the server.
         """
 
-        url = f"{self.BASE_URL}/bans/{banid}"
+        url = f"{self.base_url}/bans/{banid}"
         ban = await self.info(banid=banid)
         if reason:
             ban['data']['attributes']['reason'] = reason
@@ -57,7 +53,8 @@ class Bans:
                 ban['data']['attributes']['note'] = note
         return await self.helpers._make_request(method="PATCH", url=url, json=ban)
 
-    async def search(self, search: str = None, player_id: int = None, banlist: str = None, expired: bool = True, exempt: bool = False, server: int = None, organization_id: int = None, userIDs: str = None):
+    async def search(self, search: str = None, player_id: int = None, banlist: str = None, 
+                     expired: bool = True, exempt: bool = False, server: int = None, organization_id: int = None, userIDs: str = None):
         """List, search and filter existing bans.
 
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans
@@ -96,7 +93,7 @@ class Bans:
             data['filter[banList]'] = banlist
         if userIDs:
             data['filter[users]'] = userIDs
-        url = f"{self.BASE_URL}/bans"
+        url = f"{self.base_url}/bans"
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
     
@@ -123,7 +120,7 @@ class Bans:
             data["filter[ban]"] = ban
         if server:
             data["filter[server]"] = server
-        url = f"{self.BASE_URL}/bans-native"
+        url = f"{self.base_url}/bans-native"
         return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def native_force_update(self, native_id: str) -> dict:
@@ -135,5 +132,5 @@ class Bans:
             dict: Response from the server.
         """
 
-        url = f"{self.BASE_URL}/bans-native/{native_id}/force-update"
+        url = f"{self.base_url}/bans-native/{native_id}/force-update"
         return await self.helpers._make_request(method="POST", url=url)
