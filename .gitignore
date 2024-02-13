@@ -1,4 +1,2 @@
-
-config.json
-example.json
 *.pyc
+*.json

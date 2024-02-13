@@ -1,11 +1,10 @@
-from components.helpers import Helpers
+from battlemetrics.components.helpers import Helpers
 
 
-class Game_Info:
+class GameInfo:
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
-
 
     async def features(self, game: str = None) -> dict:
         """Lists the game features for the specified game

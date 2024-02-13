@@ -1,11 +1,9 @@
-from components.helpers import Helpers
+from battlemetrics.components.helpers import Helpers
 
-
-class Ban_List:
+class BanList:
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
-
 
     async def rust_banlist_export(self, organization_id:int, server_id:int = None) -> list[dict]:
         """Exports your rust banlist.
@@ -28,7 +26,6 @@ class Ban_List:
             data["filter[server]"] = server_id
             
         return await self.helpers._make_request(method="GET", url=url, params=data)
-    
     
     async def create_invite(self, organization_id: int, banlist_id: str, permManage: bool, 
                             permCreate: bool, permUpdate: bool, permDelete: bool, uses: int = 1, limit: int = 1) -> dict:

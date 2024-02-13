@@ -1,11 +1,9 @@
-from components.helpers import Helpers
-
+from battlemetrics.components.helpers import Helpers
 
 class Flags:
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.base_url = base_url
         self.helpers = helpers
-
 
     async def create(self, color: str, description: str, icon_name: str, flag_name: str, organization_id: int, user_id: int) -> dict:
         """Create a new flag
@@ -47,6 +45,7 @@ class Flags:
                 }
             }
         }
+        
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def delete(self, flag_id: str) -> dict:

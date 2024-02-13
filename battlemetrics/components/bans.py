@@ -1,10 +1,9 @@
-from components.helpers import Helpers
+from battlemetrics.components.helpers import Helpers
 
 class Bans:
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
-
 
     async def delete(self, banid: str) -> dict:
         """Deletes a ban.
@@ -131,6 +130,6 @@ class Bans:
         Returns:
             dict: Response from the server.
         """
-
+        
         url = f"{self.base_url}/bans-native/{native_id}/force-update"
         return await self.helpers._make_request(method="POST", url=url)

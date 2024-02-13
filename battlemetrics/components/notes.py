@@ -1,4 +1,4 @@
-from components.helpers import Helpers
+from battlemetrics.components.helpers import Helpers
 
 
 class Notes:

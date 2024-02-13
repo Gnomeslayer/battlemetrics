@@ -28,7 +28,7 @@ class Helpers:
             async with session.request(method=method, url=url, json=json_dict, params=params) as r:
                 content_type = r.headers.get('content-type', '')
                 response_status = int(r.status)
-                encoding = r.get_encoding()
+                
                 if response_status >= 400:
                     if response_status == 429:
                         print("You're being rate limited by the API. Please wait a few minutes before trying again.")
@@ -66,6 +66,8 @@ class Helpers:
                         """, re.VERBOSE)
                     data = []
                     for line in stream.splitlines():
+                        if line.strip() == "":
+                            continue
                         if contents := pattern.match(line):
                             contents = contents.groupdict()
                             if contents['duration'] == "-1":

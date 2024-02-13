@@ -1,11 +1,9 @@
-from components.helpers import Helpers
-
+from battlemetrics.components.helpers import Helpers
 
 class Session:
     def __init__(self, base_url: str, helpers: Helpers) -> None:
         self.helpers = helpers
         self.base_url = base_url
-
 
     async def info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
         """Returns the session information for the targeted server, game or organization.
@@ -52,4 +50,3 @@ class Session:
             "page[size]": "99"
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
-

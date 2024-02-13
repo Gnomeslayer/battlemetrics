@@ -1,44 +1,63 @@
 from datetime import datetime, timedelta
-from components.player import Player
-from components.server import Server
-from components.helpers import Helpers
-from components.notes import Notes
-from components.flags import Flags
-from components.session import Session
-from components.banlist import Ban_List
-from components.organization import Organization
-from components.game_info import Game_Info
-from components.bans import Bans
 
+#Components
+from battlemetrics.components.banlist import BanList
+from battlemetrics.components.bans import Bans
+from battlemetrics.components.flags import Flags 
+from battlemetrics.components.gameinfo import GameInfo
+from battlemetrics.components.helpers import Helpers
+from battlemetrics.components.notes import Notes
+from battlemetrics.components.organization import Organization
+from battlemetrics.components.player import Player
+from battlemetrics.components.server import Server
+from battlemetrics.components.session import Session
+    
 class Battlemetrics:
-    """Sets up the wrapper.
-
-    Args:
-        api_key (str): Your battlemetrics API token.
-
-    Returns:
-        None: Doesn't return anything.
-    """
-
     def __init__(self, api_key: str) -> None:
         self.base_url = "https://api.battlemetrics.com"
         self.api_key = api_key
-        #self.response_data = None
-        self.headers = {"Authorization": f"Bearer {api_key}"}
-        self.helpers = Helpers(api_key=api_key)
-        self.player = Player(helpers=self.helpers, base_url=self.base_url)
-        self.server = Server(helpers=self.helpers, base_url=self.base_url)
-        self.notes = Notes(helpers=self.helpers, base_url=self.base_url)
-        self.flags = Flags(helpers=self.helpers, base_url=self.base_url)
-        self.session = Session(helpers=self.helpers, base_url=self.base_url)
-        self.ban_list = Ban_List(helpers=self.helpers, base_url=self.base_url)
-        self.bans = Bans(helpers=self.helpers, base_url=self.base_url)
-        self.organization = Organization(
-            helpers=self.helpers, base_url=self.base_url)
-        self.game_info = Game_Info(
-            helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def helpers(self) -> Helpers:
+        return Helpers(api_key=self.api_key)
+    
+    @property
+    def player(self) -> Player:
+        return Player(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def server(self) -> Server:
+        return Server(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def notes(self) -> Notes:
+        return Notes(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def flags(self) -> Flags:
+        return Flags(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def session(self) -> Session:
+        return Session(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def banlist(self) -> BanList:
+        return BanList(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def organization(self) -> Organization:
+        return Organization(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def gameinfo(self) -> GameInfo:
+        return GameInfo(helpers=self.helpers, base_url=self.base_url)
+    
+    @property
+    def bans(self) -> Bans:
+        return Bans(helpers=self.helpers, base_url=self.base_url)
 
-    async def check_api_scopes(self, token: str = None) -> dict:
+    def check_api_scopes(self, token: str = None) -> dict:
         """Retrieves the tokens scopes from the oauth.
         Documentation: None.
         Args:
@@ -53,12 +72,9 @@ class Battlemetrics:
         data = {
             "token": token
         }
-        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return self.helpers._make_request(method="POST", url=url, json_dict=data)
 
-    async def pagination(self, page_link:str) -> dict:
-        return await self.helpers._make_request(method="GET", url=page_link)
-
-    async def metrics(self, name: str = "games.rust.players", start_date: str = None, end_date: str = None, resolution: str = "60") -> dict:
+    def metrics(self, name: str = "games.rust.players", start_date: str = None, end_date: str = None, resolution: str = "60") -> dict:
         """A data point as used in time series information.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-dataPoint-/metrics
         Args:
@@ -71,8 +87,7 @@ class Battlemetrics:
         """
 
         url = f"{self.base_url}/metrics"
-        # current_time = datetime.utcnow()
-        # current_time_str = current_time.strftime('%Y-%m-%dT%H:%M:%SZ')
+        
         if not start_date:
             now = datetime.utcnow()
             start_date = now - timedelta(days=1)
@@ -85,9 +100,9 @@ class Battlemetrics:
             "metrics[0][resolution]": resolution,
             "fields[dataPoint]": "name,group,timestamp,value"
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def activity_logs(self, filter_bmid: int = None, filter_search: str = None, filter_servers: int = None, blacklist: str = None, whitelist: str = None) -> dict:
+    def activity_logs(self, filter_bmid: int = None, filter_search: str = None, filter_servers: int = None, blacklist: str = None, whitelist: str = None) -> dict:
         """Retrieves the activity logs.
 
         Args:
@@ -118,4 +133,4 @@ class Battlemetrics:
         if filter_bmid:
             data['filter[players]'] = filter_bmid
         
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return self.helpers._make_request(method="GET", url=url, params=data)
