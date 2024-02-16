@@ -177,6 +177,7 @@ class Player:
             data["filter[servers]"] = filter_server
         if filter_organization:
             data["filter[organizations]"] = filter_organization
+            
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def add_flag(self, player_id: int, flag_id: str = None) -> dict:

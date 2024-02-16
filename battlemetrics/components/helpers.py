@@ -4,7 +4,7 @@ from time import strftime, localtime
 
 import aiohttp
 import re
-
+import asyncio
 
 class Helpers:
 
@@ -26,17 +26,20 @@ class Helpers:
 
         async with aiohttp.ClientSession(headers=self.headers) as session:
             async with session.request(method=method, url=url, json=json_dict, params=params) as r:
+            
                 content_type = r.headers.get('content-type', '')
                 response_status = int(r.status)
                 
                 if response_status >= 400:
                     if response_status == 429:
-                        print("You're being rate limited by the API. Please wait a few minutes before trying again.")
-                        return
+                        print("You're being rate limited. Waiting 30 seconds and trying again.")
+                        await asyncio.sleep(30)
+                        return await self._make_request(method=method, url=url,params=params, json_dict=json_dict)
                     else:
-                        with open('error_logs.txt', 'a') as file:
-                            file.write(f"There's an issue, the response status was: {response_status}\nMethod: {method}\nurl: {url}\nparams: {params}\njson: {json_dict}\nr: {r}")
-                        return
+                        response = await r.json()
+                        if response.get('errors'):
+                            print(json.dumps(response, indent=4))
+                        return response
                 
                 if 'json' in content_type:
                     try:
@@ -52,9 +55,10 @@ class Helpers:
                                 return response
                             except Exception as e:
                                 print(f"Tried turning a text to dict.. Failed..\n{e}")
-                                response = await self.exception_handler(stream)
+                                response = await self._exception_handler(stream)
                         except Exception as e:
                             print(f"Even the exception handler can't handle this nonsene!\n{e}")
+                            
                 elif 'octet-stream' in content_type:
                     stream = await r.text(encoding='utf-8')
                     pattern = re.compile(r"""
@@ -96,7 +100,7 @@ class Helpers:
         return response
 
     #This function attempts to find and fix any errors in the JSON response.
-    async def exception_handler(self, response_content) -> dict:
+    async def _exception_handler(self, response_content) -> dict:
         print("Exception Handler Running...Attempting to fix the response.")
         if type(response_content) == bytes:
             json_string: str = response_content.decode('utf-8')

@@ -15,11 +15,12 @@ class Bans:
         """
 
         url = f"{self.base_url}/bans/{banid}"
+        
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, banid: str) -> dict:
         """The ban profile of a specific banid.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}
+        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}
         Args:
             banid (str): The banid.
         Returns:
@@ -27,7 +28,10 @@ class Bans:
         """
 
         url = f"{self.base_url}/bans/{banid}"
-        return await self.helpers._make_request(method="GET", url=url)
+        data = {
+            "include": "server,user,playerIdentifiers,organization,banExemption"
+        }
+        return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def update(self, banid: str, reason: str = None, note: str = None, append: bool = False) -> dict:
         """Updates a targeted ban
