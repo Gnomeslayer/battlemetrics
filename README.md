@@ -5,7 +5,7 @@ This repository allows users to quickly and easily pull data from the Battlemetr
 ## Alternatives
 
 ### Javascript
-For the javascript equivalent, visit this repository: 
+For the javascript equivalent, visit this repository: https://github.com/cubiquitous/battlemetrics-js
 
 # Disclaimer
 Please note that I am an individual member of the community and not affiliated with Battlemetrics. The resources provided here are developed to facilitate the usage of the Battlemetrics API but come with no official endorsement or sponsorship from Battlemetrics.
