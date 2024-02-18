@@ -65,6 +65,7 @@ class Battlemetrics:
         Returns:
             dict: The tokens data.
         """
+        
         if not token:
             token = self.api_key
 

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "battlemetrics"
 description = "Battlemetrics API wrapper."
-version = "1.0.0"
+version = "1.0.2"
 authors = [{ name = "Gnomeslayer", email = "declan.otten@live.com.au" }]
 readme = "README.md"
 classifiers = [

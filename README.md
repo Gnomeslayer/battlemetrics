@@ -1,7 +1,6 @@
 # Battlemetrics API Wrapper
 
-This repository provides a Python wrapper for the Battlemetrics API, allowing users to easily access and interact with Battlemetrics data.
-
+This repository allows users to quickly and easily pull data from the Battlemetrics API. Removing a lot of the guesswork when reading the API.
 
 # Disclaimer
 Please note that I am an individual member of the community and not affiliated with Battlemetrics. The resources provided here are developed to facilitate the usage of the Battlemetrics API but come with no official endorsement or sponsorship from Battlemetrics.
@@ -14,24 +13,29 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
 
 ## Installation
 
-1. Clone this repository:
+1. Clone or Install this repo:
 
+   Clone this repository
    ```bash
    git clone https://github.com/Gnomeslayer/battlemetrics.git
    ```
-2. Install the required dependencies
-   Although at this time, the only dependency is aiohttp, so you can simply do:
+   Pip install
    ```bash
-   pip install aiohttp
+   pip install battlemetrics
    ```
+
+2. Install the required dependencies
+
    or you can do:
    ```bash
    pip install -r requirements.txt
    ```
+
 3. Import the `Battlemetrics` class into your project.
    ```bash
    from battlemetrics import Battlemetrics
    ```
+
 ## Usage
 Refer to example file for examples.
 Here's an example of how to use the Battlemetrics API wrapper:
@@ -40,7 +44,7 @@ Here's an example of how to use the Battlemetrics API wrapper:
 bmapi = battlemetrics("Your token here")
 
 # Retrieve player information
-player = bmapi.player.search(12345)
+player = asyncio.run(bmapi.player.search(12345))
 
 # Print the player information
 print(player)
@@ -57,3 +61,7 @@ If you find any issues or have suggestions for improvement, please feel free to 
 ## Contact
 You can contact me on Discord, simply add me: gnomeslayer
 or, you can join the official [Battlemetrics discord](https://discord.gg/xWa3UNG4yh) and @gnomeslayer there.
+
+
+## Suport
+This repository will ALWAYS be free and hopefully regularly updated, but if you want to support me, you can do so [Here](https://ko-fi.com/gnomeslayer)

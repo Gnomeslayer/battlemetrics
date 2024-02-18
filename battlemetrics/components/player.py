@@ -388,7 +388,7 @@ class Player:
             #Grab the complete profile from this user.
             battlemetrics_id = battlemetrics_identifiers['data'][0]['relationships']['player']['data']['id']
         if battlemetrics_id:
-            player_info = self.info(identifier=battlemetrics_id)
+            player_info = await self.info(identifier=battlemetrics_id)
 
         #Grab the battlemetrics ID's for the users BEGUID and STEAMID
         for included in player_info['included']:
