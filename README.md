@@ -2,6 +2,11 @@
 
 This repository allows users to quickly and easily pull data from the Battlemetrics API. Removing a lot of the guesswork when reading the API.
 
+## Alternatives
+
+### Javascript
+For the javascript equivalent, visit this repository: 
+
 # Disclaimer
 Please note that I am an individual member of the community and not affiliated with Battlemetrics. The resources provided here are developed to facilitate the usage of the Battlemetrics API but come with no official endorsement or sponsorship from Battlemetrics.
 
