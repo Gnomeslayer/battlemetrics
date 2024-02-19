@@ -384,7 +384,7 @@ class Player:
         
         if steam_id and not battlemetrics_id:
             #Grab the battlemetrics identifiers from a steam identifier.
-            battlemetrics_identifiers = self.match_identifiers(identifier=steam_id, identifier_type="steamID")
+            battlemetrics_identifiers = await self.match_identifiers(identifier=steam_id, identifier_type="steamID")
             #Grab the complete profile from this user.
             battlemetrics_id = battlemetrics_identifiers['data'][0]['relationships']['player']['data']['id']
         if battlemetrics_id:

@@ -55,7 +55,7 @@ class Notes:
 
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         if append:
-            existingnote = self.info(player_id=player_id, note_id=note_id)
+            existingnote = await self.info(player_id=player_id, note_id=note_id)
             if existingnote:
                 existingnote = existingnote['data']['attributes']['note']
             note = f"{existingnote}\n{note}"
