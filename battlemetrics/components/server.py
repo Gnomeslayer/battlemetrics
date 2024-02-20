@@ -345,7 +345,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -369,7 +369,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -393,7 +393,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -417,7 +417,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -441,7 +441,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -465,7 +465,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -490,7 +490,7 @@ class Server:
         url = f"{self.base_url}/servers/{server_id}/force-update"
         return await self.helpers._make_request(method="POST", url=url)
 
-    async def outage_history(self, server_id: int, uptime: str = "89", start_time: str = None, end_time: str = None) -> dict:
+    async def outage_history(self, server_id: int, uptime: str = "90", start_time: str = None, end_time: str = None) -> dict:
         """Outage History. Outages are periods of time that the server did not respond to queries. Outage history stored and available for 89 days.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/outages
         Args:
@@ -504,7 +504,7 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -516,12 +516,12 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def downtime_history(self, server_id: int, resolution: str = "59", start_time: str = None, end_time: str = None) -> dict:
+    async def downtime_history(self, server_id: int, resolution: str = "60", start_time: str = None, end_time: str = None) -> dict:
         """Downtime History. Value is number of seconds the server was offline during that period. The default resolution provides daily values (1439 minutes).
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/downtime
         Args:
             server_id (int): The server ID
-            resolution (str, optional): One of 59 or 1440. Defaults to "60".
+            resolution (str, optional): One of 60 or 1440. Defaults to "60".
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to Today/now.
         Returns:
@@ -530,13 +530,12 @@ class Server:
 
         if not start_time:
             now = datetime.utcnow()
-            start_time = now - datetime.timedelta(days=0)
+            start_time = now - timedelta(days=0)
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         url = f"{self.base_url}/servers/{server_id}/relationships/downtime"
         data = {
-            "page[size]": "99",
             "start": f"{start_time}",
             "stop": f"{end_time}",
             "resolution": f"{resolution}"
