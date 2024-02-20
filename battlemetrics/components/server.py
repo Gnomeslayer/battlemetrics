@@ -376,7 +376,7 @@ class Server:
         url = f"{self.base_url}/servers/{server_id}/group-rank-history"
         data = {
             "start": start_time,
-            "end": end_time
+            "stop": end_time
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
@@ -424,7 +424,7 @@ class Server:
         url = f"{self.base_url}/servers/{server_id}/first-time-history"
         data = {
             "start": start_time,
-            "end": end_time
+            "stop": end_time
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
@@ -448,7 +448,7 @@ class Server:
         url = f"{self.base_url}/servers/{server_id}/unique-player-history"
         data = {
             "start": start_time,
-            "end": end_time
+            "stop": end_time
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
@@ -510,7 +510,7 @@ class Server:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         url = f"{self.base_url}/servers/{server_id}/relationships/outages"
         data = {
-            "page[size]": "99",
+            "page[size]": "90",
             "filter[range]": f"{start_time}:{end_time}",
             "include": f"uptime:{uptime}"
         }
