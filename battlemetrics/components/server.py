@@ -184,7 +184,7 @@ class Server:
             data['sort']='rank'
         else:
             data['sort']='-rank'
-        print(data)
+            
         return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:
