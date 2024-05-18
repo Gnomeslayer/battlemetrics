@@ -55,7 +55,9 @@ class Server:
                      blueprints:str="both",
                      pve:str="both",
                      kits:str="both",
-                     status:bool=True) -> dict:
+                     status:bool=True,
+                     sort_rank:bool=True,
+                     page_size:int=100) -> dict:
         
         """List, search and filter servers.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers
@@ -113,19 +115,19 @@ class Server:
 
     
         data = {}
-        data['page[size]'] = "100"
+        data['page[size]'] = f"{page_size}"
         data['include'] = "serverGroup"
         data['filter[rcon]'] = str(rcon).lower()
         
         if not status:
             data['filter[status]'] = "offline,dead,invalid"
         else:
-            data['filter[status]'] = "true"
+            data['filter[status]'] = "online"
             
         if search:
             data["filter[search]"] = search
         if countries:
-            data["filter[countries]"] = countries
+            data["filter[countries][or][0]"] = countries
         if game:
             data["filter[game]"] = game
         if blacklist:
@@ -153,7 +155,7 @@ class Server:
         if kits.lower() == "true" or kits.lower() == "false":
             data[f"filter[features][{kits_uuid}]"] = f"{kits}"
         
-          
+        
         if server_type:
             count = 0
             features = None
@@ -177,6 +179,12 @@ class Server:
                 count += 1
             if features:
                 url += f"?{features}"
+                
+        if sort_rank:
+            data['sort']='rank'
+        else:
+            data['sort']='-rank'
+        print(data)
         return await self.helpers._make_request(method="GET", url=url, params=data)
     
     async def create(self, server_ip: str, server_port: str, port_query: str, game: str, server_gsp: str = None, organization_id: int = None, banlist_id: str = None, server_group: str = None) -> dict:
@@ -445,6 +453,7 @@ class Server:
             start_time = start_time.strftime('%Y-%m-%dT%H:%M:%SZ')
         if not end_time:
             end_time = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
+            
         url = f"{self.base_url}/servers/{server_id}/unique-player-history"
         data = {
             "start": start_time,

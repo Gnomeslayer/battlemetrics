@@ -36,10 +36,16 @@ class Helpers:
                         await asyncio.sleep(30)
                         return await self._make_request(method=method, url=url,params=params, json_dict=json_dict)
                     else:
-                        response = await r.json()
-                        if response.get('errors'):
-                            print(json.dumps(response, indent=4))
-                        return response
+                        try:
+                            response = await r.json()
+                            if response.get('errors'):
+                                print(json.dumps(response, indent=4))
+                            return response
+                        except Exception as e:
+                            print(e)
+                            response = await r.text()
+                            with open('errors.txt', 'w') as f:
+                                f.write(response)
                 
                 if 'json' in content_type:
                     try:

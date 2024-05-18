@@ -171,13 +171,14 @@ class Organization:
         url = f"{self.base_url}/organizations/{organization_id}/relationships/friends/{friends_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
-    async def player_stats(self, organization_id: int, start_date: str = None, end_date: str = None) -> dict:
+    async def player_stats(self, organization_id: int, start_date: str = None, end_date: str = None, game:str = None) -> dict:
         """Returns the statistics of all the players who have joined your server and where they're from.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-organization-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/stats/players
         Args:
             organization_id (int): Your organization ID
             start_date (str, optional): Start date, max 90 days. Defaults to 90 days ago.
             end_date (str, optional): End date, defaults to now.
+            game (str, optional): The game you wish to filter by. Defaults to None
         Returns:
             dict: Returns a dictionary of all the stats!
         """
@@ -190,9 +191,13 @@ class Organization:
         if not end_date:
             end_date = datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
         data = {
-            "filter[game]": "rust",
+            
             "filter[range]": f"{start_date}:{end_date}"
         }
+        
+        if game:
+            data["filter[game]"] = game
+        
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def commands_activity(self, organization_id: int, summary: bool = False, users: str = None, commands: str = None, time_start: str = None, time_end: str = None, servers: int = None) -> dict:
@@ -243,4 +248,24 @@ class Organization:
             "include": "organizationUser,banList,organizationStats"
         }
 
+        return await self.helpers._make_request(method="GET", url=url, params=data)
+
+
+    async def auditlogs(self, organization_id:int):
+        """_summary_
+
+        Args:
+            organization_id (int): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        
+        url = f"{self.base_url}/audit-log"
+        data = {
+            "filter[organizations]": organization_id,
+            
+            "page[size]": "100",
+            "include": "flagPlayer,playerFlag,identifier,player,playerCounter,activityMessage,server,organization,organizationUser"
+        }
         return await self.helpers._make_request(method="GET", url=url, params=data)
