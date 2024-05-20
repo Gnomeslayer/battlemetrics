@@ -115,7 +115,7 @@ class Server:
 
     
         data = {}
-        data['page[size]'] = f"{page_size}"
+        data['page[size]'] = int(page_size)
         data['include'] = "serverGroup"
         data['filter[rcon]'] = str(rcon).lower()
         
@@ -161,9 +161,9 @@ class Server:
             features = None
             for ServerType in server_type:
                 if features:
-                    features += f"&filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower]}"
+                    features += f"&filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower()]}"
                 else:
-                    features = f"filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower]}"
+                    features = f"filter[features][{server_type_uuid}][or][{count}]={server_types[ServerType.lower()]}"
                 count += 1
             if features:
                 url += f"?{features}"
