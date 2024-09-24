@@ -284,7 +284,7 @@ class Server:
                 }
             }
         }
-        return await self.helpers._make_request(method="POST", url=url, json=chat)
+        return await self.helpers._make_request(method="POST", url=url, json_dict=chat)
 
     async def delete_rcon(self, server_id: int) -> dict:
         """

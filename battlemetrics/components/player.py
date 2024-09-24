@@ -194,12 +194,13 @@ class Player:
         data = {
             "data": [
                 {
-                    "type": "payerFlag"
+                    "type": "playerFlag"
                 }
             ]
         }
         if flag_id:
             data['data'][0]['id'] = flag_id
+
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def flags(self, player_id: int) -> dict:
