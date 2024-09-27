@@ -26,7 +26,7 @@ class Player:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def search(self, search: str = None, filter_game: str = None, filter_online: bool = False, filter_servers: int = None, filter_organization: int = None, filter_public: bool = False, flag: str = None) -> dict:
+    async def search(self, search: str = None, filter_online: bool = False, filter_servers: int = None, filter_organization: int = None, filter_public: bool = False, flag: str = None) -> dict:
         """Grabs a list of players based on the filters provided. For accurate information, filter by server or organization.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-player-/players
         Args:
@@ -64,8 +64,8 @@ class Player:
         else:
             data['filter[public]'] = "false"
 
-        if filter_game:
-            data['server']['game'] = filter_game
+        #if filter_game:
+        #    data['server']['game'] = filter_game
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
