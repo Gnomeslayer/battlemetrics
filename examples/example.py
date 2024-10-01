@@ -1,5 +1,6 @@
-from battlemetrics import Battlemetrics
 import asyncio
+
+from battlemetrics import Battlemetrics
 
 api = Battlemetrics("your token here")
 
@@ -12,5 +13,5 @@ banplayer = asyncio.run(api.player.add_ban(
     org_id="!234",
     banlist="0506f1a0-0345-11eb-b314-AAAAAAAAA",
     battlemetrics_id=1234,
-    steam_id=1234
+    steam_id=1234,
 ))
