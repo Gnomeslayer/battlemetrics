@@ -20,8 +20,8 @@ class Battlemetrics:
 
     Parameters
     ----------
-    api_key : str
-        Your given API token.
+        api_key (str)
+            Your given API token.
     """
 
     BASE_URL: ClassVar[str] = "https://api.battlemetrics.com"
