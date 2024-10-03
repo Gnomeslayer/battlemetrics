@@ -1,4 +1,10 @@
 # Battlemetrics API Wrapper
+<center>
+
+![PyPI - Version](https://img.shields.io/pypi/v/battlemetrics)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/battlemetrics)
+
+</center>
 
 This repository allows users to quickly and easily pull data from the Battlemetrics API. Removing a lot of the guesswork when reading the API.
 
