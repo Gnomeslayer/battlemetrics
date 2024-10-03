@@ -2,26 +2,32 @@ from battlemetrics.components.helpers import Helpers
 
 
 class Notes:
+    """The notes class to handle all the note requests."""
+
     def __init__(self, base_url: str, helpers: Helpers) -> None:
         self.base_url = base_url
         self.helpers = helpers
 
     async def delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes/{(%23%2Fdefinitions%2FplayerNote%2Fdefinitions%2Fidentity)}
-        Args:
+
+        Parameters
+        ----------
             player_id (int): The battlemetrics ID of the player the note is attached to.
-            note_id (str): The note ID it
-        Returns:
+            note_id (str): The note's ID
+
+        Returns
+        -------
             dict: Response from server.
         """
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def list(self, player_id: int, filter_personal: bool = False) -> dict:
-        """List existing note.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes
-        Args:
+        """List existing notes.
+
+        Parameters
+        ----------
             player_id (int): The battlemetrics ID of the player.
             filter_personal (bool, optional): List only your notes?. Defaults to False.
 
@@ -39,16 +45,25 @@ class Notes:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def update(
-        self, player_id: int, note_id: str, note: str, shared: bool, append: bool = False
+        self,
+        player_id: int,
+        note_id: str,
+        note: str,
+        *,
+        shared: bool,
+        append: bool | None = False,
     ) -> dict:
         """Update an existing note.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-PATCH-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes/{(%23%2Fdefinitions%2FplayerNote%2Fdefinitions%2Fidentity)}
-        Args:
+
+        Parameters
+        ----------
             player_id (int): The battlemetrics ID of the user.
             note_id (str): The ID of the note.
             note (str): The new note.
-            shared (bool): Shared?
-        Returns:
+            shared (bool): Whether this note should be shared.
+
+        Returns
+        -------
             dict: Response from server.
         """
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
@@ -71,8 +86,9 @@ class Notes:
 
     async def info(self, player_id: int, note_id: str) -> dict:
         """Info for existing note.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-playerNote-/players/{(%23%2Fdefinitions%2Fplayer%2Fdefinitions%2Fidentity)}/relationships/notes/{(%23%2Fdefinitions%2FplayerNote%2Fdefinitions%2Fidentity)}
-        Args:
+
+        Parameters
+        ----------
             player_id (int): The battlemetrics ID of the user.
             note_id (str): The ID of the note.
 

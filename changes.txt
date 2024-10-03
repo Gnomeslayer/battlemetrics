@@ -3,3 +3,6 @@ Added "include"
 "include": "server,user,playerIdentifiers,organization,banExemption"
 
 "banList" returns an error
+
+banlits.create_invite
+Changed permManage, permCreate, permUpdate, permDelete to be lowercase.

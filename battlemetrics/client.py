@@ -112,7 +112,7 @@ class Battlemetrics:
 
         Parameters
         ----------
-            name (str, optional): "games.{game}.players" and "games.{game}.players.steam", defaults to "games.rust.players"
+            name (str, optional): "games.{game}.players" and "games.{game}.players.steam".
             start_date (str, optional) UTC time format. Defaults to Current Date.
             end_date (str, optional): UTC time format. Defaults to 1 day ago.
             resolution (str, optional): raw, 30, 60 or 1440. Defaults to "60".

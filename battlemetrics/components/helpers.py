@@ -8,15 +8,24 @@ import aiohttp
 
 
 class Helpers:
+    """A class to help with the API requests."""
 
     def __init__(self, api_key: str) -> None:
         self.headers = {"Authorization": f"Bearer {api_key}"}
 
+    # TODO: Better docstring
+    # TODO: Way better was for HTTP handling
     async def _make_request(
-        self, method: str, url: str, params: dict = None, json_dict: dict = None
+        self,
+        method: str,
+        url: str,
+        params: dict | None = None,
+        json_dict: dict | None = None,
     ) -> dict:
-        """Queries the API and spits out the response.
-        Args:
+        """Query the API and spit out a response.
+
+        Parameters
+        ----------
             method (str): One of: GET, POST, PATCH, DELETE
             url (str): The endpoint/url you wish to query.
             params (dict, optional): Any params you wish to send to enhance your experience?. Defaults to None.
@@ -41,7 +50,10 @@ class Helpers:
                         print("You're being rate limited. Waiting 30 seconds and trying again.")
                         await asyncio.sleep(30)
                         return await self._make_request(
-                            method=method, url=url, params=params, json_dict=json_dict
+                            method=method,
+                            url=url,
+                            params=params,
+                            json_dict=json_dict,
                         )
                     try:
                         response = await r.json()
@@ -59,7 +71,7 @@ class Helpers:
                         response = await r.json()
                     except Exception as e:
                         print(
-                            f"There's an issue with the respon json data.. Going to try and fix!\n<<Exception@Json>>\n{e}\n"
+                            f"There's an issue with the respon json data.. Going to try and fix!\n<<Exception@Json>>\n{e}\n",
                         )
                         try:
                             stream = await r.content.read()
@@ -101,7 +113,7 @@ class Helpers:
                                     print(duration)
                                 except Exception as e:
                                     print(
-                                        f"Failed to convert duration to time, defaulted to 'The future'\nSteam ID: {contents['steamid']}\nDuration: {duration}\nError: {e}"
+                                        f"Failed to convert duration to time, defaulted to 'The future'\nSteam ID: {contents['steamid']}\nDuration: {duration}\nError: {e}",
                                     )
                                     duration = "The future"
                                 contents["duration"] = duration
@@ -115,7 +127,7 @@ class Helpers:
                     response = response.replace("'", "").replace("b", "")
                 else:
                     raise Exception(
-                        f"Unsupported Content Type: {content_type}\n Some additional stuff: {r}\nresponse_status: {response_status}"
+                        f"Unsupported Content Type: {content_type}\n Some additional stuff: {r}\nresponse_status: {response_status}",
                     )
                 await session.close()
         return response
@@ -228,7 +240,10 @@ class Helpers:
         return ban_dict
 
     async def _replace_char_at_position(
-        self, input_string: str, position: int, new_character: str
+        self,
+        input_string: str,
+        position: int,
+        new_character: str,
     ) -> str:
         return input_string[:position] + new_character + input_string[position + 1 :]
 

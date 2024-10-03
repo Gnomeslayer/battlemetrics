@@ -5,16 +5,24 @@ from battlemetrics.components.helpers import Helpers
 
 
 class Server:
+    """Server class to interact with the server endpoints."""
+
     def __init__(self, base_url: str, helpers: Helpers) -> None:
         self.base_url = base_url
         self.helpers = helpers
 
+    # TODO: Deprecated datetime usage
     async def leaderboard_info(
-        self, server_id: int, start: str = None, end: str = None, player: int = None
+        self,
+        server_id: int,
+        start: str | None = None,
+        end: str | None = None,
+        player: int | None = None,
     ) -> dict:
-        """Displays the leaderboard for a specific player.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-leaderboardPlayer-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/leaderboards/time
-        Args:
+        """Display the leaderboard for a specific player.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             player (int): Battlemetrics player ID
             start (str): UTC Start date. Defaults to 1 day ago.
@@ -43,21 +51,21 @@ class Server:
     async def search(
         self,
         *,
-        search: str = None,
-        countries: list[str] = None,
-        game: str = None,
-        blacklist: list[str] = None,
-        whitelist: list[str] = None,
-        organization: str = None,
+        search: str | None = None,
+        countries: list[str] | None = None,
+        game: str | None = None,
+        blacklist: list[str] | None = None,
+        whitelist: list[str] | None = None,
+        organization: str | None = None,
         rcon: bool = True,
-        server_type: list[str] = None,
+        server_type: list[str] | None = None,
         game_mode: list[str] = None,
-        gather_rate_min: int = None,
-        gather_rate_max: int = None,
-        group_size_min: int = None,
-        group_size_max: int = None,
-        map_size_min: int = None,
-        map_size_max: int = None,
+        gather_rate_min: int | None = None,
+        gather_rate_max: int | None = None,
+        group_size_min: int | None = None,
+        group_size_max: int | None = None,
+        map_size_min: int | None = None,
+        map_size_max: int | None = None,
         blueprints: str = "both",
         pve: str = "both",
         kits: str = "both",
@@ -66,8 +74,9 @@ class Server:
         page_size: int = 100,
     ) -> dict:
         """List, search and filter servers.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers
-        Args:
+
+        Parameters
+        ----------
             search (str, optional): Search for specific server. Defaults to None.
             countries (list, optional): Server in a country. Defaults to None.
             game (str, optional): Specific game. Defaults to None.
@@ -198,15 +207,15 @@ class Server:
         server_port: str,
         port_query: str,
         game: str,
-        server_gsp: str = None,
-        organization_id: int = None,
-        banlist_id: str = None,
-        server_group: str = None,
+        server_gsp: str | None = None,
+        organization_id: int | None = None,
+        banlist_id: str | None = None,
+        server_group: str | None = None,
     ) -> dict:
         """Add a server to the system.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-server-/servers
-        The documentation does not provide information on how to properly use the params after the "Game" param.
-        Args:
+
+        Parameters
+        ----------
             server_ip (str): The IP of your server
             server_port (str): The port of the server
             port_query (str): The port query of the server
@@ -241,19 +250,22 @@ class Server:
         }
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
+    # TODO: Implement this
     async def enable_rcon(self, server_id: int) -> dict:
+        """Enable RCON."""
         # This endpoint is not completed by the creator of this wrapper.
-        print("This endpoint is not completed by the creator of this wrapper.")
+        raise NotImplementedError
 
     async def console_command(self, server_id: int, command: str) -> dict:
-        """
-        Sends a raw server console command. These commands are usually what you can type in game via the F1 console.
-        An example: mute <steamid> <duration> <reason>
-        another is: kick <steamid>
-        Args:
+        """Send a raw server console command.
+
+        Parameters
+        ----------
             server_id (int): The server you want the command to run on.
-            command (str): The command you want to attempt to run!
-        Returns:
+            command (str): The command you want to run.
+
+        Returns
+        -------
             dict: If it was successful or not.
         """
         url = f"{self.base_url}/servers/{server_id}/command"
@@ -271,15 +283,16 @@ class Server:
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def send_chat(self, server_id: int, message: str, sender_name: str) -> dict:
-        """
-        Sends a raw server console command. These commands are usually what you can type in game via the F1 console.
-        An example: mute <steamid> <duration> <reason>
-        another is: kick <steamid>
-        Args:
+        """Send a message on the server.
+
+        Parameters
+        ----------
             server_id (int): The server you want the command to run on.
             message (str): The message you wish to send
-            sender_name (str): Who do you want to send the message as?
-        Returns:
+            sender_name (str): The name of the user that sends the message.
+
+        Returns
+        -------
             dict: If it was successful or not.
         """
         url = f"{self.base_url}/servers/{server_id}/command"
@@ -297,10 +310,10 @@ class Server:
         return await self.helpers._make_request(method="POST", url=url, json_dict=chat)
 
     async def delete_rcon(self, server_id: int) -> dict:
-        """
-        Names on the tin, deletes the RCON for your server
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/rcon
-        Args:
+        """Delete the RCON for your server.
+
+        Parameters
+        ----------
             server_id (int): The server ID.
 
         Returns
@@ -311,10 +324,10 @@ class Server:
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def disconnect_rcon(self, server_id: int) -> dict:
-        """
-        Names on the tin, disconnects RCON from your server.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/rcon/disconnect
-        Args:
+        """Disconnect RCON from your server.
+
+        Parameters
+        ----------
             server_id (int): Server ID
         Returns:
             dict: Response from the server.
@@ -323,22 +336,28 @@ class Server:
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def connect_rcon(self, server_id: int) -> dict:
-        """Names on the tin, connects RCON to your server.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/rcon/connect
-        Args:
+        """Connects RCON to your server.
+
+        Parameters
+        ----------
             server_id (int): Server ID
-        Returns:
+
+        Returns
+        -------
             dict: Response from the server.
         """
         url = f"{self.base_url}/servers/{server_id}/rcon/connect"
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, server_id: int) -> dict:
-        """Server info.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}
-        Args:
+        """Return information about a server.
+
+        Parameters
+        ----------
             server_id (int): The server ID
-        Returns:
+
+        Returns
+        -------
             dict: The server information.
         """
         url = f"{self.base_url}/servers/{server_id}"
@@ -348,12 +367,17 @@ class Server:
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def rank_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str | None = None,
+        end_time: str | None = None,
     ) -> dict:
-        """Server Rank History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/rank-history
-        Args:
+        """Return the history of where your server is ranked.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -375,12 +399,17 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def group_rank_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str | None = None,
+        end_time: str | None = None,
     ) -> dict:
         """Group Rank History. The server must belong to a group.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/group-rank-history
-        Args:
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -402,12 +431,17 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def time_played_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str = None,
+        end_time: str = None,
     ) -> dict:
-        """Time Played History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/time-played-history
-        Args:
+        """Time Played History.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -429,12 +463,17 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def first_time_played_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str | None = None,
+        end_time: str | None = None,
     ) -> dict:
-        """First Time Player History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/first-time-history
-        Args:
+        """First Time Player History.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -456,12 +495,18 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
+    # TODO: Better types for start_time and end_time
     async def unique_players_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str = None,
+        end_time: str = None,
     ) -> dict:
-        """Unique Player History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/unique-player-history
-        Args:
+        """Return a players history on a server.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -484,12 +529,18 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
+    # TODO: Better types for start_time and end_time
     async def session_history(
-        self, server_id: int, start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        start_time: str | None = None,
+        end_time: str | None = None,
     ) -> dict:
-        """Session history
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/sessions
-        Args:
+        """Return the session history of a server.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
@@ -514,22 +565,34 @@ class Server:
 
     async def force_update(self, server_id: int) -> dict:
         """Force Update will cause us to immediately queue the server to be queried and updated. This is limited to subscribers and users who belong to the organization that owns the server if it is claimed.
-            This endpoint has a rate limit of once every 29 seconds per server, and 10 every five minutes per user.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/force-update
-        Args:
+
+        This endpoint has a rate limit of once every 29 seconds per server, and 10 every five minutes per user.
+
+        Parameters
+        ----------
             server_id (int): The server ID
-        Returns:
+
+        Returns
+        -------
             dict: Response from the server.
         """
         url = f"{self.base_url}/servers/{server_id}/force-update"
         return await self.helpers._make_request(method="POST", url=url)
 
+    # TODO: Deprecated datetime usage
     async def outage_history(
-        self, server_id: int, uptime: str = "90", start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        uptime: str = "90",
+        start_time: str = None,
+        end_time: str = None,
     ) -> dict:
-        """Outage History. Outages are periods of time that the server did not respond to queries. Outage history stored and available for 89 days.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/outages
-        Args:
+        """Outage History.
+
+        Outages are periods of time that the server did not respond to queries. Outage history stored and available for 89 days.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             uptime (str, optional): One of 6, 30 or 90. Defaults to "90".
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
@@ -553,12 +616,20 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def downtime_history(
-        self, server_id: int, resolution: str = "60", start_time: str = None, end_time: str = None
+        self,
+        server_id: int,
+        resolution: str = "60",
+        start_time: str = None,
+        end_time: str = None,
     ) -> dict:
-        """Downtime History. Value is number of seconds the server was offline during that period. The default resolution provides daily values (1439 minutes).
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%22%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/relationships/downtime
-        Args:
+        """Downtime History.
+
+        Value is number of seconds the server was offline during that period. The default resolution provides daily values (1439 minutes).
+
+        Parameters
+        ----------
             server_id (int): The server ID
             resolution (str, optional): One of 60 or 1440. Defaults to "60".
             start_time (str, optional): The UTC start time. Defaults to 0 day ago.
@@ -582,17 +653,25 @@ class Server:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Deprecated datetime usage
     async def player_count_history(
-        self, server_id: int, start_time: str = None, end_time: str = None, resolution: str = "raw"
+        self,
+        server_id: int,
+        start_time: str | None = None,
+        end_time: str | None = None,
+        resolution: str = "raw",
     ) -> dict:
-        """Player Count History
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-server-/servers/{(%23%2Fdefinitions%2Fserver%2Fdefinitions%2Fidentity)}/player-count-history
-        Args:
+        """Return the player count history.
+
+        Parameters
+        ----------
             server_id (int): The server ID
             start_time (str, optional): The UTC start time. Defaults to 1 day ago.
             end_time (str, optional): The UTC end time. Defaults to today/now.
             resolution (str, optional): One of: "raw" or "30" or "60" or "1440". Defaults to "raw"
-        Returns:
+
+        Returns
+        -------
             dict: A datapoint of the player count history.
         """
         if not start_time:

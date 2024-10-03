@@ -2,10 +2,13 @@ from battlemetrics.components.helpers import Helpers
 
 
 class Flags:
+    """The flags class to handle all the flag requests."""
+
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.base_url = base_url
         self.helpers = helpers
 
+    # TODO: PLR0913 - To many parameters
     async def create(
         self,
         color: str,
@@ -15,9 +18,10 @@ class Flags:
         organization_id: int,
         user_id: int,
     ) -> dict:
-        """Create a new flag
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerFlag-/player-flags
-        Args:
+        """Create a new flag.
+
+        Parameters
+        ----------
             color (str): The color of the flag. pattern: ^#[0-9a-fA-F]{6}$
             description (str): Flag Description
             icon_name (str): Icon name. Refer to documentation
@@ -60,8 +64,9 @@ class Flags:
 
     async def delete(self, flag_id: str) -> dict:
         """Delete an existing flag.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-playerFlag-/player-flags/{(%23%2Fdefinitions%2FplayerFlag%2Fdefinitions%2Fidentity)}
-        Args:
+
+        Parameters
+        ----------
             flag_id (str): The ID of the flag
         Returns:
             dict: Response from the server.
@@ -71,19 +76,23 @@ class Flags:
 
     async def info(self, flag_id: str) -> dict:
         """Info for existing flag.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-playerFlag-/player-flags/{(%23%2Fdefinitions%2FplayerFlag%2Fdefinitions%2Fidentity)}
-        Args:
+
+        Parameters
+        ----------
             flag_id (str): The ID of the flag
-        Returns:
+
+        Returns
+        -------
             dict: Dictionary response of the flag data.
         """
         url = f"{self.base_url}/player-flags/{flag_id}"
         return await self.helpers._make_request(method="GET", url=url)
 
-    async def list(self, filter_personal: bool = False) -> dict:
+    async def list(self, *, filter_personal: bool | None = False) -> dict:
         """List existing player flags.
-        Documentation:https://www.battlemetrics.com/developers/documentation#link-GET-playerFlag-/player-flags
-        Args:
+
+        Parameters
+        ----------
             filter_personal (bool, optional): Hide/show personal flags. Defaults to False.
 
         Returns
@@ -100,16 +109,24 @@ class Flags:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def update(
-        self, flag_id: str, color: str, description: str, icon_name: str, flag_name: str
+        self,
+        flag_id: str,
+        color: str,
+        description: str,
+        icon_name: str,
+        flag_name: str,
     ) -> dict:
-        """Create a new flag
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerFlag-/player-flags
-        Args:
+        """Create a new flag.
+
+        Parameters
+        ----------
             color (str): The color of the flag. pattern: ^#[0-9a-fA-F]{6}$
             description (str): Flag Description
             icon_name (str): Icon name. Refer to documentation
             flag_name (str): Name of flag
-        Returns:
+
+        Returns
+        -------
             dict: Response from server.
         """
         url = f"{self.base_url}/player-flags/{flag_id}"

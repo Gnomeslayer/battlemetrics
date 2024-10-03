@@ -1,15 +1,19 @@
 from battlemetrics.components.helpers import Helpers
 
 
+# TODO: Better docstring
 class GameInfo:
+    """The game info class to handle all the game requests."""
+
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 
-    async def features(self, game: str = None) -> dict:
-        """Lists the game features for the specified game
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-gameFeature-/game-features
-        Args:
+    async def features(self, game: str | None = None) -> dict:
+        """List the game features for the specified game.
+
+        Parameters
+        ----------
             game (str, optional): _description_. Defaults to None.
 
         Returns
@@ -25,9 +29,10 @@ class GameInfo:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def feature_options(self, feature_id: str, sort: str = "players") -> dict:
-        """Gets the game feature options.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-gameFeatureOption-/game-features/{(%23%2Fdefinitions%2FgameFeature%2Fdefinitions%2Fidentity)}/relationships/options
-        Args:
+        """Get the game feature options.
+
+        Parameters
+        ----------
             feature_id (str): The ID of the game Feature.
             sort (str, optional): Takes "count" and "players". Defaults to "players".
 
@@ -42,10 +47,11 @@ class GameInfo:
         url = f"{self.base_url}/game-features/{feature_id}/relationships/options"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def list(self, game: str = None) -> dict:
-        """Lists all the games Battlemetrics can view.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-game-/games
-        Args:
+    async def list(self, game: str | None = None) -> dict:
+        """List all the games Battlemetrics can view.
+
+        Parameters
+        ----------
             game (str, optional): Refine it to a specific game. Or leave as none.
 
         Returns
@@ -60,10 +66,11 @@ class GameInfo:
         url = f"{self.base_url}/games"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def info(self, game_id: str, game: str = None) -> dict:
-        """Gets information on a specific game.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-game-/games/{(%23%2Fdefinitions%2Fgame%2Fdefinitions%2Fidentity)}
-        Args:
+    async def info(self, game_id: str, game: str | None = None) -> dict:
+        """Get information on a specific game.
+
+        Parameters
+        ----------
             game_id (str): The ID of a specific game.
             game (str, optional): Limit it to a specific game, or leave as none.
 

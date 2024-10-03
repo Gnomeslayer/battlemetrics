@@ -15,5 +15,5 @@ banplayer = asyncio.run(
         banlist="0506f1a0-0345-11eb-b314-AAAAAAAAA",
         battlemetrics_id=1234,
         steam_id=1234,
-    )
+    ),
 )

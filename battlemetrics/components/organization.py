@@ -6,14 +6,17 @@ from battlemetrics.components.helpers import Helpers
 
 
 class Organization:
+    """The organization class to handle all the organization requests."""
+
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 
     async def info(self, organization_id: int) -> dict:
-        """Returns an organizations profile.
-        Documentation: Not documented in the API.
-        Args:
+        """Return an organizations profile.
+
+        Parameters
+        ----------
             organization_id (int): An organizations battlemetrics ID.
 
         Returns
@@ -26,10 +29,12 @@ class Organization:
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # Update UTCNOW as it is deprecated
     async def stats(self, organization_id: int, start: str, end: str, game: str = None) -> dict:
-        """Gets the player stats for the organization
-        Documentation: https://www.battlemetrics.com/developers/documentation#resource-organizationStats
-        Args:
+        """Get a players stats for the organization.
+
+        Parameters
+        ----------
             organization_id (int): Organization ID
             start (str): UTC start time. Defaults to 7 days ago.
             end (str): UTC end time. Defaults to today.
@@ -56,14 +61,16 @@ class Organization:
     async def friends_list(
         self,
         organization_id: str,
+        *,
+        filter_name: str | None = None,
         filter_accepted: bool = True,
         filter_origin: bool = True,
-        filter_name: str = None,
         filter_reciprocated: bool = True,
     ) -> dict:
-        """Gets all the organization friends.
-        Documentation: https://www.battlemetrics.com/developers/documentation#resource-organizationFriend
-        Args:
+        """Get all the organization friends.
+
+        Parameters
+        ----------
             organization_id (str): Your organization ID
             filter_accepted (bool, optional): True or False. Have they accepted our friendship?. Defaults to True.
             filter_origin (bool, optional): True or False. Defaults to True.
@@ -86,9 +93,10 @@ class Organization:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def friend(self, organization_id: int, friend_organization_id: int) -> dict:
-        """Gets the friend information for your organization.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
-        Args:
+        """Get the friend information for your organization.
+
+        Parameters
+        ----------
             organization_id (int): Your organization ID
             friend_organization_id (int): Friend organization ID
         Returns:
@@ -105,19 +113,22 @@ class Organization:
         organization_id: int,
         friend_organization_id: int,
         identifiers: list,
-        playerflag: str,
+        *,
         shared_notes: bool = True,
         accepted: bool = True,
     ) -> dict:
-        """Updates your organizations friendship.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-PATCH-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
-        Args:
+        """Update your organizations friendship.
+
+        Parameters
+        ----------
             organization_id (int): Your organization ID
             friend_organization_id (int): The friendly organizations ID.
             identifiers (list): [ip, steamID], identifiers to be shared.
-            shared_notes (bool, optional): Sharing Notes?
-            accepted (bool, optional):Accepted friendship?
-        Returns:
+            shared_notes (bool, optional): Whether you are sharing notes.
+            accepted (bool, optional):  Whether a friendship is accepted.
+
+        Returns
+        -------
             dict: Returns a dictionary response on the new updated friendship.
         """
         url = f"https://api.battlemetrics.com/organizations/{organization_id}/relationships/friends/{friend_organization_id}"
@@ -135,11 +146,17 @@ class Organization:
         return await self.helpers._make_request(method="PATCH", url=url, json_dict=data)
 
     async def friend_create(
-        self, organization_id: int, friendly_org: int, identifiers: list, shared_notes: bool = True
+        self,
+        organization_id: int,
+        friendly_org: int,
+        identifiers: list,
+        *,
+        shared_notes: bool = True,
     ) -> dict:
-        """Creates a new friend invite to the targeted organization ID
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends
-        Args:
+        """Create a new friend invite to the targeted organization ID.
+
+        Parameters
+        ----------
             organization_id (int): Your organization ID
             friendly_org (int): Targeted organization ID
             identifiers (list): ["steamID", "ip"]
@@ -178,9 +195,10 @@ class Organization:
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def friend_delete(self, organization_id: int, friends_id: int) -> dict:
-        """Deletes a friendship
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-organizationFriend-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/friends/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}
-        Args:
+        """Delete a friendship.
+
+        Parameters
+        ----------
             organization_id (int): Your organization ID
             friends_id (int): Friends organization ID
         Returns:
@@ -190,16 +208,23 @@ class Organization:
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def player_stats(
-        self, organization_id: int, start_date: str = None, end_date: str = None, game: str = None
+        self,
+        organization_id: int,
+        start_date: str | None = None,
+        end_date: str | None = None,
+        game: str | None = None,
     ) -> dict:
-        """Returns the statistics of all the players who have joined your server and where they're from.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-organization-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/stats/players
-        Args:
+        """Return the statistics of all the players who have joined your server and where they're from.
+
+        Parameters
+        ----------
             organization_id (int): Your organization ID
             start_date (str, optional): Start date, max 90 days. Defaults to 90 days ago.
             end_date (str, optional): End date, defaults to now.
             game (str, optional): The game you wish to filter by. Defaults to None
-        Returns:
+
+        Returns
+        -------
             dict: Returns a dictionary of all the stats!
         """
         url = f"{self.base_url}/organizations/{organization_id}/stats/players"
@@ -218,19 +243,22 @@ class Organization:
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
+    # TODO: Update UTCNOW as it is deprecated
     async def commands_activity(
         self,
         organization_id: int,
+        users: str | None = None,
+        commands: str | None = None,
+        time_start: str | None = None,
+        time_end: str | None = None,
+        servers: int | None = None,
+        *,
         summary: bool = False,
-        users: str = None,
-        commands: str = None,
-        time_start: str = None,
-        time_end: str = None,
-        servers: int = None,
     ) -> dict:
-        """Grabs all the command activity related to the targeted organization
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-commandStats-/organizations/{(%23%2Fdefinitions%2Forganization%2Fdefinitions%2Fidentity)}/relationships/command-stats
-        Args:
+        """Grab all the command activity related to the targeted organization.
+
+        Parameters
+        ----------
             organization_id (int): The Organization ID
             summary (bool, optional): A summary. Defaults to False.
             users (str, optional): Specific users?. Defaults to None.
@@ -264,8 +292,7 @@ class Organization:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def user_organization_view(self) -> dict:
-        """Retrieves the organizations the current API token can view.
-        Documentation: This endpoint is not documented.
+        """Retrieve the organizations the current API token can view.
 
         Returns
         -------
@@ -279,8 +306,8 @@ class Organization:
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def auditlogs(self, organization_id: int):
-        """_summary_
+    async def auditlogs(self, organization_id: int) -> dict:
+        """Fetch the audit logs.
 
         Args:
             organization_id (int): _description_

@@ -2,14 +2,17 @@ from battlemetrics.components.helpers import Helpers
 
 
 class Bans:
+    """The bans class to handle all the ban requests."""
+
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 
     async def delete(self, banid: str) -> dict:
-        """Deletes a ban.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-DELETE-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}
-        Args:
+        """Delete a ban.
+
+        Parameters
+        ----------
             banid (str): The ID of the ban.
 
         Returns
@@ -21,9 +24,10 @@ class Bans:
         return await self.helpers._make_request(method="DELETE", url=url)
 
     async def info(self, banid: str) -> dict:
-        """The ban profile of a specific banid.
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}
-        Args:
+        """Get information about a specific ban.
+
+        Parameters
+        ----------
             banid (str): The banid.
 
         Returns
@@ -37,11 +41,16 @@ class Bans:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def update(
-        self, banid: str, reason: str = None, note: str = None, append: bool = False
+        self,
+        banid: str,
+        reason: str | None = None,
+        note: str | None = None,
+        append: bool = False,
     ) -> dict:
-        """Updates a targeted ban
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-PATCH-ban-/bans/{(%23%2Fdefinitions%2Fban%2Fdefinitions%2Fidentity)}
-        Args:
+        """Update a targeted ban.
+
+        Parameters
+        ----------
             banid (str): The target ban
             reason (str, optional): Updated reason (not required)
             note (str, optional): Updated note (not required)
@@ -62,22 +71,24 @@ class Bans:
                 ban["data"]["attributes"]["note"] = note
         return await self.helpers._make_request(method="PATCH", url=url, json=ban)
 
+    # TODO: Is it supposed to say userIDs?
+    # TODO: Make this function look neat.
     async def search(
         self,
         search: str = None,
         player_id: int = None,
         banlist: str = None,
-        expired: bool = True,
-        exempt: bool = False,
         server: int = None,
         organization_id: int = None,
-        userIDs: str = None,
+        userids: str | None = None,
+        *,
+        expired: bool = True,
+        exempt: bool = False,
     ):
         """List, search and filter existing bans.
 
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-ban-/bans
-
-        Args:
+        Parameters
+        ----------
             search (str, optional): A search string, such as a steam ID. Defaults to None.
             player_id (int, optional): Battlemetrics ID of a specific user. Defaults to None.
             banlist (str, optional): Specific banlist to search. Defaults to None.
@@ -109,16 +120,17 @@ class Bans:
             data["filter[search]"] = search
         if banlist:
             data["filter[banList]"] = banlist
-        if userIDs:
-            data["filter[users]"] = userIDs
+        if userids:
+            data["filter[users]"] = userids
         url = f"{self.base_url}/bans"
 
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def native_ban_info(self, server: int = None, ban: str = None) -> dict:
-        """Returns all the native bans
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-banNative-/bans-native
-        Args:
+        """Return all the native bans.
+
+        Parameters
+        ----------
             server (int, optional): Target server. Defaults to None.
             ban (int, optional): Target ban. Defaults to None.
 
@@ -142,11 +154,14 @@ class Bans:
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
     async def native_force_update(self, native_id: str) -> dict:
-        """Forces an update on a native ban
-        Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-banNative-/bans-native/{(%23%2Fdefinitions%2FbanNative%2Fdefinitions%2Fidentity)}/force-update
-        Args:
+        """Force an update on a native ban.
+
+        Parameters
+        ----------
             native_id (str): Targeted native ban
-        Returns:
+
+        Returns
+        -------
             dict: Response from the server.
         """
         url = f"{self.base_url}/bans-native/{native_id}/force-update"
