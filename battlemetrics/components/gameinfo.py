@@ -11,15 +11,16 @@ class GameInfo:
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-gameFeature-/game-features
         Args:
             game (str, optional): _description_. Defaults to None.
-        Returns:
+
+        Returns
+        -------
             dict: Returns a dictionary of the game features.
         """
-
         data = {
-            "page[size]": "100"
+            "page[size]": "100",
         }
         if game:
-            data['filter[game]'] = game
+            data["filter[game]"] = game
         url = f"{self.base_url}/game-features"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
@@ -29,13 +30,14 @@ class GameInfo:
         Args:
             feature_id (str): The ID of the game Feature.
             sort (str, optional): Takes "count" and "players". Defaults to "players".
-        Returns:
+
+        Returns
+        -------
             dict: Game feature options
         """
-
         data = {
             "page[size]": "100",
-            "sort": sort
+            "sort": sort,
         }
         url = f"{self.base_url}/game-features/{feature_id}/relationships/options"
         return await self.helpers._make_request(method="GET", url=url, params=data)
@@ -45,15 +47,16 @@ class GameInfo:
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-game-/games
         Args:
             game (str, optional): Refine it to a specific game. Or leave as none.
-        Returns:
+
+        Returns
+        -------
             dict: Games information!
         """
-
         data = {
-            "page[size]": "100"
+            "page[size]": "100",
         }
         if game:
-            data['fields[game]'] = game
+            data["fields[game]"] = game
         url = f"{self.base_url}/games"
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
@@ -63,14 +66,15 @@ class GameInfo:
         Args:
             game_id (str): The ID of a specific game.
             game (str, optional): Limit it to a specific game, or leave as none.
-        Returns:
+
+        Returns
+        -------
             dict: Game information.
         """
-
         data = {
-            "page[size]": "100"
+            "page[size]": "100",
         }
         if game:
-            data['fields[game]'] = game
+            data["fields[game]"] = game
         url = f"{self.base_url}/games/{game_id}"
         return await self.helpers._make_request(method="GET", url=url, params=data)

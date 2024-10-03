@@ -1,11 +1,19 @@
 from battlemetrics.components.helpers import Helpers
 
+
 class Session:
     def __init__(self, base_url: str, helpers: Helpers) -> None:
         self.helpers = helpers
         self.base_url = base_url
 
-    async def info(self, filter_server: int = None, filter_game: str = None, filter_organizations: int = None, filter_player: int = None, filter_identifiers: int = None) -> dict:
+    async def info(
+        self,
+        filter_server: int = None,
+        filter_game: str = None,
+        filter_organizations: int = None,
+        filter_player: int = None,
+        filter_identifiers: int = None,
+    ) -> dict:
         """Returns the session information for the targeted server, game or organization.
         Documentation: https://www.battlemetrics.com/developers/documentation#link-GET-session-/sessions
         Args:
@@ -14,14 +22,15 @@ class Session:
             organizations (int, optional): Targeted Organization. Defaults to None.
             player (int, optional): Targeted player. Defaults to None.
             identifiers (int, optional): Targeted identifiers. Defaults to None.
-        Returns:
+
+        Returns
+        -------
             dict: Session information.
         """
-
         url = f"{self.base_url}/sessions"
         data = {
             "include": "identifier,server,player",
-            "page[size]": "100"
+            "page[size]": "100",
         }
         if filter_server:
             data["filter[servers]"] = filter_server
@@ -43,10 +52,9 @@ class Session:
         Returns:
             dict: A dictionary response from the server.
         """
-
         url = f"{self.base_url}/sessions/{sessionid}/relationships/coplay"
         data = {
             "include": "identifier,server,player",
-            "page[size]": "99"
+            "page[size]": "99",
         }
         return await self.helpers._make_request(method="GET", url=url, params=data)

@@ -15,6 +15,7 @@ from battlemetrics.components.session import Session
 
 __all__ = ("Battlemetrics",)
 
+
 class Battlemetrics:
     """The main client to handle all the Battlemetrics requests.
 
@@ -142,7 +143,7 @@ class Battlemetrics:
         filter_search: str | None = None,
         filter_servers: int | None = None,
         blacklist: str | None = None,
-        whitelist: str | None = None
+        whitelist: str | None = None,
     ) -> dict:
         """Retrieve the activity logs.
 

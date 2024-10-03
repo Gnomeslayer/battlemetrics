@@ -1,11 +1,20 @@
 from battlemetrics.components.helpers import Helpers
 
+
 class Flags:
     def __init__(self, helpers: Helpers, base_url: str) -> None:
         self.base_url = base_url
         self.helpers = helpers
 
-    async def create(self, color: str, description: str, icon_name: str, flag_name: str, organization_id: int, user_id: int) -> dict:
+    async def create(
+        self,
+        color: str,
+        description: str,
+        icon_name: str,
+        flag_name: str,
+        organization_id: int,
+        user_id: int,
+    ) -> dict:
         """Create a new flag
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerFlag-/player-flags
         Args:
@@ -15,10 +24,11 @@ class Flags:
             flag_name (str): Name of flag
             organization_id (int): The organization ID the flag belongs to
             user_id (int): The User ID the flag is created by.
-        Returns:
+
+        Returns
+        -------
             dict: Response from server.
         """
-
         url = f"{self.base_url}/player-flags"
         data = {
             "data": {
@@ -27,25 +37,25 @@ class Flags:
                     "icon": f"{icon_name}",
                     "name": f"{flag_name}",
                     "color": f"{color}",
-                    "description": f"{description}"
+                    "description": f"{description}",
                 },
                 "relationships": {
                     "organization": {
                         "data": {
                             "type": "organization",
-                            "id": f"{organization_id}"
-                        }
+                            "id": f"{organization_id}",
+                        },
                     },
                     "user": {
                         "data": {
                             "type": "user",
-                            "id": f"{user_id}"
-                        }
-                    }
-                }
-            }
+                            "id": f"{user_id}",
+                        },
+                    },
+                },
+            },
         }
-        
+
         return await self.helpers._make_request(method="POST", url=url, json_dict=data)
 
     async def delete(self, flag_id: str) -> dict:
@@ -56,7 +66,6 @@ class Flags:
         Returns:
             dict: Response from the server.
         """
-
         url = f"{self.base_url}/player-flags/{flag_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
@@ -68,7 +77,6 @@ class Flags:
         Returns:
             dict: Dictionary response of the flag data.
         """
-
         url = f"{self.base_url}/player-flags/{flag_id}"
         return await self.helpers._make_request(method="GET", url=url)
 
@@ -77,20 +85,23 @@ class Flags:
         Documentation:https://www.battlemetrics.com/developers/documentation#link-GET-playerFlag-/player-flags
         Args:
             filter_personal (bool, optional): Hide/show personal flags. Defaults to False.
-        Returns:
+
+        Returns
+        -------
             dict: Dictionary response of a list of flags.
         """
-
         url = f"{self.base_url}/player-flags"
         data = {
             "page[size]": "100",
-            "include": "organization"
+            "include": "organization",
         }
         if filter_personal:
             data["filter[personal]"] = str(filter_personal).lower()
         return await self.helpers._make_request(method="GET", url=url, params=data)
 
-    async def update(self, flag_id: str, color: str, description: str, icon_name: str, flag_name: str) -> dict:
+    async def update(
+        self, flag_id: str, color: str, description: str, icon_name: str, flag_name: str
+    ) -> dict:
         """Create a new flag
         Documentation: https://www.battlemetrics.com/developers/documentation#link-POST-playerFlag-/player-flags
         Args:
@@ -101,7 +112,6 @@ class Flags:
         Returns:
             dict: Response from server.
         """
-
         url = f"{self.base_url}/player-flags/{flag_id}"
         data = {
             "data": {
@@ -111,8 +121,8 @@ class Flags:
                     "icon": f"{icon_name}",
                     "name": f"{flag_name}",
                     "color": f"{color}",
-                    "description": f"{description}"
-                }
-            }
+                    "description": f"{description}",
+                },
+            },
         }
         return await self.helpers._make_request(method="PATCH", url=url, json_dict=data)
