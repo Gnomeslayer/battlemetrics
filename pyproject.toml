@@ -1,12 +1,9 @@
-[build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
-
-[project]
+[tool.poetry]
 name = "battlemetrics"
-description = "Battlemetrics API wrapper."
+description = "Asyncronous Python wrapper for the BattleMetrics API."
 version = "2.0"
-authors = [{ name = "Gnomeslayer", email = "declan.otten@live.com.au" }]
+authors = ["Gnomeslayer <declan.otten@live.com.au>"]
+license = "MIT"
 readme = "README.md"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
@@ -17,12 +14,18 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
-keywords = ["battlemetrics", "battlemetricsapi", "api", "gaming"]
-dependencies = ["aiohttp==3.9.3"]
-requires-python = ">=3.10"
 
-[project.urls]
-Homepage = "https://github.com/Gnomeslayer/battlemetrics"
+[tool.poetry.dependencies]
+python = "^3.10"
+aiohttp = "3.9.3"
+
+[tool.poetry.urls]
+"Homepage" = "https://github.com/Gnomeslayer/battlemetrics"
+"Issue Tracker" = "https://github.com/Gnomeslayer/battlemetrics/issues"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 100
