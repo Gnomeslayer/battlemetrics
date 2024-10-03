@@ -19,6 +19,13 @@ classifiers = [
 python = "^3.10"
 aiohttp = "3.9.3"
 
+[tool.poetry.group.dev.dependencies]
+pre-commit = "3.8.0"
+pyright = "1.1.383"
+taskipy = "1.13.0"
+python-dotenv = "1.0.1"
+
+
 [tool.poetry.urls]
 "Homepage" = "https://github.com/Gnomeslayer/battlemetrics"
 "Issue Tracker" = "https://github.com/Gnomeslayer/battlemetrics/issues"
@@ -27,22 +34,33 @@ aiohttp = "3.9.3"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.taskipy.tasks]
+black = { cmd = "task lint black", help = "Run black" }
+isort = { cmd = "task lint isort", help = "Run isort" }
+lint = { cmd = "pre-commit run --all-files", help = "Check all files for linting errors" }
+precommit = { cmd = "pre-commit install --install-hooks", help = "Install the precommit hook" }
+pyright = { cmd = "dotenv -f task.env run -- python -m pyright", help = "Run pyright" }
+
 [tool.black]
 line-length = 100
-target-version = ["py310"]
+target-version = ["py310", "py311", "py312"]
 
 [tool.isort]
 profile = "black"
 
-
 [tool.ruff]
 line-length = 100
+target-version = "py310"
 lint.select = ["ALL"]
 lint.ignore = [
     "ERA001", # commented out code.
     "D100",   # docstrings in public modules.
     "D104",   # docstrings in public package.
     "ANN101", # self type hint.
+
+    "TD002",  # Author in TODO
+    "TD003",  # Issue Link in TODO
+    "FIX002", # TODO Found
 ]
 
 [tool.ruff.lint.per-file-ignores]
