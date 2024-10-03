@@ -35,22 +35,15 @@ To begin using the Battlemetrics API, make sure you have RCON access and an API 
    pip install battlemetrics
    ```
 
-2. Install the required dependencies
-
-   or you can do:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Import the `Battlemetrics` class into your project.
-   ```bash
+2. Import the `Battlemetrics` class into your project.
+   ```python
    from battlemetrics import Battlemetrics
    ```
 
 ## Usage
 Refer to example file for examples.
 Here's an example of how to use the Battlemetrics API wrapper:
-```bash
+```python
 # Instantiate the API wrapper with your token
 bmapi = battlemetrics("Your token here")
 
