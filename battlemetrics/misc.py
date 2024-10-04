@@ -6,6 +6,8 @@ __all__ = (
     "ActivityLogs",
 )
 
+# TODO: Add attrubites in docstrings for all these classes.
+
 
 class APIScopes(NamedTuple):
     """All types for the function check_api_scopes."""
