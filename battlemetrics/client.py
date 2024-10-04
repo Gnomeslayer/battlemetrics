@@ -97,15 +97,15 @@ class Battlemetrics:
             token = self.api_key
 
         url = "https://www.battlemetrics.com/oauth/introspect"
-        data = {
+        json_dict = {
             "token": token,
         }
-        fetched = await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        data = await self.helpers._make_request(method="POST", url=url, json_dict=json_dict)
         return APIScopes(
-            active=fetched["active"],
-            scopes=fetched["scope"].split(":"),
-            client_id=fetched["client_id"],
-            token_type=fetched["type"],
+            active=data["active"],
+            scopes=data["scope"].split(":"),
+            client_id=data["client_id"],
+            token_type=data["type"],
         )
 
     async def metrics(
