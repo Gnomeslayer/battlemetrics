@@ -1,5 +1,5 @@
 from datetime import UTC, datetime, timedelta
-from typing import ClassVar
+from typing import Any, ClassVar
 
 # Components
 from battlemetrics.components.banlist import BanList
@@ -12,6 +12,7 @@ from battlemetrics.components.organization import Organization
 from battlemetrics.components.player import Player
 from battlemetrics.components.server import Server
 from battlemetrics.components.session import Session
+from battlemetrics.misc import APIScopes
 
 __all__ = ("Battlemetrics",)
 
@@ -80,7 +81,7 @@ class Battlemetrics:
         """Return the bans class."""
         return Bans(helpers=self.helpers, base_url=self.BASE_URL)
 
-    def check_api_scopes(self, token: str | None = None) -> dict:
+    async def check_api_scopes(self, token: str | None = None) -> APIScopes:
         """Retrieve the token scopes from the oauth.
 
         Parameters
@@ -99,7 +100,13 @@ class Battlemetrics:
         data = {
             "token": token,
         }
-        return self.helpers._make_request(method="POST", url=url, json_dict=data)
+        fetched = await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return APIScopes(
+            active=fetched["active"],
+            scopes=fetched["scope"].split(":"),
+            client_id=fetched["client_id"],
+            token_type=fetched["type"],
+        )
 
     def metrics(
         self,
