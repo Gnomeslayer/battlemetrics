@@ -12,7 +12,7 @@ from battlemetrics.components.organization import Organization
 from battlemetrics.components.player import Player
 from battlemetrics.components.server import Server
 from battlemetrics.components.session import Session
-from battlemetrics.misc import APIScopes
+from battlemetrics.misc import ActivityLogs, APIScopes, Metrics
 
 __all__ = ("Battlemetrics",)
 
@@ -91,7 +91,7 @@ class Battlemetrics:
 
         Returns
         -------
-            dict: The tokens data.
+            APIScopes
         """
         if not token:
             token = self.api_key
@@ -108,13 +108,13 @@ class Battlemetrics:
             token_type=fetched["type"],
         )
 
-    def metrics(
+    async def metrics(
         self,
         name: str = "games.rust.players",
         start_date: str | None = None,
         end_date: str | None = None,
         resolution: str = "60",
-    ) -> dict:
+    ) -> list[Metrics]:
         """Return metrics.
 
         Parameters
@@ -136,22 +136,30 @@ class Battlemetrics:
             start_date = start_date.strftime("%Y-%m-%dT%H:%M:%SZ")
         if not end_date:
             end_date = datetime.now(tz=UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-        data = {
+        params = {
             "metrics[0][name]": name,
             "metrics[0][range]": f"{start_date}:{end_date}",
             "metrics[0][resolution]": resolution,
             "fields[dataPoint]": "name,group,timestamp,value",
         }
-        return self.helpers._make_request(method="GET", url=url, params=data)
+        data = await self.helpers._make_request(method="GET", url=url, params=params)
+        return [
+            Metrics(
+                type=x.get("type"),
+                timestamp=x["attributes"].get("timestamp"),
+                value=x["attributes"].get("value"),
+            )
+            for x in data["data"]
+        ]
 
-    def activity_logs(
+    async def activity_logs(
         self,
         filter_bmid: int | None = None,
         filter_search: str | None = None,
         filter_servers: int | None = None,
         blacklist: str | None = None,
         whitelist: str | None = None,
-    ) -> dict:
+    ) -> ActivityLogs:
         """Retrieve the activity logs.
 
         Parameters
@@ -167,20 +175,21 @@ class Battlemetrics:
             dict: The activity logs information.
         """
         url = f"{self.BASE_URL}/activity"
-        data = {
+        params = {
             "page[size]": "100",
             "include": "organization,server,user,player",
         }
 
         if blacklist:
-            data["filter[types][blacklist]"] = blacklist
+            params["filter[types][blacklist]"] = blacklist
         if whitelist:
-            data["filter[types][whitelist]"] = whitelist
+            params["filter[types][whitelist]"] = whitelist
         if filter_servers:
-            data["filter[servers]"] = filter_servers
+            params["filter[servers]"] = filter_servers
         if filter_search:
-            data["filter[search]"] = filter_search
+            params["filter[search]"] = filter_search
         if filter_bmid:
-            data["filter[players]"] = filter_bmid
+            params["filter[players]"] = filter_bmid
 
-        return self.helpers._make_request(method="GET", url=url, params=data)
+        data = await self.helpers._make_request(method="GET", url=url, params=params)
+        return ActivityLogs(**data)
