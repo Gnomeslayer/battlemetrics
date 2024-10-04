@@ -1,5 +1,5 @@
 from datetime import UTC, datetime, timedelta
-from typing import Any, ClassVar
+from typing import ClassVar
 
 # Components
 from battlemetrics.components.banlist import BanList
