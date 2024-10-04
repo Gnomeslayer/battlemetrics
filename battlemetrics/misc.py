@@ -1,6 +1,10 @@
 from typing import NamedTuple
 
-__all__ = ("APIScopes",)
+__all__ = (
+    "APIScopes",
+    "Metrics",
+    "ActivityLogs",
+)
 
 
 class APIScopes(NamedTuple):
