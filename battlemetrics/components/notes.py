@@ -1,10 +1,7 @@
-from battlemetrics.components.helpers import Helpers
-
-
 class Notes:
     """The notes class to handle all the note requests."""
 
-    def __init__(self, base_url: str, helpers: Helpers) -> None:
+    def __init__(self, base_url: str, helpers) -> None:
         self.base_url = base_url
         self.helpers = helpers
 

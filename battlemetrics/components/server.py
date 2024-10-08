@@ -1,13 +1,11 @@
 import datetime
 from datetime import datetime, timedelta
 
-from battlemetrics.components.helpers import Helpers
-
 
 class Server:
     """Server class to interact with the server endpoints."""
 
-    def __init__(self, base_url: str, helpers: Helpers) -> None:
+    def __init__(self, base_url: str, helpers) -> None:
         self.base_url = base_url
         self.helpers = helpers
 

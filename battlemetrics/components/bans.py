@@ -1,10 +1,7 @@
-from battlemetrics.components.helpers import Helpers
-
-
 class Bans:
     """The bans class to handle all the ban requests."""
 
-    def __init__(self, helpers: Helpers, base_url: str) -> None:
+    def __init__(self, helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 

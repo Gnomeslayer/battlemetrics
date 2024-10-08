@@ -1,11 +1,8 @@
-from battlemetrics.components.helpers import Helpers
-
-
 # TODO: Better docstring
 class GameInfo:
     """The game info class to handle all the game requests."""
 
-    def __init__(self, helpers: Helpers, base_url: str) -> None:
+    def __init__(self, helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 

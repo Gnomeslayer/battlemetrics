@@ -2,13 +2,11 @@ import datetime
 import uuid
 from datetime import datetime, timedelta
 
-from battlemetrics.components.helpers import Helpers
-
 
 class Organization:
     """The organization class to handle all the organization requests."""
 
-    def __init__(self, helpers: Helpers, base_url: str) -> None:
+    def __init__(self, helpers, base_url: str) -> None:
         self.helpers = helpers
         self.base_url = base_url
 

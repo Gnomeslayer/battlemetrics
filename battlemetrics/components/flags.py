@@ -1,10 +1,7 @@
-from battlemetrics.components.helpers import Helpers
-
-
 class Flags:
     """The flags class to handle all the flag requests."""
 
-    def __init__(self, helpers: Helpers, base_url: str) -> None:
+    def __init__(self, helpers, base_url: str) -> None:
         self.base_url = base_url
         self.helpers = helpers
 

@@ -1,10 +1,7 @@
-from battlemetrics.components.helpers import Helpers
-
-
 class Session:
     """A class to represent the Session component of the BattleMetrics API."""
 
-    def __init__(self, base_url: str, helpers: Helpers) -> None:
+    def __init__(self, base_url: str, helpers) -> None:
         self.helpers = helpers
         self.base_url = base_url
 

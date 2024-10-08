@@ -1,17 +1,18 @@
+import asyncio
 from datetime import UTC, datetime, timedelta
-from typing import ClassVar
+from typing import Any, ClassVar
 
 # Components
 from battlemetrics.components.banlist import BanList
 from battlemetrics.components.bans import Bans
 from battlemetrics.components.flags import Flags
 from battlemetrics.components.gameinfo import GameInfo
-from battlemetrics.components.helpers import Helpers
 from battlemetrics.components.notes import Notes
 from battlemetrics.components.organization import Organization
 from battlemetrics.components.player import Player
 from battlemetrics.components.server import Server
 from battlemetrics.components.session import Session
+from battlemetrics.http import HTTPClient, Route
 from battlemetrics.misc import ActivityLogs, APIScopes, Metrics
 
 __all__ = ("Battlemetrics",)
@@ -29,57 +30,54 @@ class Battlemetrics:
     BASE_URL: ClassVar[str] = "https://api.battlemetrics.com"
 
     def __init__(self, api_key: str) -> None:
-        self.api_key = api_key
+        self.__api_key = api_key
 
-    @property
-    def helpers(self) -> Helpers:
-        """Return the helpers class."""
-        return Helpers(api_key=self.api_key)
+        self.http = HTTPClient(api_key=self.__api_key)
 
     @property
     def player(self) -> Player:
         """Return the player class."""
-        return Player(helpers=self.helpers, base_url=self.BASE_URL)
+        return Player(http=self.http, base_url=self.BASE_URL)
 
     @property
     def server(self) -> Server:
         """Return the server class."""
-        return Server(helpers=self.helpers, base_url=self.BASE_URL)
+        return Server(http=self.http, base_url=self.BASE_URL)
 
     @property
     def notes(self) -> Notes:
         """Return the notes class."""
-        return Notes(helpers=self.helpers, base_url=self.BASE_URL)
+        return Notes(http=self.http, base_url=self.BASE_URL)
 
     @property
     def flags(self) -> Flags:
         """Return the flags class."""
-        return Flags(helpers=self.helpers, base_url=self.BASE_URL)
+        return Flags(http=self.http, base_url=self.BASE_URL)
 
     @property
     def session(self) -> Session:
         """Return the session class."""
-        return Session(helpers=self.helpers, base_url=self.BASE_URL)
+        return Session(http=self.http, base_url=self.BASE_URL)
 
     @property
     def banlist(self) -> BanList:
         """Return the banlist class."""
-        return BanList(helpers=self.helpers, base_url=self.BASE_URL)
+        return BanList(http=self.http, base_url=self.BASE_URL)
 
     @property
     def organization(self) -> Organization:
         """Return the organization class."""
-        return Organization(helpers=self.helpers, base_url=self.BASE_URL)
+        return Organization(http=self.http, base_url=self.BASE_URL)
 
     @property
     def gameinfo(self) -> GameInfo:
         """Return the gameinfo class."""
-        return GameInfo(helpers=self.helpers, base_url=self.BASE_URL)
+        return GameInfo(http=self.http, base_url=self.BASE_URL)
 
     @property
     def bans(self) -> Bans:
         """Return the bans class."""
-        return Bans(helpers=self.helpers, base_url=self.BASE_URL)
+        return Bans(http=self.http, base_url=self.BASE_URL)
 
     async def check_api_scopes(self, token: str | None = None) -> APIScopes:
         """Retrieve the token scopes from the oauth.
@@ -96,11 +94,17 @@ class Battlemetrics:
         if not token:
             token = self.api_key
 
-        url = "https://www.battlemetrics.com/oauth/introspect"
+        url: str = "https://www.battlemetrics.com/oauth/introspect"
         json_dict = {
             "token": token,
         }
-        data = await self.helpers._make_request(method="POST", url=url, json_dict=json_dict)
+        data = await self.http.request(
+            Route(
+                method="POST",
+                url=url,
+            ),
+            json=json_dict,
+        )
         return APIScopes(
             active=data["active"],
             scopes=data["scope"].split(":"),
@@ -128,7 +132,6 @@ class Battlemetrics:
         -------
             dict: a bunch of numbers.
         """
-        url = f"{self.BASE_URL}/metrics"
 
         if not start_date:
             now = datetime.now(tz=UTC)
@@ -142,7 +145,13 @@ class Battlemetrics:
             "metrics[0][resolution]": resolution,
             "fields[dataPoint]": "name,group,timestamp,value",
         }
-        data = await self.helpers._make_request(method="GET", url=url, params=params)
+        data = await self.http.request(
+            Route(
+                method="GET",
+                path="/metrics",
+            ),
+            params=params,
+        )
         return [
             Metrics(
                 type=x.get("type"),
@@ -174,7 +183,6 @@ class Battlemetrics:
         -------
             dict: The activity logs information.
         """
-        url = f"{self.BASE_URL}/activity"
         params = {
             "page[size]": "100",
             "include": "organization,server,user,player",
@@ -191,5 +199,11 @@ class Battlemetrics:
         if filter_bmid:
             params["filter[players]"] = filter_bmid
 
-        data = await self.helpers._make_request(method="GET", url=url, params=params)
+        data = await self.http.request(
+            Route(
+                method="GET",
+                path="/activity",
+            ),
+            params=params,
+        )
         return ActivityLogs(**data)

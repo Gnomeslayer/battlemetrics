@@ -1,11 +1,11 @@
-from battlemetrics.components.helpers import Helpers
+from battlemetrics.http import HTTPClient, Route
 
 
 class BanList:
     """A class regarding the banlist component of the Battlemetrics API."""
 
-    def __init__(self, helpers: Helpers, base_url: str) -> None:
-        self.helpers = helpers
+    def __init__(self, http: HTTPClient, base_url: str) -> None:
+        self.http = http
         self.base_url = base_url
 
     async def rust_banlist_export(
@@ -25,14 +25,20 @@ class BanList:
             list[dict]: A list of dictionaries that provide the ban data.
         """
         url = f"{self.base_url}/bans/export"
-        data = {
+        params = {
             "filter[organization]": organization_id,
             "format": "rust/bans.cfg",
         }
         if server_id:
-            data["filter[server]"] = server_id
+            params["filter[server]"] = server_id
 
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=params,
+        )
 
     # TODO: PLR0913 - To many parameters
     async def create_invite(
@@ -42,10 +48,10 @@ class BanList:
         uses: int = 1,
         limit: int = 1,
         *,
-        permmanage: bool,
-        permcreate: bool,
-        permupdate: bool,
-        permdelete: bool,
+        permmanage: bool = False,
+        permcreate: bool = False,
+        permupdate: bool = False,
+        permdelete: bool = False,
     ) -> dict:
         """Create an invite.
 
@@ -71,10 +77,10 @@ class BanList:
                 "attributes": {
                     "uses": uses,
                     "limit": limit,
-                    "permManage": str(permmanage).lower(),
-                    "permCreate": str(permcreate).lower(),
-                    "permUpdate": str(permupdate).lower(),
-                    "permDelete": str(permdelete).lower(),
+                    "permManage": permmanage,
+                    "permCreate": permcreate,
+                    "permUpdate": permupdate,
+                    "permDelete": permdelete,
                 },
                 "relationships": {
                     "organization": {
@@ -86,7 +92,13 @@ class BanList:
                 },
             },
         }
-        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return await self.http.request(
+            Route(
+                method="POST",
+                url=url,
+            ),
+            json=data,
+        )
 
     async def read_invitation(self, invite_id: str) -> dict:
         """See the information about a specific banlist invite, such as uses.
@@ -107,7 +119,13 @@ class BanList:
             "fields[banList]": "name, action",
             "fields[banListInvite]": "uses",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     async def invite_list(self, banlist_id: str) -> dict:
         """Return all the invites for a specific banlist ID.
@@ -125,7 +143,13 @@ class BanList:
             "fields[banListInvite]": "uses",
             "page[size]": "100",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     async def delete_invite(self, banlist_id: str, banlist_invite_id: str) -> dict:
         """Delete an invite from a targeted banlist.
@@ -140,7 +164,12 @@ class BanList:
             dict: Whether it was successful or not.
         """
         url = f"{self.base_url}/ban-lists/{banlist_id}/relationships/invites/{banlist_invite_id}"
-        return await self.helpers._make_request(method="DELETE", url=url)
+        return await self.http.request(
+            Route(
+                method="DELETE",
+                url=url,
+            ),
+        )
 
     async def exemption_create(
         self,
@@ -177,7 +206,13 @@ class BanList:
                 },
             },
         }
-        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return await self.http.request(
+            Route(
+                method="POST",
+                url=url,
+            ),
+            json=data,
+        )
 
     async def exemption_delete(self, banid: str) -> dict:
         """Delete an exemption.
@@ -189,7 +224,7 @@ class BanList:
             dict: Whether it was successful or not
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
-        return await self.helpers._make_request(method="DELETE", url=url)
+        return await self.http.request(Route(method="DELETE", url=url))
 
     async def exemption_info_single(self, banid: str, exemptionid: str) -> dict:
         """Pull information from a ban regarding a specific exemption.
@@ -202,7 +237,7 @@ class BanList:
             dict: Information about the exemption
         """
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions/{exemptionid}"
-        return await self.helpers._make_request(method="GET", url=url)
+        return await self.http.request(Route(method="GET", url=url))
 
     async def exemption_info_all(self, banid: str) -> dict:
         """Pull all exemptions related to the targeted ban.
@@ -217,7 +252,7 @@ class BanList:
         data = {
             "fields[banExemption]": "reason",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(Route(method="GET", url=url), params=data)
 
     async def exemption_update(self, banid: str, exemptionid: str, reason: str) -> dict:
         """Update a ban exemption.
@@ -235,7 +270,7 @@ class BanList:
         banexemption = await self.exemption_info_single(banid=banid, exemptionid=exemptionid)
         banexemption["data"]["attributes"]["reason"] = reason
         url = f"{self.base_url}/bans/{banid}/relationships/exemptions"
-        return await self.helpers._make_request(method="PATCH", url=url, json=banexemption)
+        return await self.http.request(Route(method="PATCH", url=url), json=banexemption)
 
     # TODO: PLR0913 - To many parameters
     async def create(  # noqa: PLR0913
@@ -292,8 +327,15 @@ class BanList:
                 },
             },
         }
-        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return await self.http.request(
+            Route(
+                method="POST",
+                url=url,
+            ),
+            json=data,
+        )
 
+    # TODO: To many arguments
     async def accept_invite(
         self,
         code: str,
@@ -352,7 +394,13 @@ class BanList:
                 },
             },
         }
-        return await self.helpers._make_request(method="POST", url=url, json_dict=data)
+        return await self.http.request(
+            Route(
+                method="POST",
+                url=url,
+            ),
+            json=data,
+        )
 
     async def unsubscribe(self, banlist_id: str, organization_id: str) -> dict:
         """Unsubscribe from a banlist.
@@ -369,7 +417,7 @@ class BanList:
         url = (
             f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
         )
-        return await self.helpers._make_request(method="DELETE", url=url)
+        return await self.http.request(Route(method="DELETE", url=url))
 
     async def subscribed_orgs(self, banlist_id: str) -> dict:
         """List all the organizations that are subscribed to the targeted banlist.
@@ -389,7 +437,13 @@ class BanList:
             "include": "server,organization,owner",
             "page[size]": "100",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     async def subscribers(self, banlist_id: str, organization_id: str) -> dict:
         """Get the subscriber information for a specific banlist.
@@ -407,7 +461,13 @@ class BanList:
         data = {
             "include": "organization, owner, server",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     # TODO: Give a different name
     async def read(self, banlist_id: str) -> dict:
@@ -425,7 +485,13 @@ class BanList:
         data = {
             "include": "owner",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     # TODO: Update documentation for autoadd and native_ban.
     # TODO: PLR0913 - To many parameters
@@ -477,7 +543,13 @@ class BanList:
         url = (
             f"{self.base_url}/ban-lists/{banlist_id}/relationships/organizations/{organization_id}"
         )
-        return await self.helpers._make_request(method="PATCH", url=url, json=banlist)
+        return await self.http.request(
+            Route(
+                method="PATCH",
+                url=url,
+            ),
+            json=banlist,
+        )
 
     async def get_list(self, banlist_id: str | None = None) -> dict:
         """Return the banlist information of the targeted banlist.
@@ -495,7 +567,13 @@ class BanList:
             "page[size]": "100",
             "include": "organization,owner,server",
         }
-        banlists = await self.helpers._make_request(method="GET", url=url, params=data)
+        banlists = await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
         for banlist in banlists:
             if banlist["id"] == banlist_id:
                 return banlist
@@ -513,4 +591,10 @@ class BanList:
             "include": "server,organization,owner",
             "page[size]": "100",
         }
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
