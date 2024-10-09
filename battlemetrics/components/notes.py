@@ -20,7 +20,7 @@ class Notes:
         url = f"{self.base_url}/players/{player_id}/relationships/notes/{note_id}"
         return await self.helpers._make_request(method="DELETE", url=url)
 
-    async def list(self, player_id: int, filter_personal: bool = False) -> dict:
+    async def list(self, player_id: int, *, filter_personal: bool = False) -> dict:
         """List existing notes.
 
         Parameters
