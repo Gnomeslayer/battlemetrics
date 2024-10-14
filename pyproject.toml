@@ -2,7 +2,7 @@
 name = "battlemetrics"
 description = "Asyncronous Python wrapper for the BattleMetrics API."
 version = "2.0"
-authors = ["Gnomeslayer <declan.otten@live.com.au>"]
+authors = ["Gnomeslayer <declan.otten@live.com.au>", "OseSem <sem@osesem.me>"]
 license = "MIT"
 readme = "README.md"
 classifiers = [
