@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 import asyncio
 from logging import getLogger
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Literal
 
 import aiohttp
 import yarl
@@ -41,6 +43,19 @@ async def json_or_text(
     return await response.text(encoding="utf-8")
 
 
+METHODS = Literal[
+    "GET",
+    "HEAD",
+    "OPTIONS",
+    "TRACE",
+    "PUT",
+    "DELETE",
+    "POST",
+    "PATCH",
+    "CONNECT",
+]
+
+
 class Route:
     """Represents a route for the BattleMetrics API.
 
@@ -62,7 +77,7 @@ class Route:
 
     def __init__(
         self,
-        method: str,
+        method: METHODS,
         path: str | None = None,
         url: str | None = None,
         **parameters: int | str | bool,

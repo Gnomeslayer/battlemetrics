@@ -113,36 +113,71 @@ class Note:
 
     # TODO: Add organization property.
     @property
-    def organization(self) -> dict[str, Any]:
+    def organization(self) -> int:
         """Return the organization that created the note.
 
         Returns
         -------
-        dict:
-            The organization that created the note.
+        int:
+            The organizations ID the note is on.
         """
         return self._relationships.organization_id if self._relationships else None
 
     # TODO: Add player property
     @property
-    def player(self) -> dict[str, Any]:
+    def player(self) -> int:
         """Return the player that the note is about.
 
         Returns
         -------
-        dict:
-            The player that the note is about.
+        int:
+            The players ID that the note is about.
         """
         return self._relationships.player_id if self._relationships else None
 
     # TODO: Add user property
     @property
-    def user(self) -> dict[str, Any]:
+    def user(self) -> int:
         """Return the user that created the note.
 
         Returns
         -------
-        dict:
-            The user that created the note.
+        int:
+            The users ID that created the note.
         """
         return self._relationships.user_id if self._relationships else None
+
+    async def delete(self) -> None:
+        """Delete the note."""
+        await self.state.delete_note(player_id=self.player, note_id=self.id)
+
+    async def update(
+        self,
+        *,
+        content: str,
+        clearancelevel: int,
+        shared: bool,
+        append: bool,
+    ) -> Note:
+        """Update the note.
+
+        Parameters
+        ----------
+        content : str
+            The new content of the note.
+        shared : bool
+            Whether the note should be shared.
+
+        Returns
+        -------
+        Note:
+            The updated note.
+        """
+        return await self.state.update_note(
+            player_id=self.player,
+            note_id=self.id,
+            content=content,
+            clearancelevel=clearancelevel,
+            shared=shared,
+            append=append,
+        )

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, ClassVar
 
 # Components
 from battlemetrics.components.banlist import BanList
@@ -166,7 +166,6 @@ class Battlemetrics:
         -------
             dict: a bunch of numbers.
         """
-
         if not start_date:
             now = datetime.now(tz=UTC)
             start_date = now - timedelta(days=1)
