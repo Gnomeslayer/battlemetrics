@@ -74,6 +74,7 @@ class ConnectionState:
             player_id (int): The battlemetrics ID of the user.
             note_id (str): The ID of the note.
             content (str): The new content of the note.
+            clearancelevel (int): The new clearance level of the note.
             shared (bool): Whether this note should be shared.
             append (bool): Whether to append the new content to the existing note.
 

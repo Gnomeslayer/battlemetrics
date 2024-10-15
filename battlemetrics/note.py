@@ -165,8 +165,12 @@ class Note:
         ----------
         content : str
             The new content of the note.
+        clearancelevel : int
+            The new clearance level of the note.
         shared : bool
             Whether the note should be shared.
+        append : bool
+            Whether to append the new content to the existing content of the note.
 
         Returns
         -------
