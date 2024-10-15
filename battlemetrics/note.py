@@ -17,7 +17,7 @@ class Note:
     """Represents a note on a player."""
 
     def __init__(self, *, data: NotePayload, state: ConnectionState) -> None:
-        self.state = state
+        self._state = state
         data = data.get("data")
 
         self._data: NotePayload = NotePayload(**data)
@@ -149,7 +149,7 @@ class Note:
 
     async def delete(self) -> None:
         """Delete the note."""
-        await self.state.delete_note(player_id=self.player, note_id=self.id)
+        await self._state.delete_note(player_id=self.player, note_id=self.id)
 
     async def update(
         self,
@@ -173,7 +173,7 @@ class Note:
         Note:
             The updated note.
         """
-        return await self.state.update_note(
+        return await self._state.update_note(
             player_id=self.player,
             note_id=self.id,
             content=content,
