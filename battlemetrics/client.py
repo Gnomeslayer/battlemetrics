@@ -1,6 +1,7 @@
-import asyncio
+from __future__ import annotations
+
 from datetime import UTC, datetime, timedelta
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 # Components
 from battlemetrics.components.banlist import BanList
@@ -14,6 +15,10 @@ from battlemetrics.components.server import Server
 from battlemetrics.components.session import Session
 from battlemetrics.http import HTTPClient, Route
 from battlemetrics.misc import ActivityLogs, APIScopes, Metrics
+from battlemetrics.state import ConnectionState
+
+if TYPE_CHECKING:
+    from battlemetrics.note import Note
 
 __all__ = ("Battlemetrics",)
 
@@ -33,6 +38,7 @@ class Battlemetrics:
         self.__api_key = api_key
 
         self.http = HTTPClient(api_key=self.__api_key)
+        self._connection = ConnectionState(loop=self.http.loop, http=self.http)
 
     @property
     def player(self) -> Player:
@@ -78,6 +84,18 @@ class Battlemetrics:
     def bans(self) -> Bans:
         """Return the bans class."""
         return Bans(http=self.http, base_url=self.BASE_URL)
+
+    async def get_note(self, player_id: int, note_id: int) -> Note:
+        """Return a note based on player ID and note ID.
+
+        Parameters
+        ----------
+            player_id (int):
+                The ID of the player.
+            note_id (int):
+                The ID of the note.
+        """
+        return await self._connection.get_note(player_id, note_id)
 
     async def check_api_scopes(self, token: str | None = None) -> APIScopes:
         """Retrieve the token scopes from the oauth.

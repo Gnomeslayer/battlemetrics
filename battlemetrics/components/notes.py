@@ -1,9 +1,12 @@
+from battlemetrics.http import Route
+
+
 class Notes:
     """The notes class to handle all the note requests."""
 
-    def __init__(self, base_url: str, helpers) -> None:
+    def __init__(self, base_url: str, http) -> None:
         self.base_url = base_url
-        self.helpers = helpers
+        self.http = http
 
     async def delete(self, player_id: int, note_id: str) -> dict:
         """Delete an existing note.
@@ -39,7 +42,13 @@ class Notes:
         }
         if filter_personal:
             data["filter[personal]"] = str(filter_personal).lower()
-        return await self.helpers._make_request(method="GET", url=url, params=data)
+        return await self.http.request(
+            Route(
+                method="GET",
+                url=url,
+            ),
+            params=data,
+        )
 
     async def update(
         self,

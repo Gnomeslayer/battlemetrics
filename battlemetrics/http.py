@@ -143,7 +143,7 @@ class HTTPClient:
 
         Raises
         ------
-        errors.GeneralHTTPError
+        errors.HTTPException
             Will raise if the request fails or the response indicates an error.
         """
         self.ensure_session()
