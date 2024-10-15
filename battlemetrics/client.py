@@ -18,6 +18,10 @@ from battlemetrics.misc import ActivityLogs, APIScopes, Metrics
 from battlemetrics.state import ConnectionState
 
 if TYPE_CHECKING:
+    from asyncio import AbstractEventLoop
+
+    from aiohttp import BaseConnector
+
     from battlemetrics.note import Note
 
 __all__ = ("Battlemetrics",)
@@ -34,10 +38,22 @@ class Battlemetrics:
 
     BASE_URL: ClassVar[str] = "https://api.battlemetrics.com"
 
-    def __init__(self, api_key: str) -> None:
+    def __init__(
+        self,
+        api_key: str,
+        *,
+        connector: BaseConnector | None = None,
+        loop: AbstractEventLoop | None = None,
+    ) -> None:
         self.__api_key = api_key
 
-        self.http = HTTPClient(api_key=self.__api_key)
+        self.loop = loop
+
+        self.http = HTTPClient(
+            api_key=self.__api_key,
+            connector=connector,
+            loop=loop,
+        )
         self._connection = ConnectionState(loop=self.http.loop, http=self.http)
 
     @property
